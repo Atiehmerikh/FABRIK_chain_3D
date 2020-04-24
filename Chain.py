@@ -1,21 +1,22 @@
 import math
 from pycg3d.cg3d_point import CG3dPoint
+from pycg3d.cg3d_point import CG3dVector
 import Joint as Joint
 import Bone as Bone
 import Utils as Util
 
 
 class Chain3d:
-    def __init__(self, target_position, base_bone_constraint_type, base_bone_constraint_uv):
-        self.target_position = target_position
+    def __init__(self):
+        self.target_position = CG3dPoint(1,0,0)
         self.chain = []
         self.solve_distance_threshold = 0.01
         self.max_iteration_attempts = 20
         self.min_iteration_change = 0.01
         self.fixed_base_location = CG3dPoint(0, 0, 0)
         self.chain_length = 0
-        self.base_bone_constraint_type = base_bone_constraint_type
-        self.base_bone_constraint_uv = base_bone_constraint_uv
+        self.base_bone_constraint_type = "NONE"
+        self.base_bone_constraint_uv = CG3dPoint(0, 0, 0)
         self.current_solve_distance = 100000000
 
     def update_chain_length(self):
@@ -55,8 +56,8 @@ class Chain3d:
         if self.chain_length == 0:
             raise Exception("You must add a basebone before adding a consectutive bone.")
 
-        bone_direction_uv = bone_direction_uv.normalize()
-        hinge_rotation_axis = hinge_rotation_axis.normalize()
+        # bone_direction_uv = bone_direction_uv.normalize()
+        # hinge_rotation_axis = hinge_rotation_axis.normalize()
         prev_bone_end = self.chain[self.chain_length - 1].get_end_point()
         m_bone = Bone.Bone3D(prev_bone_end, bone_direction_uv, bone_length)
         m_joint = Joint.Joint3D()
@@ -108,7 +109,7 @@ class Chain3d:
             raise Exception(
                 "Bone " + bone_number + " does not exist to be removed from the chain. Bones are zero indexed.")
 
-    def set_rotor_basebone_constraint(self, rotor_type, constraint_axis, angle_degs):
+    def set_rotor_base_bone_constraint(self, rotor_type, constraint_axis, angle_degs):
         # Sanity checking
         if len(self.chain) == 0:
             raise Exception("Chain must contain a basebone before we can specify the basebone constraint type.")
@@ -128,58 +129,64 @@ class Chain3d:
         #  Set the constraint type, axis and angle
         self.base_bone_constraint_type = rotor_type
         self.base_bone_constraint_uv = constraint_axis.normalised()
-        self.chain[0].getJoint().setAsBallJoint(angle_degs)
+        rotor_joint = Joint.Joint3D()
+        rotor_joint.set_as_ball_joint(angle_degs)
+        self.get_bone(0).set_joint(rotor_joint)
 
-    def set_hinge_basebone_constraint(self, hinge_type, hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
-                                      hinge_reference_axis):
+    def set_hinge_base_bone_constraint(self, hinge_type, hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
+                                       hinge_reference_axis):
         # Sanity checking
         if len(self.chain) == 0:
-            raise Exception("Chain must contain a basebone before we can specify the basebone constraint type.")
+            raise Exception("Chain must contain a base bone before we can specify the base bone constraint type.")
 
-        if len(hinge_rotation_axis) <= 0.0:
+        if hinge_rotation_axis.length() <= 0.0:
             raise Exception("Constraint axis cannot be zero.")
 
-        if len(hinge_reference_axis) <= 0.0:
+        if hinge_reference_axis.length() <= 0.0:
             raise Exception("Constraint axis cannot be zero.")
 
         if (hinge_rotation_axis * hinge_reference_axis) == 0:
             raise Exception(
                 "The hinge reference-axis must be in the plane of the hinge rotation axis, i.e"
-                ", they must be perpendicular")
+                ", they must not be perpendicular")
 
-        if hinge_type != "GLOBAL_HINGE" or hinge_type != "LOCAL_HINGE":
+        if hinge_type != "GLOBAL_HINGE" and hinge_type != "LOCAL_HINGE":
             raise Exception("The only valid rotor types for this method are GLOBAL_HINGE and LOCAL_HINGE.")
 
         #  Set the constraint type, axis and angle
         self.base_bone_constraint_type = hinge_type
-        self.base_bone_constraint_uv = hinge_rotation_axis.normalised()
+        self.base_bone_constraint_uv = hinge_rotation_axis.normalize()
+
+        hinge_joint = Joint.Joint3D()
 
         if hinge_type == "GLOBAL_HINGE":
-            self.chain[0].getJoint().setHinge(hinge_type, hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
-                                              hinge_reference_axis)
+            hinge_joint.set_hinge("GLOBAL_HINGE",hinge_rotation_axis,cw_constraint_degs,acw_constraint_axis,hinge_reference_axis)
+
         else:
-            self.chain[0].getJoint().setHinge(hinge_type, hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
-                                              hinge_reference_axis)
+            hinge_joint.set_hinge("LOCAL_HINGE", hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
+                                  hinge_reference_axis)
 
-    def set_freely_rotating_global_hinged_basebone(self, hinge_rotation_axis):
-        self.chain[0].getJoint().setHinge("GLOBAL_HINGE", hinge_rotation_axis, 180, 180,
+        self.get_bone(0).set_joint(hinge_joint)
+
+    def set_freely_rotating_global_hinged_base_bone(self, hinge_rotation_axis):
+        self.set_hinge_base_bone_constraint("GLOBAL_HINGE", hinge_rotation_axis, 180, 180,
                                           Util.gen_perpendicular_vector_quick(hinge_rotation_axis))
 
-    def set_freely_rotating_local_hinged_basebone(self, hinge_rotation_axis):
-        self.chain[0].getJoint().setHinge("LOCAL_HINGE", hinge_rotation_axis, 180, 180,
+    def set_freely_rotating_local_hinged_base_bone(self, hinge_rotation_axis):
+        self.set_hinge_base_bone_constraint("LOCAL_HINGE", hinge_rotation_axis, 180, 180,
                                           Util.gen_perpendicular_vector_quick(hinge_rotation_axis))
 
-    def set_local_hinged_basebone(self, hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
-                                  hinge_reference_axis):
-        self.chain[0].getJoint().setHinge("LOCAL_HINGE", hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
-                                          hinge_reference_axis)
-
-    def set_global_hinged_basebone(self, hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
+    def set_local_hinged_base_bone(self, hinge_rotation_axis, cw_constraint_degs, acw_constraint_degs,
                                    hinge_reference_axis):
-        self.chain[0].getJoint().setHinge("GLOBAL_HINGE", hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
+        self.set_hinge_base_bone_constraint("LOCAL_HINGE", hinge_rotation_axis, cw_constraint_degs, acw_constraint_degs,
                                           hinge_reference_axis)
 
-    def set_basebone_constraint_uv(self, constraint_uv):
+    def set_global_hinged_base_bone(self, hinge_rotation_axis, cw_constraint_degs, acw_constraint_degs,
+                                    hinge_reference_axis):
+        self.set_hinge_base_bone_constraint("GLOBAL_HINGE", hinge_rotation_axis, cw_constraint_degs, acw_constraint_degs,
+                                          hinge_reference_axis)
+
+    def set_base_bone_constraint_uv(self, constraint_uv):
         if len(constraint_uv) == 0:
             raise Exception("direction unit vector cannot be zero")
         self.base_bone_constraint_uv = constraint_uv.normalize()
@@ -211,16 +218,19 @@ class Chain3d:
     def get_solve_distance_threshold(self):
         return self.solve_distance_threshold
 
+    def set_target(self, target):
+        self.target_position = target
+
     def forward(self, target):
         # Forward Pass: from end effector to basebone
         for count in range(self.chain_length - 1, 0, -1):
-            this_bone_length = self.chain[count].length()
-            this_bone_joint_type = self.chain[count].get_joint_type()
+            this_bone_length = self.get_bone(count).get_length()
+            this_bone_joint_type = self.get_bone(count).get_joint_type()
 
             # if it is NOT end-effector:
             if count != self.chain_length - 1:
-                outer_bone_outer_to_inner_uv = self.chain[count + 1].get_direction_uv()
-                this_bone_outer_to_inner_uv = self.chain[count].get_direction_uv()
+                outer_bone_outer_to_inner_uv = Util.negated(self.get_bone(count+1).get_direction_uv())
+                this_bone_outer_to_inner_uv = Util.negated(self.chain[count].get_direction_uv())
 
                 if this_bone_joint_type == "BALL":
                     # Constrain to relative angle between this bone and the outer bone
@@ -235,8 +245,7 @@ class Chain3d:
 
                 elif this_bone_joint_type == "GLOBAL_HINGE":
                     # Project this bone outer to inner direction onto the hinge rotation axis
-                    this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,
-                                                                           self.chain[count].get_hinge_rotation_axis)
+                    this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,self.get_bone(count).get_joint().get_hinge_rotation_axis())
 
                 elif this_bone_joint_type == "LOCAL_HINGE":
 
@@ -253,7 +262,11 @@ class Chain3d:
 
                 # At this stage we have an outer to inner unit vector for this bone which is whithin this constraint
                 # so we can find the start location of this joint
-                new_start_location = self.chain[count].get_end_point() + this_bone_outer_to_inner_uv * this_bone_length
+                scale = CG3dVector(this_bone_outer_to_inner_uv[0]*this_bone_length,
+                                   this_bone_outer_to_inner_uv[1]*this_bone_length,
+                                   this_bone_outer_to_inner_uv[2]*this_bone_length)
+                end_point = self.get_bone(count).get_end_point()
+                new_start_location = CG3dPoint(end_point[0]+scale[0],end_point[1]+scale[1],end_point[2]+scale[2])
                 self.chain[count].set_start_point(new_start_location)
 
                 # if it isn't the base bone we set end point of the previous bone to new start location of this bone
@@ -263,27 +276,30 @@ class Chain3d:
             # IF it is end effector
             else:
                 # if it is the end effector bone:
-                self.chain[count].set_end_point(target)
-                this_bone_outer_to_inner_uv = self.chain[count].get_direction_uv()
+                self.get_bone(count).set_end_point(target)
+                this_bone_outer_to_inner_uv = Util.negated(self.get_bone(count).get_direction_uv())
                 if this_bone_joint_type == "BALL":
                     break
                 elif this_bone_joint_type == "GLOBAL_HINGE":
                     this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,
-                                                                           self.chain[count].get_hinge_rotation_axis)
+                                                                           self.get_bone(count).get_joint().get_hinge_rotation_axis())
                 elif this_bone_joint_type == "LOCAL_HINGE":
                     # Construct a rotation matrix based on previous bones
-                    m = Util.create_rotation_matrix(self.chain[count - 1].getDirectionUV())
+                    m = Util.create_rotation_matrix(self.get_bone(count- 1).get_direction_uv())
                     # transform the hinge rotation axis into the previous bones frame of reference
                     relative_hinge_rotation_axis = Util.times(m,
-                                                              self.chain[count].get_hinge_rotation_axis().normalise())
+                                                              self.get_bone(count).get_hinge_rotation_axis().normalise())
                     # project this bone outer to inner vector to the plane described by relative hinge rotation axis
                     this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,
                                                                            relative_hinge_rotation_axis)
 
                 # At this stage we have an outer to inner unit vector for this bone which is whithin this constraint
                 # so we can find the start location of this joint
-                new_start_location = target + this_bone_outer_to_inner_uv * this_bone_length
-                self.chain[count].set_start_point(new_start_location)
+                scale = CG3dVector(this_bone_outer_to_inner_uv[0]*this_bone_length,
+                                   this_bone_outer_to_inner_uv[1]*this_bone_length,
+                                   this_bone_outer_to_inner_uv[2]*this_bone_length)
+                new_start_location = CG3dPoint(target[0]+scale[0],target[1]+scale[1],target[2]+scale[2])
+                self.get_bone(count).set_start_point(new_start_location)
 
                 # if it isn't the base bone we set end point of the previous bone to new start location of this bone
                 if count > 0:
@@ -291,7 +307,7 @@ class Chain3d:
 
     def backward(self):
         for count in range(0, 1, self.chain_length):
-            this_bone_length = self.chain[count].length()
+            this_bone_length = self.get_bone(count).get_length()
             # if it is NOT base bone:
             if count != 0:
                 this_bone_inner_to_outer_uv = self.chain[count].get_direction_uv()
@@ -385,7 +401,7 @@ class Chain3d:
                         elif signed_angle_degs < cw_constraint_degs:
                             this_bone_inner_to_outer_uv = Util.rotate_about_axis(relative_hinge_reference_axis,
                                                                                  cw_constraint_degs,
-                                                                                 relative_hinge_rotation_axis)\
+                                                                                 relative_hinge_rotation_axis) \
                                 .normalize()
 
                 new_end_location = self.chain[count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
@@ -427,9 +443,9 @@ class Chain3d:
                         self.chain[count + 1].set_start_point(new_end_location)
 
                 elif self.base_bone_constraint_type == "GLOBAL_HINGE":
-                    hinge_rotation_axis = self.chain[count].get_hinge_rotation_axis()
-                    cw_constraint_degs = -self.chain[count].get_hinge_clockwise_constraint_degs()
-                    acw_constraint_degs = self.chain[count].get_hinge_aclockwise_constraint_degs()
+                    hinge_rotation_axis = self.get_bone(count).get_joint().get_hinge_rotation_axis()
+                    cw_constraint_degs = -self.get_bone(count).get_joint().get_hinge_clockwise_constraint_degs()
+                    acw_constraint_degs = self.get_bone(count).get_joint().get_hinge_anticlockwise_constraint_degs()
                     # get the inner to outer direction of this bone and project it onto global hinge rotation axis
                     this_bone_inner_to_outer_uv = Util.project_on_to_plane(self.chain[count].get_direction_uv(),
                                                                            hinge_rotation_axis)
@@ -438,7 +454,7 @@ class Chain3d:
                             -self.chain[count].get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.01 and abs(
                         acw_constraint_degs - (
                                 -self.chain[count].get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.01:
-                        hinge_reference_axis = self.chain[count].get_hinge_reference_axis()
+                        hinge_reference_axis = self.get_bone(count).get_joint().get_reference_axis()
                         signed_angle_degs = Util.get_signed_angle_between_degs(hinge_reference_axis,
                                                                                this_bone_inner_to_outer_uv,
                                                                                hinge_rotation_axis)
@@ -452,22 +468,50 @@ class Chain3d:
                             this_bone_inner_to_outer_uv = Util.rotate_about_axis(hinge_reference_axis,
                                                                                  cw_constraint_degs,
                                                                                  hinge_rotation_axis).normalise()
-
-                    new_end_location = self.chain[
-                                           count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
+                    start_point = self.get_bone(count).get_start_point()
+                    scale = CG3dVector(this_bone_inner_to_outer_uv[0]*this_bone_length,
+                                       this_bone_inner_to_outer_uv[1]*this_bone_length,
+                                       this_bone_inner_to_outer_uv[2]*this_bone_length)
+                    new_end_location = CG3dPoint(start_point[0]+scale[0],start_point[1]+scale[1],start_point[2]+scale[2])
                     self.chain[count].set_end_point(new_end_location)
 
                     # if more bone exists
                     if self.chain_length > 1:
                         self.chain[count + 1].set_start_point(new_end_location)
 
-    def solve_fabrik_ik(self, target):
+    def solve_fabrik_ik(self):
 
         if self.chain.__len__() == 0:
             raise Exception("It makes no sense to solve an IK chain with zero bones.")
 
-        dist_to_target = Util.get_distance_between(self.chain[self.chain_length - 1].get_end_point, target)
+        dist_to_target = Util.get_distance_between(self.get_bone(self.chain_length - 1).get_end_point(), self.target_position)
         while dist_to_target > self.get_solve_distance_threshold():
-            self.forward(target)
+            self.forward(self.target_position)
             self.backward()
-            dist_to_target = Util.get_distance_between(self.chain[self.chain_length - 1].get_end_point, target)
+            dist_to_target = Util.get_distance_between(self.get_bone(self.get_chain_length()-1).get_end_point(), self.target_position)
+
+        # after finding these joint position we can do anything with them.
+        # Here I calculate the joints_angle:
+        self.output_joint_angles()
+
+    def vecotr_of_chains_bone(self):
+        bone_vectors = []
+        for i in range(0, self.get_chain_length()):
+            start_loc = self.get_bone(i).get_start_point()
+            end_loc = self.get_bone(i).get_end_point()
+            bone_vector = CG3dVector(end_loc[0] - start_loc[0],
+                                     end_loc[1] - start_loc[1],
+                                     end_loc[2] - start_loc[2])
+            bone_vectors.append(bone_vector)
+        return bone_vectors
+
+    def output_joint_angles(self):
+        deg = []
+        bone_vectors = self.vecotr_of_chains_bone()
+        # base bone angle with horizon x [1,0,0]
+        x_axis = CG3dVector(1, 0, 0)
+        deg.append(math.acos(bone_vectors[0] * x_axis / bone_vectors[0].length()))
+        for i in range(1,  self.get_chain_length()):
+            deg.append(math.acos(bone_vectors[i] * bone_vectors[i - 1] /
+                                 (bone_vectors[i].length() * bone_vectors[i - 1].length())))
+        print(deg)

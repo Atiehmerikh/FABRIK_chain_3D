@@ -16,6 +16,7 @@ class Bone3D:
         self.calculate_end(direction_uv)
         m_joint = Joint.Joint3D()
         self.joint = m_joint
+        self.direction_uv = direction_uv
 
     def set_length(self,length):
         self.length = length
@@ -33,7 +34,11 @@ class Bone3D:
         return self.start_point
 
     def calculate_end(self,direction_uv):
-        self.end_point = self.start_point+direction_uv*self.length
+
+        scale_direction = CG3dVector(direction_uv[0]*self.length,
+                                     direction_uv[1]*self.length,
+                                     direction_uv[2]*self.length)
+        self.end_point = self.start_point.add(scale_direction)
 
     def set_end_point(self,end):
         self.end_point = end
@@ -43,6 +48,9 @@ class Bone3D:
 
     def set_joint(self,joint):
         self.joint = joint
+
+    def get_joint(self):
+        return self.joint
 
     def get_joint_type(self):
         return self.joint.get_joint_type()
@@ -68,7 +76,7 @@ class Bone3D:
         return self.joint.get_ball_joint_constraint_degs()
 
     def get_direction_uv(self):
-        return (self.end_point-self.start_point).normalize()
+        return self.direction_uv
 
     def get_global_pitch_degs(self):
         bone_uv = self.get_direction_uv()

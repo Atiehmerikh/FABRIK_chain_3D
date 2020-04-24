@@ -23,7 +23,8 @@ class Joint3D:
     def validate_constraint_angle_degs(self, angle_degs):
         if angle_degs < self.MIN_CONSTRAINT_ANGLE_DEGS or angle_degs > self.MAX_CONSTRAINT_ANGLE_DEGS:
             raise Exception(
-                "Constraint angles must be within the range " + str(self.MIN_CONSTRAINT_ANGLE_DEGS )+ " to " + str(self.MAX_CONSTRAINT_ANGLE_DEGS) + " inclusive.")
+                "Constraint angles must be within the range " + str(self.MIN_CONSTRAINT_ANGLE_DEGS) + " to " + str(
+                    self.MAX_CONSTRAINT_ANGLE_DEGS) + " inclusive.")
 
     def validate_axis(self, axis):
         if axis.length() <= 0:
@@ -36,10 +37,12 @@ class Joint3D:
 
     def set_hinge(self, joint_type, rotation_axis, clockwise_constraint_degs, anticlockwise_constraint_degs,
                   reference_axis):
-        if abs(rotation_axis * reference_axis) > 0.01:
+        dot = rotation_axis * reference_axis
+        if Util.approximately_equal(dot , 0, 0.01):
             angle_degs = Util.get_angle_between_degs(rotation_axis, reference_axis)
             raise Exception(
-                "The reference axis must be in the plane of the hinge rotation axis - angle between them is currently: " + str(angle_degs))
+                "The reference axis must be in the plane of the hinge rotation axis - angle between them is currently: " + str(
+                    angle_degs))
 
         self.validate_constraint_angle_degs(clockwise_constraint_degs)
         self.validate_constraint_angle_degs(anticlockwise_constraint_degs)
@@ -49,8 +52,8 @@ class Joint3D:
         self.hinge_clockwise_constraint_degs = clockwise_constraint_degs
         self.hinge_anticlockwise_constraint_degs = anticlockwise_constraint_degs
         self.joint_type = joint_type
-        self.rotation_axis_uv = rotation_axis.normalize()
-        self.reference_axis_uv = reference_axis.normalize()
+        self.rotation_axis_uv = rotation_axis
+        self.reference_axis_uv = reference_axis
 
     def set_as_global_hinge(self, global_rotation_axis, cw_constraint_degs, acw_constraint_degs, global_reference_axis):
         self.set_hinge("GLOBAL_HINGE", global_rotation_axis, cw_constraint_degs, acw_constraint_degs,
@@ -60,7 +63,7 @@ class Joint3D:
         self.set_hinge("LOCAL_HINGE", local_rotation_axis, cw_constraint_degs, acw_constraint_degs,
                        local_reference_axis)
 
-    def set_hinge_clockwise_constraint_degs(self,angle_degs):
+    def set_hinge_clockwise_constraint_degs(self, angle_degs):
         self.validate_constraint_angle_degs(angle_degs)
         self.hinge_clockwise_constraint_degs = angle_degs
 
@@ -85,14 +88,14 @@ class Joint3D:
     def get_ball_joint_constraint_degs(self):
         return self.rotor_constraint_degs
 
-    def set_hinge_rotation_axis(self,axis):
+    def set_hinge_rotation_axis(self, axis):
         self.validate_axis(axis)
         self.rotation_axis_uv = axis
 
     def get_hinge_rotation_axis(self):
         return self.rotation_axis_uv
 
-    def set_hinge_reference_axis(self,reference_axis):
+    def set_hinge_reference_axis(self, reference_axis):
         self.validate_axis(reference_axis)
         self.reference_axis_uv = reference_axis
 
@@ -101,4 +104,3 @@ class Joint3D:
 
     def get_joint_type(self):
         return self.joint_type
-
