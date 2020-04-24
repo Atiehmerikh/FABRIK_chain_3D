@@ -514,4 +514,8 @@ class Chain3d:
         for i in range(1,  self.get_chain_length()):
             deg.append(math.acos(bone_vectors[i] * bone_vectors[i - 1] /
                                  (bone_vectors[i].length() * bone_vectors[i - 1].length())))
-        print(deg)
+        f = open("angles.txt", "w")
+        for i in range(0,len(deg)):
+            f.write(str(deg[i]))
+            f.write("\n")
+        f.close()
