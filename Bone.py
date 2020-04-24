@@ -1,11 +1,12 @@
 from pycg3d.cg3d_point import CG3dPoint
-from pycg3d.cg3d_vector import CG3dVector
-import Joint3D as Joint
-import math
+from pycg3d.cg3d_point import CG3dVector
+import Joint as Joint
+import Utils as Util
 
-X_AXIS = CG3dPoint(1.0, 0.0, 0.0)
-Y_AXIS = CG3dPoint(0.0, 1.0, 0.0)
-Z_AXIS = CG3dPoint(0.0, 0.0, 1.0)
+X_AXIS = CG3dVector(1.0, 0.0, 0.0)
+Y_AXIS = CG3dVector(0.0, 1.0, 0.0)
+Z_AXIS = CG3dVector(0.0, 0.0, 1.0)
+
 
 class Bone3D:
     def __init__(self, start, direction_uv,length):
@@ -20,7 +21,7 @@ class Bone3D:
         self.length = length
 
     def get_live_length(self):
-        return Util.distance_between(self.start_point,self.end_point)
+        return Util.get_distance_between(self.start_point,self.end_point)
 
     def get_length(self):
         return self.length
@@ -71,8 +72,8 @@ class Bone3D:
 
     def get_global_pitch_degs(self):
         bone_uv = self.get_direction_uv()
-        x_projected = Utils.project_on_to_plane(bone_uv,X_AXIS)
-        pitch = Utils.get_angle_between_degs(Z_AXIS, x_projected)
+        x_projected = Util.project_on_to_plane(bone_uv,X_AXIS)
+        pitch = Util.get_angle_between_degs(Z_AXIS, x_projected)
         if x_projected[1] < 0.0:
             return -pitch
         else:
@@ -80,8 +81,8 @@ class Bone3D:
 
     def get_global_yaw_degs(self):
         bone_uv = self.get_direction_uv()
-        y_projected = Utils.project_on_to_plane(bone_uv,Y_AXIS)
-        yaw = Utils.get_angle_between_degs(Z_AXIS, y_projected)
+        y_projected = Util.project_on_to_plane(bone_uv,Y_AXIS)
+        yaw = Util.get_angle_between_degs(Z_AXIS, y_projected)
         if y_projected[0] < 0.0:
             return -yaw
         else:

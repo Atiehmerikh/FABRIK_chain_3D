@@ -1,7 +1,8 @@
 import math
 from pycg3d.cg3d_point import CG3dPoint
-import Joint3D as Joint
-import Bone as bone
+import Joint as Joint
+import Bone as Bone
+import Utils as Util
 
 
 class Chain3d:
@@ -32,35 +33,37 @@ class Chain3d:
         self.update_chain_length()
 
     def add_consecutive_bone(self, bone):
-        dir = bone.get_direction_uv()
-        len = bone.get_live_length()
-        if self.chain.__len__()!=0:
-            prev_bone_end = self.chain[self.chain_length-1].get_end_point()
+        direction = bone.get_direction_uv()
+        length = bone.get_live_length()
+        if self.chain.__len__() != 0:
+            prev_bone_end = self.chain[self.chain_length - 1].get_end_point()
             bone.set_start_point(prev_bone_end)
-            bone.set_end_point(prev_bone_end+dir*len)
+            bone.set_end_point(prev_bone_end + direction * length)
             self.add_bone(bone)
         else:
-            raise Exception("You cannot add the base bone to a chain using this method as it does not provide a start location.")
+            raise Exception(
+                "You cannot add the base bone to a chain using this method as it does not provide a start location.")
 
     def add_consecutive_freely_rotating_hinged_bone(self, bone_direction_uv, bone_length, joint_type,
                                                     hinge_rotation_axis):
-        self.add_consecutive_hinged_bone(bone_direction_uv,bone_length,joint_type,180,180,genPerpendicularVectorQuick(hinge_rotation_axis))
+        self.add_consecutive_hinged_bone(bone_direction_uv, bone_length, joint_type, hinge_rotation_axis, 180, 180,
+                                         Util.gen_perpendicular_vector_quick(hinge_rotation_axis))
 
     def add_consecutive_hinged_bone(self, bone_direction_uv, bone_length, joint_type, hinge_rotation_axis,
                                     clockwise_degs,
                                     anticlockwise_deg, hinge_reference_axis):
-        if self.chain_length==0:
+        if self.chain_length == 0:
             raise Exception("You must add a basebone before adding a consectutive bone.")
 
         bone_direction_uv = bone_direction_uv.normalize()
         hinge_rotation_axis = hinge_rotation_axis.normalize()
         prev_bone_end = self.chain[self.chain_length - 1].get_end_point()
-        m_bone = bone.Bone3D(prev_bone_end,bone_direction_uv,bone_length)
+        m_bone = Bone.Bone3D(prev_bone_end, bone_direction_uv, bone_length)
         m_joint = Joint.Joint3D()
         if joint_type == "GLOBAL_HINGE":
-            m_joint.set_as_global_hinge(hinge_rotation_axis,clockwise_degs,anticlockwise_deg,hinge_reference_axis)
+            m_joint.set_as_global_hinge(hinge_rotation_axis, clockwise_degs, anticlockwise_deg, hinge_reference_axis)
         elif joint_type == "LOCAL_HINGE":
-            m_joint.set_as_local_hinge(hinge_rotation_axis,clockwise_degs,anticlockwise_deg,hinge_reference_axis)
+            m_joint.set_as_local_hinge(hinge_rotation_axis, clockwise_degs, anticlockwise_deg, hinge_reference_axis)
         else:
             raise Exception("Hinge joint types may be only JointType.GLOBAL_HINGE or JointType.LOCAL_HINGE.")
 
@@ -68,9 +71,9 @@ class Chain3d:
         self.add_bone(m_bone)
 
     def add_consecutive_rotor_constrained_bone(self, bone_direction_uv, bone_length, constraint_angle_degs):
-        if self.chain.__len__()==0:
+        if self.chain.__len__() == 0:
             raise Exception("Add a basebone before attempting to add consectuive bones.")
-        m_bone = bone.Bone3D(self.chain[self.chain_length-1].get_end_point(),bone_direction_uv,bone_length)
+        m_bone = Bone.Bone3D(self.chain[self.chain_length - 1].get_end_point(), bone_direction_uv, bone_length)
         m_bone.set_ball_joint_constraint_degs(constraint_angle_degs)
         self.add_bone(m_bone)
 
@@ -78,7 +81,7 @@ class Chain3d:
         return self.base_bone_constraint_uv
 
     def get_base_bone_constraint_type(self):
-        if self.base_bone_constraint_type == None:
+        if self.base_bone_constraint_type is None:
             raise Exception('Cannot return the basebone constraint when the basebone constraint type is NONE.')
         return self.base_bone_constraint_type
 
@@ -141,7 +144,8 @@ class Chain3d:
 
         if (hinge_rotation_axis * hinge_reference_axis) == 0:
             raise Exception(
-                "The hinge reference axis must be in the plane of the hinge rotation axis, that is, they must be perpendicular")
+                "The hinge reference-axis must be in the plane of the hinge rotation axis, i.e"
+                ", they must be perpendicular")
 
         if hinge_type != "GLOBAL_HINGE" or hinge_type != "LOCAL_HINGE":
             raise Exception("The only valid rotor types for this method are GLOBAL_HINGE and LOCAL_HINGE.")
@@ -159,11 +163,11 @@ class Chain3d:
 
     def set_freely_rotating_global_hinged_basebone(self, hinge_rotation_axis):
         self.chain[0].getJoint().setHinge("GLOBAL_HINGE", hinge_rotation_axis, 180, 180,
-                                          genPerpendicularVectorQuick(hinge_rotation_axis))
+                                          Util.gen_perpendicular_vector_quick(hinge_rotation_axis))
 
     def set_freely_rotating_local_hinged_basebone(self, hinge_rotation_axis):
         self.chain[0].getJoint().setHinge("LOCAL_HINGE", hinge_rotation_axis, 180, 180,
-                                          genPerpendicularVectorQuick(hinge_rotation_axis))
+                                          Util.gen_perpendicular_vector_quick(hinge_rotation_axis))
 
     def set_local_hinged_basebone(self, hinge_rotation_axis, cw_constraint_degs, acw_constraint_axis,
                                   hinge_reference_axis):
@@ -207,7 +211,7 @@ class Chain3d:
     def get_solve_distance_threshold(self):
         return self.solve_distance_threshold
 
-    def forward(self):
+    def forward(self, target):
         # Forward Pass: from end effector to basebone
         for count in range(self.chain_length - 1, 0, -1):
             this_bone_length = self.chain[count].length()
@@ -219,31 +223,32 @@ class Chain3d:
                 this_bone_outer_to_inner_uv = self.chain[count].get_direction_uv()
 
                 if this_bone_joint_type == "BALL":
-                    # Constrain to relative angle between this bone and the outer bone if required!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!(here needs improve by cone)
-                    angle_between_bones = Utils.get_angle_between_degs(this_bone_outer_to_inner_uv,
-                                                                       outer_bone_outer_to_inner_uv)
+                    # Constrain to relative angle between this bone and the outer bone
+                    # if required!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!(here needs improve by cone)
+                    angle_between_bones = Util.get_angle_between_degs(this_bone_outer_to_inner_uv,
+                                                                      outer_bone_outer_to_inner_uv)
                     constraint_angle_deg = self.chain[count].get_ball_joint_constraint_degs()
                     if angle_between_bones > constraint_angle_deg:
-                        this_bone_outer_to_inner_uv = Utils.get_angle_limited_uv(this_bone_outer_to_inner_uv,
-                                                                                 outer_bone_outer_to_inner_uv,
-                                                                                 constraint_angle_deg)
+                        this_bone_outer_to_inner_uv = Util.get_angle_limited_uv(this_bone_outer_to_inner_uv,
+                                                                                outer_bone_outer_to_inner_uv,
+                                                                                constraint_angle_deg)
 
                 elif this_bone_joint_type == "GLOBAL_HINGE":
                     # Project this bone outer to inner direction onto the hinge rotation axis
-                    this_bone_outer_to_inner_uv = Utils.projectOntoPlane(this_bone_outer_to_inner_uv,
-                                                                         self.chain[count].get_hinge_rotation_axis)
+                    this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,
+                                                                           self.chain[count].get_hinge_rotation_axis)
 
                 elif this_bone_joint_type == "LOCAL_HINGE":
 
                     if count > 0:
-                        m = Utils.create_rotation_matrix(self.chain[count - 1].getDirectionUV())
-                        relative_hinge_rotation_axis = Utils.times(
+                        m = Util.create_rotation_matrix(self.chain[count - 1].getDirectionUV())
+                        relative_hinge_rotation_axis = Util.times(
                             m, self.chain[count].get_hinge_rotation_axis().normalise())
                     else:
                         raise Exception("no Local hinge accepted for base bone")
                         # base bone! no relative hinge is accepted:
 
-                    this_bone_outer_to_inner_uv = Utils.project_onto_plane(this_bone_outer_to_inner_uv,
+                    this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,
                                                                            relative_hinge_rotation_axis)
 
                 # At this stage we have an outer to inner unit vector for this bone which is whithin this constraint
@@ -263,17 +268,17 @@ class Chain3d:
                 if this_bone_joint_type == "BALL":
                     break
                 elif this_bone_joint_type == "GLOBAL_HINGE":
-                    this_bone_outer_to_inner_uv = Utils.projectOntoPlane(this_bone_outer_to_inner_uv,
-                                                                         self.chain[count].get_hinge_rotation_axis)
+                    this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,
+                                                                           self.chain[count].get_hinge_rotation_axis)
                 elif this_bone_joint_type == "LOCAL_HINGE":
                     # Construct a rotation matrix based on previous bones
-                    m = Utils.createRotationMatrix(self.chain[count - 1].getDirectionUV())
+                    m = Util.create_rotation_matrix(self.chain[count - 1].getDirectionUV())
                     # transform the hinge rotation axis into the previous bones frame of reference
-                    relative_hinge_rotation_axis = Utils.times(m,
-                                                               self.chain[count].get_hinge_rotation_axis().normalise())
+                    relative_hinge_rotation_axis = Util.times(m,
+                                                              self.chain[count].get_hinge_rotation_axis().normalise())
                     # project this bone outer to inner vector to the plane described by relative hinge rotation axis
-                    this_bone_outer_to_inner_uv = Utils.projectOntoPlane(this_bone_outer_to_inner_uv,
-                                                                         relative_hinge_rotation_axis)
+                    this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,
+                                                                           relative_hinge_rotation_axis)
 
                 # At this stage we have an outer to inner unit vector for this bone which is whithin this constraint
                 # so we can find the start location of this joint
@@ -294,83 +299,94 @@ class Chain3d:
                 this_bone_joint_type = self.chain[count].get_joint_type()
 
                 if this_bone_joint_type == "BALL":
-                    # Constrain to relative angle between this bone and the outer bone if required!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!(here needs improve by cone)
+                    # Constrain to relative angle between this bone and the outer bone
+                    # if required!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!(here needs improve by cone)
                     angle_between_bones = math.degrees(math.acos(
                         (this_bone_inner_to_outer_uv * previous_bone_inner_to_outer_uv) / (
                                 this_bone_length * self.chain[count - 1].length())))
                     constraint_angle_deg = self.chain[count].get_ball_joint_constraint_degs()
                     if angle_between_bones > constraint_angle_deg:
-                        this_bone_outer_to_inner_uv = Utils.get_angle_limited_uv(this_bone_inner_to_outer_uv,
-                                                                                 previous_bone_inner_to_outer_uv,
-                                                                                 constraint_angle_deg)
+                        this_bone_outer_to_inner_uv = Util.get_angle_limited_uv(this_bone_inner_to_outer_uv,
+                                                                                previous_bone_inner_to_outer_uv,
+                                                                                constraint_angle_deg)
 
                 elif this_bone_joint_type == "GLOBAL_HINGE":
                     # Project this bone inner to outer direction onto the hinge rotation axis
                     hinge_rotation_axis = self.chain[count].get_hinge_rotation_axis()
-                    this_bone_inner_to_outer_uv = Utils.projectOntoPlane(this_bone_inner_to_outer_uv,
-                                                                         hinge_rotation_axis)
+                    this_bone_inner_to_outer_uv = Util.project_on_to_plane(this_bone_inner_to_outer_uv,
+                                                                           hinge_rotation_axis)
 
                     cw_constraint_degs = -self.chain[count].get_hinge_clockwise_constraint_degs()
                     acw_constraint_degs = self.chain[count].get_hinge_anticlockwise_constraint_degs()
 
-                    if abs(cw_constraint_degs - (-FabrikJoint3D.MAX_CONSTRAINT_ANGLE_DEGS)) > 0.001 and abs(
-                            acw_constraint_degs - (-FabrikJoint3D.MAX_CONSTRAINT_ANGLE_DEGS)) > 0.001:
+                    if abs(cw_constraint_degs - (
+                            -1 * self.chain[count].get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.001 and abs(
+                        acw_constraint_degs - (
+                                -self.chain[count].get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.001:
                         hinge_reference_axis = self.chain[count].get_hinge_reference_axis()
-                        # get the signed angle(about the hinge rotation axis) between the hinge reference axis and hinge rotation aligned bone uv
+                        # get the signed angle(about the hinge rotation axis)
+                        # between the hinge reference axis and hinge rotation aligned bone uv
                         # ACW rotation is positive and cw rotation is negative
 
-                        signed_angle_degs = Utils.get_signed_angle_between_degs(hinge_reference_axis,
-                                                                                this_bone_inner_to_outer_uv,
-                                                                                hinge_rotation_axis)
-                        # make our bone inner to outer uv the hinge reference axis rotated by its maximum clockwise or axclockwise rotation as required
+                        signed_angle_degs = Util.get_signed_angle_between_degs(hinge_reference_axis,
+                                                                               this_bone_inner_to_outer_uv,
+                                                                               hinge_rotation_axis)
+                        # make our bone inner to outer uv the hinge reference axis rotated by its maximum clockwise
+                        # or axclockwise rotation as required
 
                         if signed_angle_degs > acw_constraint_degs:
-                            this_bone_inner_to_outer_uv = Utils.rotate_about_axis_degs(hinge_reference_axis,
-                                                                                       acw_constraint_degs,
-                                                                                       hinge_rotation_axis).normalised()
+                            this_bone_inner_to_outer_uv = Util.rotate_about_axis(hinge_reference_axis,
+                                                                                 acw_constraint_degs,
+                                                                                 hinge_rotation_axis).normalize()
 
                         elif signed_angle_degs < cw_constraint_degs:
-                            this_bone_inner_to_outer_uv = Utils.rotate_about_axis_degs(hinge_reference_axis,
-                                                                                       cw_constraint_degs,
-                                                                                       hinge_rotation_axis).normalised()
+                            this_bone_inner_to_outer_uv = Util.rotate_about_axis(hinge_reference_axis,
+                                                                                 cw_constraint_degs,
+                                                                                 hinge_rotation_axis).normalize()
 
                 elif this_bone_joint_type == "LOCAL_HINGE":
                     # transform hinge rotation axis to be relative to the previous bone in chain
                     hinge_rotation_axis = self.chain[count].get_hinge_rotation_axis()
                     # constructing a rotation matrix based on the previous bone's direction
-                    m = Utils.create_rotation_matrix(previous_bone_inner_to_outer_uv)
+                    m = Util.create_rotation_matrix(previous_bone_inner_to_outer_uv)
                     # transform the hinge rotation axis into the previous bone's frame of reference
-                    relative_hinge_rotation_axis = Utils.times(m, (hinge_rotation_axis).normalise())
+                    relative_hinge_rotation_axis = Util.times(m, hinge_rotation_axis).normalize()
                     # project this bone direction onto the plane described onto the plane described by rotation axis
                     # the returned vector is normalised
-                    this_bone_inner_to_outer_uv = Utils.project_onto_plane(this_bone_inner_to_outer_uv,
-                                                                           relative_hinge_rotation_axis);
+                    this_bone_inner_to_outer_uv = Util.project_on_to_plane(this_bone_inner_to_outer_uv,
+                                                                           relative_hinge_rotation_axis)
                     # constrain rotation about reference axis if required
                     cw_constraint_degs = -self.chain[count].get_hinge_clockwise_constraint_degs()
                     acw_constraint_degs = self.chain[count].get_hinge_anticlockwise_constraint_degs()
 
-                    if abs(cw_constraint_degs - (-FabrikJoint3D.MAX_CONSTRAINT_ANGLE_DEGS)) > 0.001 and abs(
-                            acw_constraint_degs - (-FabrikJoint3D.MAX_CONSTRAINT_ANGLE_DEGS)) > 0.001:
+                    if abs(cw_constraint_degs - (
+                            -self.chain[count].get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.001 and abs(
+                        acw_constraint_degs - (
+                                -self.chain[count].get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.001:
                         # calc the reference axis in local space
-                        relative_hinge_reference_axis = Utils.times(m, self.chain[
+                        relative_hinge_reference_axis = Util.times(m, self.chain[
                             count].get_hinge_reference_axis.normalise())
-                        # get the signed angle(about the hinge rotation axis) between the hinge reference axis and hinge rotation aligned bone uv
+                        # get the signed angle(about the hinge rotation axis) between the hinge reference axis
+                        # and hinge rotation aligned bone uv
                         # ACW rotation is positive and cw rotation is negative
 
-                        signed_angle_degs = Utils.get_signed_angle_between_degs(relative_hinge_reference_axis,
-                                                                                this_bone_inner_to_outer_uv,
-                                                                                relative_hinge_rotation_axis)
-                        # make our bone inner to outer uv the hinge reference axis rotated by its maximum clockwise or axclockwise rotation as required
+                        signed_angle_degs = Util.get_signed_angle_between_degs(relative_hinge_reference_axis,
+                                                                               this_bone_inner_to_outer_uv,
+                                                                               relative_hinge_rotation_axis)
+                        # make our bone inner to outer uv the hinge reference axis rotated by its
+                        # maximum clockwise or axclockwise rotation as required
 
                         if signed_angle_degs > acw_constraint_degs:
-                            this_bone_inner_to_outer_uv = Utils.rotate_about_axis_degs(relative_hinge_reference_axis,
-                                                                                       acw_constraint_degs,
-                                                                                       relative_hinge_rotation_axis).normalised()
+                            this_bone_inner_to_outer_uv = Util.rotate_about_axis(relative_hinge_reference_axis,
+                                                                                 acw_constraint_degs,
+                                                                                 relative_hinge_rotation_axis) \
+                                .normalize()
 
                         elif signed_angle_degs < cw_constraint_degs:
-                            this_bone_inner_to_outer_uv = Utils.rotate_about_axis_degs(relative_hinge_reference_axis,
-                                                                                       cw_constraint_degs,
-                                                                                       relative_hinge_rotation_axis).normalised()
+                            this_bone_inner_to_outer_uv = Util.rotate_about_axis(relative_hinge_reference_axis,
+                                                                                 cw_constraint_degs,
+                                                                                 relative_hinge_rotation_axis)\
+                                .normalize()
 
                 new_end_location = self.chain[count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
                 self.chain[count].set_end_point(new_end_location)
@@ -380,65 +396,78 @@ class Chain3d:
                     self.chain[count + 1].set_start_point(new_end_location)
             # if it is base bone
             else:
-              self.chain[count].set_start_point = self.fixed_base_location
-
-
-              if self.base_bone_constraint_type == "NONE":
-                #
-                new_end_location = self.chain[count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
-                self.chain[count].set_end_point(new_end_location)
-
-                # if more bone exists
-                if self.chain_length >1:
-                  self.chain[count + 1].set_start_point(new_end_location)
-
-              elif self.base_bone_constraint_type == "GLOBAL_ROTOR":
+                self.chain[count].set_start_point = self.fixed_base_location
                 this_bone_inner_to_outer_uv = self.chain[count].get_direction_uv()
-                angle_between_degs = Utils.get_angle_between_degs(self.base_bone_constraint_uv,this_bone_inner_to_outer_uv)
-                constraint_angle_degs = self.chain[count].get_ball_joint_constraint_degs()
-                if angle_between_degs>constraint_angle_degs:
-                  Utils.get_angle_limited_uv(this_bone_inner_to_outer_uv,self.base_bone_constraint_uv,constraint_angle_degs)
 
-                new_end_location = self.chain[count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
-                self.chain[count].set_end_point(new_end_location)
+                if self.base_bone_constraint_type == "NONE":
+                    #
+                    new_end_location = self.chain[
+                                           count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
+                    self.chain[count].set_end_point(new_end_location)
 
-                # if more bone exists
-                if self.chain_length > 1:
-                  self.chain[count + 1].set_start_point(new_end_location)
+                    # if more bone exists
+                    if self.chain_length > 1:
+                        self.chain[count + 1].set_start_point(new_end_location)
 
-              elif self.base_bone_constraint_type == "GLOBAL_HINGE":
-                hinge_rotation_axis  =  self.chain[count].get_hinge_rotation_axis();
-                cw_constraint_degs   = -self.chain[count].get_hinge_clockwise_constraint_degs()
-                acw_constraint_degs  =  self.chain[count].get_hinge_aclockwise_constraint_degs()
-                # get the inner to outer direction of this bone and project it onto global hinge rotation axis
-                this_bone_inner_to_outer_uv = Utils.project_onto_plane(self.chain[count].get_direction_uv(),hinge_rotation_axis);
+                elif self.base_bone_constraint_type == "GLOBAL_ROTOR":
+                    this_bone_inner_to_outer_uv = self.chain[count].get_direction_uv()
+                    angle_between_degs = Util.get_angle_between_degs(self.base_bone_constraint_uv,
+                                                                     this_bone_inner_to_outer_uv)
+                    constraint_angle_degs = self.chain[count].get_ball_joint_constraint_degs()
+                    if angle_between_degs > constraint_angle_degs:
+                        Util.get_angle_limited_uv(this_bone_inner_to_outer_uv, self.base_bone_constraint_uv,
+                                                  constraint_angle_degs)
 
-                if abs(cw_constraint_degs - (-FabrikJoint3D.MAX_CONSTRAINT_ANGLE_DEGS)) > 0.01 and abs(
-                        acw_constraint_degs - (-FabrikJoint3D.MAX_CONSTRAINT_ANGLE_DEGS)) > 0.01:
-                    hinge_reference_axis = self.chain[count].get_hinge_reference_axis()
-                    signed_angle_degs = Utils.get_signed_angle_between_degs(hinge_reference_axis,this_bone_inner_to_outer_uv,hinge_rotation_axis)
+                    new_end_location = self.chain[
+                                           count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
+                    self.chain[count].set_end_point(new_end_location)
 
-                    if signed_angle_degs > acw_constraint_degs:
-                      this_bone_inner_to_outer_uv = Utils.rotate_about_axis_degs(hinge_reference_axis,acw_constraint_degs,hinge_rotation_axis).normalise()
+                    # if more bone exists
+                    if self.chain_length > 1:
+                        self.chain[count + 1].set_start_point(new_end_location)
 
-                    elif signed_angle_degs < cw_constraint_degs:
-                      this_bone_inner_to_outer_uv = Utils.rotate_about_axis_degs(hinge_reference_axis,cw_constraint_degs,hinge_rotation_axis).normalise()
+                elif self.base_bone_constraint_type == "GLOBAL_HINGE":
+                    hinge_rotation_axis = self.chain[count].get_hinge_rotation_axis()
+                    cw_constraint_degs = -self.chain[count].get_hinge_clockwise_constraint_degs()
+                    acw_constraint_degs = self.chain[count].get_hinge_aclockwise_constraint_degs()
+                    # get the inner to outer direction of this bone and project it onto global hinge rotation axis
+                    this_bone_inner_to_outer_uv = Util.project_on_to_plane(self.chain[count].get_direction_uv(),
+                                                                           hinge_rotation_axis)
 
-                new_end_location = self.chain[count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
-                self.chain[count].set_end_point(new_end_location)
+                    if abs(cw_constraint_degs - (
+                            -self.chain[count].get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.01 and abs(
+                        acw_constraint_degs - (
+                                -self.chain[count].get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.01:
+                        hinge_reference_axis = self.chain[count].get_hinge_reference_axis()
+                        signed_angle_degs = Util.get_signed_angle_between_degs(hinge_reference_axis,
+                                                                               this_bone_inner_to_outer_uv,
+                                                                               hinge_rotation_axis)
 
-                # if more bone exists
-                if self.chain_length > 1:
-                  self.chain[count + 1].set_start_point(new_end_location)
+                        if signed_angle_degs > acw_constraint_degs:
+                            this_bone_inner_to_outer_uv = Util.rotate_about_axis(hinge_reference_axis,
+                                                                                 acw_constraint_degs,
+                                                                                 hinge_rotation_axis).normalise()
+
+                        elif signed_angle_degs < cw_constraint_degs:
+                            this_bone_inner_to_outer_uv = Util.rotate_about_axis(hinge_reference_axis,
+                                                                                 cw_constraint_degs,
+                                                                                 hinge_rotation_axis).normalise()
+
+                    new_end_location = self.chain[
+                                           count].get_start_point() + this_bone_inner_to_outer_uv * this_bone_length
+                    self.chain[count].set_end_point(new_end_location)
+
+                    # if more bone exists
+                    if self.chain_length > 1:
+                        self.chain[count + 1].set_start_point(new_end_location)
 
     def solve_fabrik_ik(self, target):
 
         if self.chain.__len__() == 0:
             raise Exception("It makes no sense to solve an IK chain with zero bones.")
 
-        dist_to_target = Util.distance_between(self.chain[self.chain_length - 1].get_end_point, target)
-        while dist_to_target>self.get_solve_distance_threshold():
-            self.forward()
+        dist_to_target = Util.get_distance_between(self.chain[self.chain_length - 1].get_end_point, target)
+        while dist_to_target > self.get_solve_distance_threshold():
+            self.forward(target)
             self.backward()
-            dist_to_target = Util.distance_between(self.chain[self.chain_length - 1].get_end_point, target)
-
+            dist_to_target = Util.get_distance_between(self.chain[self.chain_length - 1].get_end_point, target)

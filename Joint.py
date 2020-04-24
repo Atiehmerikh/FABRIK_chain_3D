@@ -1,10 +1,11 @@
 from pycg3d.cg3d_point import CG3dVector
+import Utils as Util
 
 
 class Joint3D:
     def __init__(self):
         self.MAX_CONSTRAINT_ANGLE_DEGS = 180
-        self.MIN_CONSTRAINT_ANGLE_DEGS = 0
+        self.MIN_CONSTRAINT_ANGLE_DEGS = -180
         # the default values
         self.rotor_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
         self.hinge_clockwise_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
@@ -13,10 +14,16 @@ class Joint3D:
         self.rotation_axis_uv = CG3dVector(0, 0, 0)
         self.reference_axis_uv = CG3dVector(0, 0, 0)
 
+    def get_MAX_CONSTRAINT_ANGLE_DEGS(self):
+        return self.MAX_CONSTRAINT_ANGLE_DEGS
+
+    def get_MIN_CONSTRAINT_ANGLE_DEGS(self):
+        return self.MIN_CONSTRAINT_ANGLE_DEGS
+
     def validate_constraint_angle_degs(self, angle_degs):
         if angle_degs < self.MIN_CONSTRAINT_ANGLE_DEGS or angle_degs > self.MAX_CONSTRAINT_ANGLE_DEGS:
             raise Exception(
-                "Constraint angles must be within the range " + self.MIN_CONSTRAINT_ANGLE_DEGS + " to " + self.MAX_CONSTRAINT_ANGLE_DEGS + " inclusive.")
+                "Constraint angles must be within the range " + str(self.MIN_CONSTRAINT_ANGLE_DEGS )+ " to " + str(self.MAX_CONSTRAINT_ANGLE_DEGS) + " inclusive.")
 
     def validate_axis(self, axis):
         if axis.length() <= 0:
@@ -32,7 +39,7 @@ class Joint3D:
         if abs(rotation_axis * reference_axis) > 0.01:
             angle_degs = Util.get_angle_between_degs(rotation_axis, reference_axis)
             raise Exception(
-                "The reference axis must be in the plane of the hinge rotation axis - angle between them is currently: " + angle_degs)
+                "The reference axis must be in the plane of the hinge rotation axis - angle between them is currently: " + str(angle_degs))
 
         self.validate_constraint_angle_degs(clockwise_constraint_degs)
         self.validate_constraint_angle_degs(anticlockwise_constraint_degs)
