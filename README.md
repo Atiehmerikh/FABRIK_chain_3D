@@ -1,5 +1,5 @@
 This library is an implementation of the FABRIK inverse kinematics (IK) algorithm in the Python programming language, 
-and is released under the MIT software license. See LICENSE.txt for further details.
+and is released under the MIT software license and is under developement
 
 Usage:
 	Right now you can change "Main" file for yourself, I solved for a 3 consecutive bone with Global Hinges With Reference Axis Constraints 
