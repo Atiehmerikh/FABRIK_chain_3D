@@ -13,9 +13,9 @@ class constraints:
         self.theta = (self.pi / 180) * theta
         self.length = length
         self.constraint_type = constraint_type
-        # the orientation of joint
-        theta = math.acos(orientation[0]) * 2
-        self.si = theta
+        # the orientation of joint(in quaternion)
+        orient = math.acos(orientation[0]) * 2
+        self.si = orient
 
     def rotational_constraint(self):
         p_i = CG3dPoint(self.joints[self.i][0], self.joints[self.i][1],
@@ -103,7 +103,7 @@ class constraints:
             q4 = round(s * math.tan(self.theta[3]), 3)
 
             # change the coordinate to cross section of cone and calculating the (i-1)th position in it
-            l_o_next = utils.distance(o, p_next)
+            l_o_before = utils.distance(o, p_before)
 
             if 0 <= round(self.si) < np.pi / 2:
                 sector = 1
@@ -114,8 +114,8 @@ class constraints:
             elif 3 * np.pi / 2 <= round(self.si) < np.pi / 2 * np.pi:
                 sector = 4
 
-            y_t = round(l_o_next * math.sin(self.si), 2)
-            x_t = round(l_o_next * math.cos(self.si), 2)
+            y_t = round(l_o_before * math.sin(self.si), 2)
+            x_t = round(l_o_before * math.cos(self.si), 2)
 
             # checking that the target point is in ellipsoidal shape
             inbound = 0
