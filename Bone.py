@@ -76,7 +76,7 @@ class Bone3D:
         return self.joint.get_ball_joint_constraint_degs()
 
     def get_direction_uv(self):
-        return self.direction_uv
+        return self.end_point.sub(self.start_point)
 
     def get_global_pitch_degs(self):
         bone_uv = self.get_direction_uv()

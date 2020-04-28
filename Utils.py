@@ -4,6 +4,7 @@ import math
 import Mat
 
 
+
 def get_angle_between_degs(v1, v2):
     v1 = CG3dVector(v1[0], v1[1], v1[2])
     v2 = CG3dVector(v2[0], v2[1], v2[2])
@@ -18,9 +19,11 @@ def get_distance_between(p1, p2):
     return result
 
 
-def normalize(vector):
+def normalization(vector):
     vector = CG3dVector(vector[0], vector[1], vector[2])
-    return vector.normalize()
+    l = math.sqrt(vector[0]**2+ vector[1]**2 + vector[2]**2)
+    normal_vector = CG3dVector(vector[0]/l, vector[1]/l, vector[2]/l)
+    return normal_vector
 
 
 def project_on_to_plane(vector, plane_normal):
@@ -49,8 +52,8 @@ def get_angle_limited_uv(vector_to_limit, vector_base_line, angle_limit_degs):
     vector_base_line = CG3dVector(vector_base_line[0], vector_base_line[1], vector_base_line[2])
     angle_between = math.acos(vector_to_limit * vector_base_line / (vector_to_limit.length() * vector_base_line.length())) * 180 / math.pi
     if angle_between > angle_limit_degs:
-        correction_axis = (vector_to_limit ^ vector_base_line).normalize()
-        return Mat.rotate_about_axis(vector_base_line, angle_limit_degs, correction_axis).normalize()
+        correction_axis = (vector_to_limit ^ vector_base_line).normalization()
+        return Mat.rotate_about_axis(vector_base_line, angle_limit_degs, correction_axis).normalization()
     else:
         return vector_to_limit.normalize()
 
@@ -64,12 +67,16 @@ def create_rotation_matrix(reference_direction):
     m20 = reference_direction[0]
     m21 = reference_direction[1]
     m22 = reference_direction[2]
-    x_dir = (reference_direction ^ CG3dVector(0, 1, 0)).normalize()
+    cross = reference_direction ^ CG3dVector(0, 1, 0)
+    l = math.sqrt(cross[0]**2+cross[1]**2+cross[2]**2)
+    x_dir = CG3dVector(cross[0]/l,cross[1]/l,cross[2]/l)
     m00 = x_dir[0]
     m01 = x_dir[1]
     m02 = x_dir[2]
 
-    y_dir = (CG3dVector(m00, m01, m02) ^ CG3dVector(m20, m21, m22)).normalize()
+    cross = CG3dVector(m00, m01, m02)  ^ CG3dVector(m20, m21, m22)
+    l = math.sqrt(cross[0] ** 2 + cross[1] ** 2 + cross[2] ** 2)
+    y_dir = CG3dVector(cross[0] / l, cross[1] / l, cross[2] / l)
 
     m10 = y_dir[0]
     m11 = y_dir[1]
@@ -113,8 +120,6 @@ def approximately_equal(a,b,tolerance):
     else: return 0
 
 
-def normalization(vector):
-    vector = CG3dVector(vector[0], vector[1], vector[2])
-    l = vector.length()
+
 
 

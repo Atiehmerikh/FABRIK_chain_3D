@@ -4,7 +4,7 @@ import Utils as Util
 
 class Joint3D:
     def __init__(self):
-        self.MAX_CONSTRAINT_ANGLE_DEGS = 180
+        self.MAX_CONSTRAINT_ANGLE_DEGS = 360
         self.MIN_CONSTRAINT_ANGLE_DEGS = -180
         # the default values
         self.rotor_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
