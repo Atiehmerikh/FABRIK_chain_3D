@@ -7,10 +7,10 @@ X_AXIS = CG3dVector(1.0, 0.0, 0.0)
 Y_AXIS = CG3dVector(0.0, 1.0, 0.0)
 Z_AXIS = CG3dVector(0.0, 0.0, 1.0)
 
-
 class Bone3D:
-    def __init__(self, start, direction_uv,length):
+    def __init__(self, start,direction_uv ,length,is_fixed_bone):
         self.start_point = start
+        self.is_fixed_bone = is_fixed_bone
         self.end_point = CG3dPoint(0, 0, 0)
         self.length = length
         self.calculate_end(direction_uv)
@@ -95,6 +95,12 @@ class Bone3D:
             return -yaw
         else:
             return yaw
+
+    def is_fix_bone(self):
+        return self.is_fixed_bone
+
+    def get_fixed_bone_direction_uv(self):
+        return self.direction_uv
 
 
 
