@@ -492,8 +492,11 @@ class Chain3d:
 
     def solve_fabrik_ik(self):
         dist_base_to_target = Util.get_distance_between(self.get_bone(0).get_start_point(), self.target_position)
+        total_chain_length = 0
+        for i in range(0,self.chain_length):
+            total_chain_length += self.get_bone(i).get_length()
         self.draw_chain()
-        if dist_base_to_target <= self.get_chain_length():
+        if dist_base_to_target <= total_chain_length:
             if self.get_chain_length == 0:
                 raise Exception("It makes no sense to solve an IK chain with zero bones.")
 
