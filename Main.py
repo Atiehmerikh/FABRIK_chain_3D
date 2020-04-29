@@ -61,53 +61,53 @@ def main():
     acw_rad_3 = 2.8973
     acw_deg_3 = acw_rad_3 * 180 / math.pi
 
-    # P4
-    number_bone_4 = 4
-    bone_direction_4 = [0, 0, -1]
-    bone_length_4 = 0.088
-    joint_type_4 = "LOCAL_HINGE"
-    hinge_rotation_axis_4 = [0, 1, 0]
-    hinge_constraint_reference_axis_4 = [0, 1, 1]  # TODO
-    cw_rad_4 = -0.0698
-    cw_deg_4 = cw_rad_4 * 180 / math.pi
-    acw_rad_4 = 3.0718
-    acw_deg_4 = acw_rad_4 * 180 / math.pi
-
-    # P5
-    number_bone_5 = 5
-    bone_direction_5 = [1, 0, 0]
-    bone_length_5 = 0.384
-    joint_type_5 = "LOCAL_HINGE"
-    hinge_rotation_axis_5 = [1, 0, 0]
-    hinge_constraint_reference_axis_5 = [1, 0, 0]  # TODO
-    cw_rad_5 = 2.8973
-    cw_deg_5 = cw_rad_5 * 180 / math.pi
-    acw_rad_5 = 2.8973
-    acw_deg_5 = acw_rad_5 * 180 / math.pi
-
-    # P6
-    number_bone_6 = 6
-    bone_direction_6 = [1, 0, 0]
-    bone_length_6 = 0.088
-    joint_type_6 = "LOCAL_HINGE"
-    hinge_rotation_axis_6 = [0, 1, 0]
-    hinge_constraint_reference_axis_6 = [1, 1, 0]  # TODO
-    cw_rad_6 = 3.7525
-    cw_deg_6 = cw_rad_6 * 180 / math.pi
-    acw_rad_6 = 0.0175
-    acw_deg_6 = acw_rad_6 * 180 / math.pi
-
-    # P7
-    number_bone_7 = 7
-    bone_direction_7 = [1, 0, 0]
-    bone_length_7 = 0.107
-    joint_type_7 = "LOCAL_HINGE"
-    hinge_rotation_axis_7 = [1, 0, 0]
-    hinge_constraint_reference_axis_7 = [1, 0, 0]  # TODO
-    cw_rad_7 = 2.8973
-    cw_deg_7 = cw_rad_7 * 180 / math.pi
-    acw_rad_7 = 2.8973
-    acw_deg_7 = acw_rad_7 * 180 / math.pi
+    # # P4
+    # number_bone_4 = 4
+    # bone_direction_4 = [0, 0, -1]
+    # bone_length_4 = 0.088
+    # joint_type_4 = "LOCAL_HINGE"
+    # hinge_rotation_axis_4 = [0, 1, 0]
+    # hinge_constraint_reference_axis_4 = [0, 1, 1]  # TODO
+    # cw_rad_4 = -0.0698
+    # cw_deg_4 = cw_rad_4 * 180 / math.pi
+    # acw_rad_4 = 3.0718
+    # acw_deg_4 = acw_rad_4 * 180 / math.pi
+    #
+    # # P5
+    # number_bone_5 = 5
+    # bone_direction_5 = [1, 0, 0]
+    # bone_length_5 = 0.384
+    # joint_type_5 = "LOCAL_HINGE"
+    # hinge_rotation_axis_5 = [1, 0, 0]
+    # hinge_constraint_reference_axis_5 = [1, 0, 0]  # TODO
+    # cw_rad_5 = 2.8973
+    # cw_deg_5 = cw_rad_5 * 180 / math.pi
+    # acw_rad_5 = 2.8973
+    # acw_deg_5 = acw_rad_5 * 180 / math.pi
+    #
+    # # P6
+    # number_bone_6 = 6
+    # bone_direction_6 = [1, 0, 0]
+    # bone_length_6 = 0.088
+    # joint_type_6 = "LOCAL_HINGE"
+    # hinge_rotation_axis_6 = [0, 1, 0]
+    # hinge_constraint_reference_axis_6 = [1, 1, 0]  # TODO
+    # cw_rad_6 = 3.7525
+    # cw_deg_6 = cw_rad_6 * 180 / math.pi
+    # acw_rad_6 = 0.0175
+    # acw_deg_6 = acw_rad_6 * 180 / math.pi
+    #
+    # # P7
+    # number_bone_7 = 7
+    # bone_direction_7 = [1, 0, 0]
+    # bone_length_7 = 0.107
+    # joint_type_7 = "LOCAL_HINGE"
+    # hinge_rotation_axis_7 = [1, 0, 0]
+    # hinge_constraint_reference_axis_7 = [1, 0, 0]  # TODO
+    # cw_rad_7 = 2.8973
+    # cw_deg_7 = cw_rad_7 * 180 / math.pi
+    # acw_rad_7 = 2.8973
+    # acw_deg_7 = acw_rad_7 * 180 / math.pi
 
     ###### Solving!
 
@@ -136,17 +136,17 @@ def main():
 
     bone_direction_2 = CG3dVector(bone_direction_2[0], bone_direction_2[1], bone_direction_2[2])
     bone_direction_3 = CG3dVector(bone_direction_3[0], bone_direction_3[1], bone_direction_3[2])
-    bone_direction_4 = CG3dVector(bone_direction_4[0], bone_direction_4[1], bone_direction_4[2])
-    bone_direction_5 = CG3dVector(bone_direction_5[0], bone_direction_5[1], bone_direction_5[2])
-    bone_direction_6 = CG3dVector(bone_direction_6[0], bone_direction_6[1], bone_direction_6[2])
-    bone_direction_7 = CG3dVector(bone_direction_7[0], bone_direction_7[1], bone_direction_7[2])
+    # bone_direction_4 = CG3dVector(bone_direction_4[0], bone_direction_4[1], bone_direction_4[2])
+    # bone_direction_5 = CG3dVector(bone_direction_5[0], bone_direction_5[1], bone_direction_5[2])
+    # bone_direction_6 = CG3dVector(bone_direction_6[0], bone_direction_6[1], bone_direction_6[2])
+    # bone_direction_7 = CG3dVector(bone_direction_7[0], bone_direction_7[1], bone_direction_7[2])
 
     hinge_rotation_axis_2 = CG3dVector(hinge_rotation_axis_2[0], hinge_rotation_axis_2[1], hinge_rotation_axis_2[2])
     hinge_rotation_axis_3 = CG3dVector(hinge_rotation_axis_3[0], hinge_rotation_axis_3[1], hinge_rotation_axis_3[2])
-    hinge_rotation_axis_4 = CG3dVector(hinge_rotation_axis_4[0], hinge_rotation_axis_4[1], hinge_rotation_axis_4[2])
-    hinge_rotation_axis_5 = CG3dVector(hinge_rotation_axis_5[0], hinge_rotation_axis_5[1], hinge_rotation_axis_5[2])
-    hinge_rotation_axis_6 = CG3dVector(hinge_rotation_axis_6[0], hinge_rotation_axis_6[1], hinge_rotation_axis_6[2])
-    hinge_rotation_axis_7 = CG3dVector(hinge_rotation_axis_7[0], hinge_rotation_axis_7[1], hinge_rotation_axis_7[2])
+    # hinge_rotation_axis_4 = CG3dVector(hinge_rotation_axis_4[0], hinge_rotation_axis_4[1], hinge_rotation_axis_4[2])
+    # hinge_rotation_axis_5 = CG3dVector(hinge_rotation_axis_5[0], hinge_rotation_axis_5[1], hinge_rotation_axis_5[2])
+    # hinge_rotation_axis_6 = CG3dVector(hinge_rotation_axis_6[0], hinge_rotation_axis_6[1], hinge_rotation_axis_6[2])
+    # hinge_rotation_axis_7 = CG3dVector(hinge_rotation_axis_7[0], hinge_rotation_axis_7[1], hinge_rotation_axis_7[2])
 
     hinge_constraint_reference_axis_2 = CG3dVector(hinge_constraint_reference_axis_2[0],
                                                    hinge_constraint_reference_axis_2[1],
@@ -154,32 +154,32 @@ def main():
     hinge_constraint_reference_axis_3 = CG3dVector(hinge_constraint_reference_axis_3[0],
                                                    hinge_constraint_reference_axis_3[1],
                                                    hinge_constraint_reference_axis_3[2])
-    hinge_constraint_reference_axis_4 = CG3dVector(hinge_constraint_reference_axis_4[0],
-                                                   hinge_constraint_reference_axis_4[1],
-                                                   hinge_constraint_reference_axis_4[2])
-    hinge_constraint_reference_axis_5 = CG3dVector(hinge_constraint_reference_axis_5[0],
-                                                   hinge_constraint_reference_axis_5[1],
-                                                   hinge_constraint_reference_axis_5[2])
-    hinge_constraint_reference_axis_6 = CG3dVector(hinge_constraint_reference_axis_6[0],
-                                                   hinge_constraint_reference_axis_6[1],
-                                                   hinge_constraint_reference_axis_6[2])
-    hinge_constraint_reference_axis_7 = CG3dVector(hinge_constraint_reference_axis_7[0],
-                                                   hinge_constraint_reference_axis_7[1],
-                                                   hinge_constraint_reference_axis_7[2])
+    # hinge_constraint_reference_axis_4 = CG3dVector(hinge_constraint_reference_axis_4[0],
+    #                                                hinge_constraint_reference_axis_4[1],
+    #                                                hinge_constraint_reference_axis_4[2])
+    # hinge_constraint_reference_axis_5 = CG3dVector(hinge_constraint_reference_axis_5[0],
+    #                                                hinge_constraint_reference_axis_5[1],
+    #                                                hinge_constraint_reference_axis_5[2])
+    # hinge_constraint_reference_axis_6 = CG3dVector(hinge_constraint_reference_axis_6[0],
+    #                                                hinge_constraint_reference_axis_6[1],
+    #                                                hinge_constraint_reference_axis_6[2])
+    # hinge_constraint_reference_axis_7 = CG3dVector(hinge_constraint_reference_axis_7[0],
+    #                                                hinge_constraint_reference_axis_7[1],
+    #                                                hinge_constraint_reference_axis_7[2])
 
     # for i in range(1, number_bone + 1):
     m_chain.add_consecutive_hinged_bone(bone_direction_2, bone_length_2, joint_type_2, hinge_rotation_axis_2, cw_deg_2,
                                         acw_deg_2, hinge_constraint_reference_axis_2)
     m_chain.add_consecutive_hinged_bone(bone_direction_3, bone_length_3, joint_type_3, hinge_rotation_axis_3, cw_deg_3,
                                         acw_deg_3, hinge_constraint_reference_axis_3)
-    m_chain.add_consecutive_hinged_bone(bone_direction_4, bone_length_4, joint_type_4, hinge_rotation_axis_4, cw_deg_4,
-                                        acw_deg_4, hinge_constraint_reference_axis_4)
-    m_chain.add_consecutive_hinged_bone(bone_direction_5, bone_length_5, joint_type_5, hinge_rotation_axis_5, cw_deg_5,
-                                        acw_deg_5, hinge_constraint_reference_axis_5)
-    m_chain.add_consecutive_hinged_bone(bone_direction_6, bone_length_6, joint_type_6, hinge_rotation_axis_6, cw_deg_6,
-                                        acw_deg_6, hinge_constraint_reference_axis_6)
-    m_chain.add_consecutive_hinged_bone(bone_direction_7, bone_length_7, joint_type_7, hinge_rotation_axis_7, cw_deg_7,
-                                        acw_deg_7, hinge_constraint_reference_axis_7)
+    # m_chain.add_consecutive_hinged_bone(bone_direction_4, bone_length_4, joint_type_4, hinge_rotation_axis_4, cw_deg_4,
+    #                                     acw_deg_4, hinge_constraint_reference_axis_4)
+    # m_chain.add_consecutive_hinged_bone(bone_direction_5, bone_length_5, joint_type_5, hinge_rotation_axis_5, cw_deg_5,
+    #                                     acw_deg_5, hinge_constraint_reference_axis_5)
+    # m_chain.add_consecutive_hinged_bone(bone_direction_6, bone_length_6, joint_type_6, hinge_rotation_axis_6, cw_deg_6,
+    #                                     acw_deg_6, hinge_constraint_reference_axis_6)
+    # m_chain.add_consecutive_hinged_bone(bone_direction_7, bone_length_7, joint_type_7, hinge_rotation_axis_7, cw_deg_7,
+    #                                     acw_deg_7, hinge_constraint_reference_axis_7)
 
     m_chain.set_target(target)
     m_chain.solve_fabrik_ik()
