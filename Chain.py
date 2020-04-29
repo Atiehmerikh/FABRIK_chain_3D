@@ -234,8 +234,9 @@ class Chain3d:
 
             # if it is NOT end-effector:
             if count != self.chain_length - 1:
-                outer_bone_outer_to_inner_uv = Util.negated(self.get_bone(count + 1).get_direction_uv())
-                this_bone_outer_to_inner_uv = Util.negated(self.get_bone(count).get_direction_uv())
+                outer_bone_outer_to_inner_uv = Util.normalization(
+                    Util.negated(self.get_bone(count + 1).get_direction_uv()))
+                this_bone_outer_to_inner_uv = Util.normalization(Util.negated(self.get_bone(count).get_direction_uv()))
 
                 if this_bone_joint_type == "BALL":
                     # Constrain to relative angle between this bone and the outer bone
@@ -284,7 +285,7 @@ class Chain3d:
             else:
                 # if it is the end effector bone:
                 self.get_bone(count).set_end_point(target)
-                this_bone_outer_to_inner_uv = Util.negated(self.get_bone(count).get_direction_uv())
+                this_bone_outer_to_inner_uv = Util.normalization(Util.negated(self.get_bone(count).get_direction_uv()))
                 if this_bone_joint_type == "BALL":
                     break
                 elif this_bone_joint_type == "GLOBAL_HINGE":
@@ -318,8 +319,8 @@ class Chain3d:
             this_bone_length = self.get_bone(count).get_length()
             # if it is NOT base bone:
             if count != 0:
-                this_bone_inner_to_outer_uv = self.get_bone(count).get_direction_uv()
-                previous_bone_inner_to_outer_uv = self.get_bone(count - 1).get_direction_uv()
+                this_bone_inner_to_outer_uv = Util.normalization(self.get_bone(count).get_direction_uv())
+                previous_bone_inner_to_outer_uv = Util.normalization(self.get_bone(count - 1).get_direction_uv())
                 this_bone_joint_type = self.get_bone(count).get_joint_type()
 
                 if this_bone_joint_type == "BALL":
@@ -359,14 +360,14 @@ class Chain3d:
                         # or axclockwise rotation as required
 
                         if signed_angle_degs > acw_constraint_degs:
-                            this_bone_inner_to_outer_uv = Util.rotate_about_axis(hinge_reference_axis,
-                                                                                 acw_constraint_degs,
-                                                                                 hinge_rotation_axis).normalization()
+                            this_bone_inner_to_outer_uv = Mat.rotate_about_axis(hinge_reference_axis,
+                                                                                acw_constraint_degs,
+                                                                                hinge_rotation_axis).normalization()
 
                         elif signed_angle_degs < cw_constraint_degs:
-                            this_bone_inner_to_outer_uv = Util.rotate_about_axis(hinge_reference_axis,
-                                                                                 cw_constraint_degs,
-                                                                                 hinge_rotation_axis).normalization()
+                            this_bone_inner_to_outer_uv = Util.normalization(Mat.rotate_about_axis(hinge_reference_axis,
+                                                                                                   cw_constraint_degs,
+                                                                                                   hinge_rotation_axis))
 
                 elif this_bone_joint_type == "LOCAL_HINGE":
                     # transform hinge rotation axis to be relative to the previous bone in chain
@@ -422,7 +423,7 @@ class Chain3d:
             # if it is base bone
             else:
                 self.get_bone(count).set_start_point = self.fixed_base_location
-                this_bone_inner_to_outer_uv = self.get_bone(count).get_direction_uv()
+                this_bone_inner_to_outer_uv = Util.normalization(self.get_bone(count).get_direction_uv())
 
                 if self.base_bone_constraint_type == "NONE":
                     #
@@ -490,24 +491,29 @@ class Chain3d:
                         self.get_bone(count + 1).set_start_point(new_end_location)
 
     def solve_fabrik_ik(self):
-
+        dist_base_to_target = Util.get_distance_between(self.get_bone(0).get_start_point(), self.target_position)
         self.draw_chain()
-        if self.chain.__len__() == 0:
-            raise Exception("It makes no sense to solve an IK chain with zero bones.")
+        if dist_base_to_target <= self.get_chain_length():
+            if self.get_chain_length == 0:
+                raise Exception("It makes no sense to solve an IK chain with zero bones.")
 
-        dist_to_target = Util.get_distance_between(self.get_bone(self.chain_length - 1).get_end_point(),
-                                                   self.target_position)
-        while dist_to_target > self.get_solve_distance_threshold():
-            self.forward(self.target_position)
-            self.backward()
-            dist_to_target = Util.get_distance_between(self.get_bone(self.get_chain_length() - 1).get_end_point(),
+            dist_to_target = Util.get_distance_between(self.get_bone(self.chain_length - 1).get_end_point(),
                                                        self.target_position)
 
-        self.draw_chain()
+            while dist_to_target > self.get_solve_distance_threshold():
+                self.forward(self.target_position)
+                self.backward()
+                dist_to_target = Util.get_distance_between(self.get_bone(self.get_chain_length() - 1).get_end_point(),
+                                                           self.target_position)
 
-        # after finding these joint position we can do anything with them.
-        # Here I calculate the joints_angle:
-        self.output_joint_angles()
+            self.draw_chain()
+
+            # after finding these joint position we can do anything with them.
+            # Here I calculate the joints_angle:
+            self.output_joint_angles()
+        else:
+            print("Target is so far! can't be reached")
+            return
 
     def vecotr_of_chains_bone(self):
         bone_vectors = []

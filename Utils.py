@@ -22,8 +22,12 @@ def get_distance_between(p1, p2):
 def normalization(vector):
     vector = CG3dVector(vector[0], vector[1], vector[2])
     l = math.sqrt(vector[0]**2+ vector[1]**2 + vector[2]**2)
-    normal_vector = CG3dVector(vector[0]/l, vector[1]/l, vector[2]/l)
-    return normal_vector
+    if l == 0:
+        raise Exception("target is too close")
+        return
+    else:
+        normal_vector = CG3dVector(vector[0]/l, vector[1]/l, vector[2]/l)
+        return normal_vector
 
 
 def project_on_to_plane(vector, plane_normal):

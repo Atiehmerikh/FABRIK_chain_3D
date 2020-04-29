@@ -9,7 +9,7 @@ def main():
     # 4 step of information entry for your chain
 
     # Step1 : Specify the target position which this IK solve the chain for that
-    default_target_position = [0.5, 0.5, 0.5]
+    default_target_position = [0.5,0.5,0.5]
 
     # Step2: Specify base bone of the chain
     base_bone_start_location = [0, 0, 0]
