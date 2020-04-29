@@ -46,6 +46,8 @@ class Draw:
             # end_loc = self.chain.get_bone(i).set_end_point()
             start_locations.append(start_loc)
             # end_locations.append(end_loc)
+        end_effector_bone = self.chain[len(self.chain)-1].end_point
+        start_locations.append(end_effector_bone)
         return start_locations
 
     def drawing(self):

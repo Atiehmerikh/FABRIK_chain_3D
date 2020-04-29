@@ -504,7 +504,7 @@ class Chain3d:
             dist_to_target = Util.get_distance_between(self.get_bone(self.get_chain_length() - 1).get_end_point(),
                                                        self.target_position)
 
-        # self.draw_chain()
+        self.draw_chain()
 
         # after finding these joint position we can do anything with them.
         # Here I calculate the joints_angle:
