@@ -9,7 +9,7 @@ def main():
     # 4 step of information entry for your chain
 
     # Step1 : Specify the target position which this IK solve the chain for that
-    default_target_position = [3,0.8,0]
+    default_target_position = [0.9, 0.8, 0.6]
 
     # Step2: Specify base bone of the chain
     base_bone_start_location = [0, 0, 0]
@@ -32,7 +32,9 @@ def main():
     acw_base_bone_constraint_rads = 2.8973
     acw_base_bone_constraint_degs = acw_base_bone_constraint_rads * 180 / math.pi
     base_bone_hinge_rotation_axis = [0, 0, 1]
-    base_bone_hinge_reference_axis = [0, 1, 1]#TODO
+    base_bone_hinge_reference_axis = [0, 0, 1]  # TODO
+    # here you can specify that the base bone is fixed or can rotate(yes = 1/ No =0)
+    is_base_bone_fixed = 1
 
     # Step4: adding consecutive bone to the chain
     # number of bones excluding base bone!
@@ -121,7 +123,7 @@ def main():
     m_bone = Bone.Bone3D(base_bone_start_location, base_bone_direction, base_bone_length)
 
     # create a new chain
-    m_chain = Chain.Chain3d()
+    m_chain = Chain.Chain3d(is_base_bone_fixed)
     # adding the new base bone to the chain
     m_chain.add_bone(m_bone)
 
@@ -183,7 +185,6 @@ def main():
 
     m_chain.set_target(target)
     m_chain.solve_fabrik_ik()
-
 
 
 if __name__ == "__main__":
