@@ -579,6 +579,8 @@ class Chain3d:
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         ax.plot3D(x_prime, y_prime, z_prime, color='red')
+        ax.scatter3D(self.target_position[0],self.target_position[1],self.target_position[2])
+        ax.scatter3D(x_prime, y_prime, z_prime)
 
         for i in range(len(x_prime) - 1):
             print('length bone ' + str(i + 1))

@@ -62,15 +62,14 @@ def get_angle_limited_uv(vector_to_limit, vector_base_line, angle_limit_degs):
 
 def create_rotation_matrix(reference_direction):
     if reference_direction[1] == 1.0:
-        reference_direction[1] -= 0.0001
-        return Mat.normalization(reference_direction)
+        reference_direction[1] -= 0.001
+        reference_direction = Mat.normalization(reference_direction)
 
     m20 = reference_direction[0]
     m21 = reference_direction[1]
     m22 = reference_direction[2]
     cross = np.cross(reference_direction, [0, 1, 0])
-    l = math.sqrt(cross[0] ** 2 + cross[1] ** 2 + cross[2] ** 2)
-    x_dir = [cross[0] / l, cross[1] / l, cross[2] / l]
+    x_dir = Mat.normalization(cross)
     m00 = x_dir[0]
     m01 = x_dir[1]
     m02 = x_dir[2]

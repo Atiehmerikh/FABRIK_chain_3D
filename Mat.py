@@ -36,8 +36,5 @@ def rotate_about_axis(source, angle_degs, rotation_axis):
 
 def normalization(vector):
     l = math.sqrt(vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2)
-    if l == 0:
-        raise Exception("target is too close")
-    else:
-        normal_vector = [vector[0] / l, vector[1] / l, vector[2] / l]
-        return normal_vector
+    normal_vector = [vector[0] / l, vector[1] / l, vector[2] / l]
+    return normal_vector
