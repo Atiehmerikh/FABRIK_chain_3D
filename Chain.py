@@ -557,13 +557,13 @@ class Chain3d:
         x_axis = [1, 0, 0]
 
         mag_0 = math.sqrt(bone_vectors[0][0] ** 2 + bone_vectors[0][1] ** 2 + bone_vectors[0][2] ** 2)
-        deg.append(math.acos(np.inner(bone_vectors[0], x_axis) / mag_0))
+        deg.append(math.acos(np.inner(bone_vectors[0], x_axis) / mag_0)* 180/math.pi)
         for i in range(1, self.get_chain_length()):
             mag_i = math.sqrt(bone_vectors[i][0] ** 2 + bone_vectors[i][1] ** 2 + bone_vectors[i][2] ** 2)
             mag_i_minus = math.sqrt(
                 bone_vectors[i - 1][0] ** 2 + bone_vectors[i - 1][1] ** 2 + bone_vectors[i - 1][2] ** 2)
             deg.append(math.acos(np.inner(bone_vectors[i], bone_vectors[i - 1]) /
-                                 (mag_i * mag_i_minus)))
+                                 (mag_i * mag_i_minus))* 180/math.pi)
         f = open("angles.txt", "w")
         for i in range(0, len(deg)):
             f.write(str(deg[i]))
