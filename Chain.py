@@ -1,6 +1,4 @@
 import math
-from pycg3d.cg3d_point import CG3dPoint
-from pycg3d.cg3d_point import CG3dVector
 import Joint as Joint
 import Bone as Bone
 import Utils as Util
@@ -12,16 +10,16 @@ import matplotlib.pyplot as plt
 class Chain3d:
     def __init__(self, is_base_bone_fixed):
         self.is_base_bone_fixed = is_base_bone_fixed
-        self.target_position = CG3dPoint(1, 0, 0)
+        self.target_position = [1, 0, 0]
         self.chain = []
         self.solve_distance_threshold = 0.01
         self.max_iteration_attempts = 20
         self.min_iteration_change = 0.01
-        self.fixed_base_location = CG3dPoint(0, 0, 0)
-        self.fixed_base_location_2 = CG3dPoint(0, 0, 0)
+        self.fixed_base_location = [0, 0, 0]
+        self.fixed_base_location_2 = [0, 0, 0]
         self.chain_length = 0
         self.base_bone_constraint_type = "NONE"
-        self.base_bone_constraint_uv = CG3dPoint(0, 0, 0)
+        self.base_bone_constraint_uv = [0, 0, 0]
         self.current_solve_distance = 100000000
 
     def update_chain_length(self):
@@ -33,29 +31,31 @@ class Chain3d:
         self.chain.append(bone)
         # if it is the base bone:
         if len(self.chain) == 1:
-            self.fixed_base_location = bone.get_start_point
+            self.fixed_base_location = bone.get_start_point()
             if self.is_base_bone_fixed == 1:
                 self.fixed_base_location_2 = bone.get_end_point()
-            self.base_bone_constraint_uv = bone.get_direction_uv
+            self.base_bone_constraint_uv = bone.get_direction_uv()
 
         self.update_chain_length()
 
     def add_consecutive_bone(self, bone):
         direction = bone.get_direction_uv()
-        length = bone.get_live_length()
-        if self.chain.__len__() != 0:
+        length = bone.get_length()
+        if self.get_chain_length() != 0:
             prev_bone_end = self.get_bone(self.chain_length - 1).get_end_point()
             bone.set_start_point(prev_bone_end)
-            bone.set_end_point(prev_bone_end + direction * length)
+            scale = np.dot(direction, length)
+            end_point = [x + y for x, y in zip(prev_bone_end, scale)]
+            bone.set_end_point(end_point)
             self.add_bone(bone)
         else:
             raise Exception(
                 "You cannot add the base bone to a chain using this method as it does not provide a start location.")
 
     def add_consecutive_freely_rotating_hinged_bone(self, bone_direction_uv, bone_length, joint_type,
-                                                    hinge_rotation_axis):
+                                                    hinge_rotation_axis, is_fixed):
         self.add_consecutive_hinged_bone(bone_direction_uv, bone_length, joint_type, hinge_rotation_axis, 180, 180,
-                                         Util.gen_perpendicular_vector_quick(hinge_rotation_axis))
+                                         Util.gen_perpendicular_vector_quick(hinge_rotation_axis, is_fixed))
 
     def add_consecutive_hinged_bone(self, bone_direction_uv, bone_length, joint_type, hinge_rotation_axis,
                                     clockwise_degs,
@@ -66,7 +66,9 @@ class Chain3d:
         bone_direction_uv = Util.normalization(bone_direction_uv)
         hinge_rotation_axis = Util.normalization(hinge_rotation_axis)
         prev_bone_end = self.get_bone(self.chain_length - 1).get_end_point()
-        m_bone = Bone.Bone3D(prev_bone_end, bone_direction_uv, bone_length, is_bone_fixed)
+        scale_direction = [i * bone_length for i in bone_direction_uv]
+        bone_end_location = [x + y for x, y in zip(prev_bone_end, scale_direction)]
+        m_bone = Bone.Bone3D(prev_bone_end, bone_end_location, bone_direction_uv, bone_length, is_bone_fixed)
         m_joint = Joint.Joint3D()
         if joint_type == "GLOBAL_HINGE":
             m_joint.set_as_global_hinge(hinge_rotation_axis, clockwise_degs, anticlockwise_deg, hinge_reference_axis)
@@ -81,7 +83,7 @@ class Chain3d:
     def add_consecutive_rotor_constrained_bone(self, bone_direction_uv, bone_length, constraint_angle_degs):
         if self.chain.__len__() == 0:
             raise Exception("Add a basebone before attempting to add consectuive bones.")
-        m_bone = Bone.Bone3D(self.get_bone(self.chain_length - 1).get_end_point(), bone_direction_uv, bone_length)
+        m_bone = Bone.Bone3D(self.get_bone(self.chain_length - 1).get_end_point(), bone_direction_uv, bone_length, 0)
         m_bone.set_ball_joint_constraint_degs(constraint_angle_degs)
         self.add_bone(m_bone)
 
@@ -146,13 +148,13 @@ class Chain3d:
         if len(self.chain) == 0:
             raise Exception("Chain must contain a base bone before we can specify the base bone constraint type.")
 
-        if hinge_rotation_axis.length() <= 0.0:
+        if Util.length_calc(hinge_rotation_axis) <= 0.0:
             raise Exception("Constraint axis cannot be zero.")
 
-        if hinge_reference_axis.length() <= 0.0:
+        if Util.length_calc(hinge_reference_axis) <= 0.0:
             raise Exception("Constraint axis cannot be zero.")
 
-        if (hinge_rotation_axis * hinge_reference_axis) == 0:
+        if np.inner(hinge_rotation_axis, hinge_reference_axis) == 0:
             raise Exception(
                 "The hinge reference-axis must be in the plane of the hinge rotation axis, i.e"
                 ", they must not be perpendicular")
@@ -231,8 +233,8 @@ class Chain3d:
         self.target_position = target
 
     def forward(self, target):
-        # Forward Pass: from end effector to basebone
-        for count in range(self.chain_length - 1, 0, -1):
+        # Forward Pass: from end effector to base bone
+        for count in range(self.chain_length - 1, -1, -1):
             this_bone_length = self.get_bone(count).get_length()
             this_bone_joint_type = self.get_bone(count).get_joint_type()
             this_bone_fixed = self.get_bone(count).is_fix_bone()
@@ -281,12 +283,9 @@ class Chain3d:
 
                 # At this stage we have an outer to inner unit vector for this bone which is whithin this constraint
                 # so we can find the start location of this joint
-                scale = CG3dVector(this_bone_outer_to_inner_uv[0] * this_bone_length,
-                                   this_bone_outer_to_inner_uv[1] * this_bone_length,
-                                   this_bone_outer_to_inner_uv[2] * this_bone_length)
+                scale = np.dot(this_bone_outer_to_inner_uv, this_bone_length)
                 end_point = self.get_bone(count).get_end_point()
-                new_start_location = CG3dPoint(end_point[0] + scale[0], end_point[1] + scale[1],
-                                               end_point[2] + scale[2])
+                new_start_location = [x + y for x, y in zip(end_point, scale)]
                 self.get_bone(count).set_start_point(new_start_location)
 
                 # if it isn't the base bone we set end point of the previous bone to new start location of this bone
@@ -319,24 +318,25 @@ class Chain3d:
                         relative_hinge_rotation_axis = Util.normalization(
                             Util.times(m, self.get_bone(count).get_joint().get_hinge_rotation_axis()))
                         # project this bone outer to inner vector to the plane described by relative hinge rotation axis
-                        this_bone_outer_to_inner_uv = Util.project_on_to_plane(this_bone_outer_to_inner_uv,
-                                                                               relative_hinge_rotation_axis)
+                        this_bone_outer_to_inner_uv = Util.normalization(
+                            Util.project_on_to_plane(this_bone_outer_to_inner_uv,
+                                                     relative_hinge_rotation_axis))
 
                 # At this stage we have an outer to inner unit vector for this bone which is whithin this constraint
                 # so we can find the start location of this joint
-                scale = CG3dVector(this_bone_outer_to_inner_uv[0] * this_bone_length,
-                                   this_bone_outer_to_inner_uv[1] * this_bone_length,
-                                   this_bone_outer_to_inner_uv[2] * this_bone_length)
-                new_start_location = CG3dPoint(target[0] + scale[0], target[1] + scale[1], target[2] + scale[2])
+                scale = np.dot(this_bone_outer_to_inner_uv, this_bone_length)
+                new_start_location = [x + y for x, y in zip(target, scale)]
                 self.get_bone(count).set_start_point(new_start_location)
 
                 # if it isn't the base bone we set end point of the previous bone to new start location of this bone
                 if count > 0:
-                    self.get_bone(count - 1).set_end_point(new_start_location)
+                    prev_end_location = [new_start_location[0], new_start_location[1], new_start_location[2]]
+                    self.get_bone(count - 1).set_end_point(prev_end_location)
 
     def backward(self):
-        for count in range(0, 1, self.chain_length):
+        for count in range(self.chain_length):
             this_bone_length = self.get_bone(count).get_length()
+
             # if it is NOT base bone:
             if count != 0:
                 previous_bone_inner_to_outer_uv = Util.normalization(self.get_bone(count - 1).get_direction_uv())
@@ -374,7 +374,7 @@ class Chain3d:
                                 -1 * self.get_bone(count).get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.001 and abs(
                             acw_constraint_degs - (
                                     -self.get_bone(count).get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.001:
-                            hinge_reference_axis = self.get_bone(count).get_hinge_reference_axis()
+                            hinge_reference_axis = self.get_bone(count).get_joint().get_hinge_reference_axis()
                             # get the signed angle(about the hinge rotation axis)
                             # between the hinge reference axis and hinge rotation aligned bone uv
                             # ACW rotation is positive and cw rotation is negative
@@ -399,7 +399,8 @@ class Chain3d:
 
                     elif this_bone_joint_type == "LOCAL_HINGE":
                         # transform hinge rotation axis to be relative to the previous bone in chain
-                        hinge_rotation_axis = self.get_bone(count).get_hinge_rotation_axis()
+                        hinge_rotation_axis = Util.normalization(
+                            self.get_bone(count).get_joint().get_hinge_rotation_axis())
                         # constructing a rotation matrix based on the previous bone's direction
                         m = Util.create_rotation_matrix(previous_bone_inner_to_outer_uv)
                         # transform the hinge rotation axis into the previous bone's frame of reference
@@ -410,8 +411,8 @@ class Chain3d:
                             Util.project_on_to_plane(this_bone_inner_to_outer_uv,
                                                      relative_hinge_rotation_axis))
                         # constrain rotation about reference axis if required
-                        cw_constraint_degs = -self.get_bone(count).get_hinge_clockwise_constraint_degs()
-                        acw_constraint_degs = self.get_bone(count).get_hinge_anticlockwise_constraint_degs()
+                        cw_constraint_degs = -self.get_bone(count).get_joint().get_hinge_clockwise_constraint_degs()
+                        acw_constraint_degs = self.get_bone(count).get_joint().get_hinge_anticlockwise_constraint_degs()
 
                         if abs(cw_constraint_degs - (
                                 -self.get_bone(count).get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.001 and abs(
@@ -419,7 +420,7 @@ class Chain3d:
                                     -self.get_bone(count).get_joint().get_MAX_CONSTRAINT_ANGLE_DEGS())) > 0.001:
                             # calc the reference axis in local space
                             relative_hinge_reference_axis = Util.normalization(
-                                Util.times(m, self.get_bone(count).get_hinge_reference_axis))
+                                Util.times(m, self.get_bone(count).get_joint().get_reference_axis()))
                             # get the signed angle(about the hinge rotation axis) between the hinge reference axis
                             # and hinge rotation aligned bone uv
                             # ACW rotation is positive and cw rotation is negative
@@ -442,22 +443,20 @@ class Chain3d:
                                                           cw_constraint_degs,
                                                           relative_hinge_rotation_axis))
 
-                scale = CG3dVector(this_bone_inner_to_outer_uv[0] * this_bone_length,
-                                   this_bone_inner_to_outer_uv[1] * this_bone_length,
-                                   this_bone_inner_to_outer_uv[2] * this_bone_length)
+                scale = np.dot(this_bone_inner_to_outer_uv, this_bone_length)
                 bone_start_loc = self.get_bone(count).get_start_point()
-                new_end_location = CG3dPoint(bone_start_loc[0] + scale[0], bone_start_loc[1] + scale[1],
-                                             bone_start_loc[2] + scale[2])
-                self.get_bone(count).set_start_point(new_end_location)
+                new_end_location = [x + y for x, y in zip(bone_start_loc, scale)]
+                self.get_bone(count).set_end_point(new_end_location)
 
                 # if it is not end effector bone
                 if count < self.chain_length - 1:
                     self.get_bone(count + 1).set_start_point(new_end_location)
+
             # if it is base bone
             else:
-                self.get_bone(count).set_start_point = self.fixed_base_location
+                self.get_bone(count).set_start_point(self.fixed_base_location)
                 if self.is_base_bone_fixed == 1:
-                    self.get_bone(count).set_end_point = self.fixed_base_location_2
+                    self.get_bone(count).set_end_point(self.fixed_base_location_2)
                     # if more bone exists
                     if self.chain_length > 1:
                         self.get_bone(count + 1).set_start_point(self.fixed_base_location_2)
@@ -492,22 +491,21 @@ class Chain3d:
                                                                                    hinge_rotation_axis)
 
                             if signed_angle_degs > acw_constraint_degs:
-                                this_bone_inner_to_outer_uv = Util.normalization(Mat.rotate_about_axis(hinge_reference_axis,
-                                                                                    acw_constraint_degs,
-                                                                                    hinge_rotation_axis))
+                                this_bone_inner_to_outer_uv = Util.normalization(
+                                    Mat.rotate_about_axis(hinge_reference_axis,
+                                                          acw_constraint_degs,
+                                                          hinge_rotation_axis))
 
                             elif signed_angle_degs < cw_constraint_degs:
-                                this_bone_inner_to_outer_uv = Util.normalization(Mat.rotate_about_axis(hinge_reference_axis,
-                                                                                    cw_constraint_degs,
-                                                                                    hinge_rotation_axis))
+                                this_bone_inner_to_outer_uv = Util.normalization(
+                                    Mat.rotate_about_axis(hinge_reference_axis,
+                                                          cw_constraint_degs,
+                                                          hinge_rotation_axis))
 
-                    scale = CG3dVector(this_bone_inner_to_outer_uv[0] * this_bone_length,
-                                       this_bone_inner_to_outer_uv[1] * this_bone_length,
-                                       this_bone_inner_to_outer_uv[2] * this_bone_length)
+                    scale = np.dot(this_bone_inner_to_outer_uv, this_bone_length)
                     bone_start_loc = self.get_bone(count).get_start_point()
-                    new_end_location = CG3dPoint(bone_start_loc[0] + scale[0], bone_start_loc[1] + scale[1],
-                                                 bone_start_loc[2] + scale[2])
-                    self.get_bone(count).set_start_point(new_end_location)
+                    new_end_location = [x + y for x, y in zip(bone_start_loc, scale)]
+                    self.get_bone(count).set_end_point(new_end_location)
                     # if more bone exists
                     if self.chain_length > 1:
                         self.get_bone(count + 1).set_start_point(new_end_location)
@@ -525,11 +523,14 @@ class Chain3d:
             dist_to_target = Util.get_distance_between(self.get_bone(self.chain_length - 1).get_end_point(),
                                                        self.target_position)
 
-            while dist_to_target > self.get_solve_distance_threshold():
+            counter = 0
+            while dist_to_target > self.get_solve_distance_threshold() and counter < 20:
                 self.forward(self.target_position)
                 self.backward()
+
                 dist_to_target = Util.get_distance_between(self.get_bone(self.get_chain_length() - 1).get_end_point(),
                                                            self.target_position)
+                counter += 1
 
             self.draw_chain()
 
@@ -545,9 +546,7 @@ class Chain3d:
         for i in range(0, self.get_chain_length()):
             start_loc = self.get_bone(i).get_start_point()
             end_loc = self.get_bone(i).get_end_point()
-            bone_vector = CG3dVector(end_loc[0] - start_loc[0],
-                                     end_loc[1] - start_loc[1],
-                                     end_loc[2] - start_loc[2])
+            bone_vector = [x + y for x, y in zip(end_loc, np.dot(start_loc, -1))]
             bone_vectors.append(bone_vector)
         return bone_vectors
 
@@ -555,11 +554,16 @@ class Chain3d:
         deg = []
         bone_vectors = self.vecotr_of_chains_bone()
         # base bone angle with horizon x [1,0,0]
-        x_axis = CG3dVector(1, 0, 0)
-        deg.append(math.acos(bone_vectors[0] * x_axis / bone_vectors[0].length()))
+        x_axis = [1, 0, 0]
+
+        mag_0 = math.sqrt(bone_vectors[0][0] ** 2 + bone_vectors[0][1] ** 2 + bone_vectors[0][2] ** 2)
+        deg.append(math.acos(np.inner(bone_vectors[0], x_axis) / mag_0))
         for i in range(1, self.get_chain_length()):
-            deg.append(math.acos(bone_vectors[i] * bone_vectors[i - 1] /
-                                 (bone_vectors[i].length() * bone_vectors[i - 1].length())))
+            mag_i = math.sqrt(bone_vectors[i][0] ** 2 + bone_vectors[i][1] ** 2 + bone_vectors[i][2] ** 2)
+            mag_i_minus = math.sqrt(
+                bone_vectors[i - 1][0] ** 2 + bone_vectors[i - 1][1] ** 2 + bone_vectors[i - 1][2] ** 2)
+            deg.append(math.acos(np.inner(bone_vectors[i], bone_vectors[i - 1]) /
+                                 (mag_i * mag_i_minus)))
         f = open("angles.txt", "w")
         for i in range(0, len(deg)):
             f.write(str(deg[i]))
@@ -575,6 +579,13 @@ class Chain3d:
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         ax.plot3D(x_prime, y_prime, z_prime, color='red')
+
+        for i in range(len(x_prime) - 1):
+            print('length bone ' + str(i + 1))
+            x = x_prime[i] - x_prime[i + 1]
+            y = y_prime[i] - y_prime[i + 1]
+            z = z_prime[i] - z_prime[i + 1]
+            print("%.2f" % round(math.sqrt(x * x + y * y + z * z), 2))
         plt.show()
 
     def set_axes_radius(self, ax, origin, radius):
@@ -616,6 +627,6 @@ class Chain3d:
             # end_loc = self.chain.get_bone(i).set_end_point()
             start_locations.append(start_loc)
             # end_locations.append(end_loc)
-        end_effector_bone = self.chain[len(self.chain) - 1].end_point
+        end_effector_bone = self.chain[self.get_chain_length() - 1].end_point
         start_locations.append(end_effector_bone)
         return start_locations

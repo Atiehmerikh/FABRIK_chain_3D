@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="147ea7fb-2f72-4cd1-9c7c-3b579c3573e9" name="Default Changelist" comment="" />
+    <list default="true" id="3c367009-db5d-434c-bbcb-22f15e896f4d" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1aolSygYuGpTgGSrqv3Ao3zWkbG" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="1bG0DvqBH7kbWS850CM280jdx51" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -26,7 +18,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Main.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
@@ -37,33 +29,12 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\PHD\Ergonomics\FABRIK-chain-3d\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\atmer\AppData\Local\Programs\Python\Python38-32\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="FABRIK-chain-3d" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\PHD\Ergonomics\FABRIK-chain-3d\venv\Scripts\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -78,99 +49,74 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="147ea7fb-2f72-4cd1-9c7c-3b579c3573e9" name="Default Changelist" comment="" />
-      <created>1587409830220</created>
+      <changelist id="3c367009-db5d-434c-bbcb-22f15e896f4d" name="Default Changelist" comment="" />
+      <created>1588243007213</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1587409830220</updated>
+      <updated>1588243007213</updated>
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587737365483">
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588243140379">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1587737365483" />
-    <state x="373" y="151" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1587414663445">
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1588243140379" />
+    <state x="203" y="102" key="#xdebugger.evaluate" timestamp="1588249227463">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="373" y="151" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680@0.0.1280.680" timestamp="1587414663445" />
-    <state x="371" y="91" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1588151651214">
+    <state x="203" y="102" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1588249227463" />
+    <state width="716" height="438" key="DebuggerActiveHint" timestamp="1588244787038">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="371" y="91" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680@0.0.1280.680" timestamp="1588151651214" />
-    <state x="387" y="257" key="#com.jetbrains.python.refactoring.move.PyMakeFunctionTopLevelDialog" timestamp="1587731616329">
+    <state width="716" height="438" key="DebuggerActiveHint/0.0.1280.680@0.0.1280.680" timestamp="1588244787038" />
+    <state x="376" y="105" key="EnvironmentVariablesDialog" timestamp="1588243127703">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="387" y="257" key="#com.jetbrains.python.refactoring.move.PyMakeFunctionTopLevelDialog/0.0.1280.680@0.0.1280.680" timestamp="1587731616329" />
-    <state x="249" y="0" width="820" height="680" key="#xdebugger.evaluate" timestamp="1588173841354">
+    <state x="376" y="105" key="EnvironmentVariablesDialog/0.0.1280.680@0.0.1280.680" timestamp="1588243127703" />
+    <state x="421" y="98" key="FileChooserDialogImpl" timestamp="1588243046845">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="249" y="0" width="820" height="680" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1588173841354" />
-    <state x="421" y="98" key="FileChooserDialogImpl" timestamp="1587428088583">
+    <state x="421" y="98" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1588243046845" />
+    <state width="1259" height="300" key="GridCell.Tab.0.bottom" timestamp="1588252688775">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="98" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1587428088583" />
-    <state width="1259" height="208" key="GridCell.Tab.0.bottom" timestamp="1588181752762">
+    <state width="1259" height="300" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588252688775" />
+    <state width="1259" height="300" key="GridCell.Tab.0.center" timestamp="1588252688774">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="208" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588181752762" />
-    <state width="1259" height="208" key="GridCell.Tab.0.center" timestamp="1588181752762">
+    <state width="1259" height="300" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1588252688774" />
+    <state width="1259" height="300" key="GridCell.Tab.0.left" timestamp="1588252688774">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="208" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1588181752762" />
-    <state width="1259" height="208" key="GridCell.Tab.0.left" timestamp="1588181752762">
+    <state width="1259" height="300" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1588252688774" />
+    <state width="1259" height="300" key="GridCell.Tab.0.right" timestamp="1588252688775">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="208" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1588181752762" />
-    <state width="1259" height="208" key="GridCell.Tab.0.right" timestamp="1588181752762">
+    <state width="1259" height="300" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1588252688775" />
+    <state width="1259" height="77" key="GridCell.Tab.1.bottom" timestamp="1588250365703">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="208" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1588181752762" />
-    <state width="1259" height="57" key="GridCell.Tab.1.bottom" timestamp="1588173942169">
+    <state width="1259" height="77" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588250365703" />
+    <state width="1259" height="77" key="GridCell.Tab.1.center" timestamp="1588250365703">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="57" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588173942169" />
-    <state width="1259" height="57" key="GridCell.Tab.1.center" timestamp="1588173942169">
+    <state width="1259" height="77" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1588250365703" />
+    <state width="1259" height="77" key="GridCell.Tab.1.left" timestamp="1588250365703">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="57" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1588173942169" />
-    <state width="1259" height="57" key="GridCell.Tab.1.left" timestamp="1588173942169">
+    <state width="1259" height="77" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1588250365703" />
+    <state width="1259" height="77" key="GridCell.Tab.1.right" timestamp="1588250365703">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="57" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1588173942169" />
-    <state width="1259" height="57" key="GridCell.Tab.1.right" timestamp="1588173942169">
+    <state width="1259" height="77" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1588250365703" />
+    <state x="144" y="0" key="SettingsEditor" timestamp="1588243336872">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="57" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1588173942169" />
-    <state x="144" y="0" key="SettingsEditor" timestamp="1587428797646">
+    <state x="144" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1588243336872" />
+    <state x="349" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1588243025469">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="144" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1587428797646" />
-    <state x="349" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1588159475125">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="349" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1588159475125" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Chain.py</url>
-          <line>602</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Chain.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Chain.py</url>
-          <line>463</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="349" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1588243025469" />
   </component>
 </project>

@@ -1,11 +1,7 @@
-from pycg3d.cg3d_point import CG3dPoint
-from pycg3d.cg3d_point import CG3dVector
 import math
 
 
 def rotate_about_axis(source, angle_degs, rotation_axis):
-    rotation_axis = CG3dVector(rotation_axis[0], rotation_axis[1], rotation_axis[2])
-    source = CG3dVector(source[0], source[1], source[2])
     sin_theta = math.sin(angle_degs * math.pi / 180)
     cos_theta = math.cos(angle_degs * math.pi / 180)
     one_minus_cos_theta = 1.0 - cos_theta
@@ -35,6 +31,13 @@ def rotate_about_axis(source, angle_degs, rotation_axis):
         for j in range(0, 3):
             result_row += rotation_matrix[i][j] * source[j]
         result_times.append(result_row)
-    rotated_vector = CG3dVector(result_times[0], result_times[1], result_times[2])
-    return rotated_vector
+    return result_times
 
+
+def normalization(vector):
+    l = math.sqrt(vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2)
+    if l == 0:
+        raise Exception("target is too close")
+    else:
+        normal_vector = [vector[0] / l, vector[1] / l, vector[2] / l]
+        return normal_vector

@@ -1,5 +1,5 @@
-from pycg3d.cg3d_point import CG3dVector
 import Utils as Util
+import numpy as np
 
 
 class Joint3D:
@@ -11,8 +11,8 @@ class Joint3D:
         self.hinge_clockwise_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
         self.hinge_anticlockwise_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
         self.joint_type = "BALL"
-        self.rotation_axis_uv = CG3dVector(0, 0, 0)
-        self.reference_axis_uv = CG3dVector(0, 0, 0)
+        self.rotation_axis_uv = [0, 0, 0]
+        self.reference_axis_uv = [0, 0, 0]
 
     def get_MAX_CONSTRAINT_ANGLE_DEGS(self):
         return self.MAX_CONSTRAINT_ANGLE_DEGS
@@ -27,7 +27,7 @@ class Joint3D:
                     self.MAX_CONSTRAINT_ANGLE_DEGS) + " inclusive.")
 
     def validate_axis(self, axis):
-        if axis.length() <= 0:
+        if Util.length_calc(axis) <= 0:
             raise Exception("Provided axis is illegal - it has a magnitude of zero.")
 
     def set_as_ball_joint(self, constraint_angle_degs):
@@ -37,8 +37,8 @@ class Joint3D:
 
     def set_hinge(self, joint_type, rotation_axis, clockwise_constraint_degs, anticlockwise_constraint_degs,
                   reference_axis):
-        dot = rotation_axis * reference_axis
-        if Util.approximately_equal(dot , 0, 0.01):
+        dot = np.inner(rotation_axis , reference_axis)
+        if Util.approximately_equal(dot,0.0, 0.01):
             angle_degs = Util.get_angle_between_degs(rotation_axis, reference_axis)
             raise Exception(
                 "The reference axis must be in the plane of the hinge rotation axis - angle between them is currently: " + str(
