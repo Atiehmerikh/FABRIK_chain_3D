@@ -31,10 +31,6 @@ class Bone3D:
     def get_start_point(self):
         return self.start_point
 
-    # def calculate_end(self, direction_uv):
-    #     scale_direction = [i * self.length for i in direction_uv]
-    #     return [x + y for x, y in zip(self.start_point, scale_direction)]
-
     def set_end_point(self, end):
         self.end_point = end
 
@@ -46,9 +42,6 @@ class Bone3D:
 
     def get_joint(self):
         return self.joint
-
-    def get_joint_type(self):
-        return self.joint.get_joint_type()
 
     def set_hinge_joint_clockwise_constraint_degs(self, angle_degs):
         self.joint.set_hinge_clockwise_constraint_degs(angle_degs)
@@ -72,7 +65,7 @@ class Bone3D:
 
     def get_direction_uv(self):
         start_point = [i * -1 for i in self.start_point]
-        return [x + y for x, y in zip(self.end_point, start_point)]
+        return Util.normalization([x + y for x, y in zip(self.end_point, start_point)])
 
     def get_global_pitch_degs(self):
         bone_uv = self.get_direction_uv()

@@ -3,6 +3,17 @@ import Mat
 import numpy as np
 
 
+def validate_direction(v1):
+    length = math.sqrt(v1[0] ** 2 + v1[1] ** 2 + v1[2] ** 2)
+    if length == 0:
+        raise Exception("Length of vector cannot be zero.")
+
+
+def validate_length(a):
+    if a <= 0:
+        raise Exception("Length must be a greater than or equal to zero.")
+
+
 def get_angle_between_degs(v1, v2):
     len_v1 = math.sqrt(v1[0] ** 2 + v1[1] ** 2 + v1[2] ** 2)
     len_v2 = math.sqrt(v2[0] ** 2 + v2[1] ** 2 + v2[2] ** 2)
@@ -13,16 +24,21 @@ def get_angle_between_degs(v1, v2):
 
 def get_distance_between(p1, p2):
     result = [x + y for x, y in zip(p2, np.dot(p1, -1))]
-    return math.sqrt(result[0]**2+result[1]**2+result[2]**2)
+    return math.sqrt(result[0] ** 2 + result[1] ** 2 + result[2] ** 2)
 
 
 def normalization(vector):
     l = math.sqrt(vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2)
     if l == 0:
-        raise Exception("target is too close")
-    else:
-        normal_vector = [vector[0] / l, vector[1] / l, vector[2] / l]
-        return normal_vector
+        l += 0.01
+    normal_vector = [vector[0] / l, vector[1] / l, vector[2] / l]
+    return normal_vector
+
+
+def dot_product(v1, v2):
+    v1 = Mat.normalization(v1)
+    v2 = Mat.normalization(v2)
+    return np.inner(v1, v2)
 
 
 def project_on_to_plane(vector, plane_normal):
@@ -33,8 +49,8 @@ def project_on_to_plane(vector, plane_normal):
         raise Exception("Plane normal can not be zero")
     n = Mat.normalization(plane_normal)
     vector = Mat.normalization(vector)
-    dott = np.inner(vector, plane_normal)
-    result = [x + y for x, y in zip(vector, np.dot(n,dott))]
+    dott = Mat.dot_product(vector, plane_normal)
+    result = [x - y for x, y in zip(vector, np.dot(n, dott))]
     return Mat.normalization(result)
 
 
@@ -48,14 +64,11 @@ def gen_perpendicular_vector_quick(vector):
 
 
 def get_angle_limited_uv(vector_to_limit, vector_base_line, angle_limit_degs):
-    vector_to_limit_length = math.sqrt(vector_to_limit[0] ** 2 + vector_to_limit[1] ** 2 + vector_to_limit[2] ** 2)
-    vector_base_line_length = math.sqrt(vector_base_line[0] ** 2 + vector_base_line[1] ** 2 + vector_base_line[2] ** 2)
-
-    angle_between = math.acos(np.inner(vector_to_limit, vector_base_line) / (
-                vector_to_limit_length * vector_base_line_length)) * 180 / math.pi
+    angle_between = Mat.angle_between_degrees(vector_base_line, vector_to_limit)
     if angle_between > angle_limit_degs:
-        correction_axis = (vector_to_limit ^ vector_base_line).normalization()
-        return Mat.rotate_about_axis(vector_base_line, angle_limit_degs, correction_axis).normalization()
+        correction_axis = Mat.normalization(
+            np.cross(Mat.normalization(vector_base_line), Mat.normalization(vector_to_limit)))
+        return Mat.normalization(Mat.rotate_about_axis(vector_base_line, angle_limit_degs, correction_axis))
     else:
         return Mat.normalization(vector_to_limit)
 
@@ -75,8 +88,7 @@ def create_rotation_matrix(reference_direction):
     m02 = x_dir[2]
 
     cross = np.cross([m00, m01, m02], [m20, m21, m22])
-    l = math.sqrt(cross[0] ** 2 + cross[1] ** 2 + cross[2] ** 2)
-    y_dir = [cross[0] / l, cross[1] / l, cross[2] / l]
+    y_dir = Mat.normalization(cross)
 
     m10 = y_dir[0]
     m11 = y_dir[1]
@@ -96,17 +108,13 @@ def times(matrix, vector):
 
 
 def get_signed_angle_between_degs(reference_vector, other_vector, normal_vector):
-    reference_vector_length = math.sqrt(reference_vector[0] ** 2 + reference_vector[1] ** 2 + reference_vector[2] ** 2)
-    other_vector_length = math.sqrt(other_vector[0] ** 2 + other_vector[1] ** 2 + other_vector[2] ** 2)
-
-    unsigned_angle = math.acos(
-        np.inner(reference_vector, other_vector) / (reference_vector_length * other_vector_length)) * 180 / math.pi
-    sign_measure = np.inner(np.cross(reference_vector, other_vector), normal_vector)
+    unsigned_angle = Mat.angle_between_degrees(reference_vector, other_vector)
+    sign_measure = Mat.dot_product(np.cross(reference_vector, other_vector), normal_vector)
     if sign_measure >= 0:
         sign = 1
     else:
         sign = -1
-    return np.dot(unsigned_angle, sign)
+    return unsigned_angle * sign
 
 
 def negated(vector):
@@ -114,11 +122,12 @@ def negated(vector):
 
 
 def approximately_equal(a, b, tolerance):
-        if abs(a - b) < tolerance:
-            return 1
-        else:
-            return 0
+
+    if abs(a - b) < tolerance:
+        return True
+    else:
+        return False
 
 
 def length_calc(vector):
-    return math.sqrt(vector[0]**2+vector[1]**2+vector[2]**2)
+    return math.sqrt(vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2)

@@ -1,4 +1,6 @@
 import math
+import numpy as np
+import Utils as Util
 
 
 def rotate_about_axis(source, angle_degs, rotation_axis):
@@ -26,7 +28,7 @@ def rotate_about_axis(source, angle_degs, rotation_axis):
                        [m10, m11, m12],
                        [m20, m21, m22]]
     result_times = []
-    for i in range(0, len(rotation_matrix)):
+    for i in range(0, 3):
         result_row = 0
         for j in range(0, 3):
             result_row += rotation_matrix[i][j] * source[j]
@@ -36,5 +38,19 @@ def rotate_about_axis(source, angle_degs, rotation_axis):
 
 def normalization(vector):
     l = math.sqrt(vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2)
+    if l==0:
+        l+=0.001
     normal_vector = [vector[0] / l, vector[1] / l, vector[2] / l]
     return normal_vector
+
+
+def angle_between_degrees(v1,v2):
+    v1 = Util.normalization(v1)
+    v2 = Util.normalization(v2)
+    return math.acos(Util.dot_product(v1,v2))*180/np.pi
+
+
+def dot_product(v1,v2):
+    v1 = Util.normalization(v1)
+    v2 = Util.normalization(v2)
+    return np.inner(v1,v2)

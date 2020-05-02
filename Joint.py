@@ -5,7 +5,7 @@ import numpy as np
 class Joint3D:
     def __init__(self):
         self.MAX_CONSTRAINT_ANGLE_DEGS = 360
-        self.MIN_CONSTRAINT_ANGLE_DEGS = -180
+        self.MIN_CONSTRAINT_ANGLE_DEGS = -360
         # the default values
         self.rotor_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
         self.hinge_clockwise_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
@@ -37,8 +37,8 @@ class Joint3D:
 
     def set_hinge(self, joint_type, rotation_axis, clockwise_constraint_degs, anticlockwise_constraint_degs,
                   reference_axis):
-        dot = np.inner(rotation_axis , reference_axis)
-        if Util.approximately_equal(dot,0.0, 0.01):
+        dot = Util.dot_product(rotation_axis, reference_axis)
+        if Util.approximately_equal(dot, 0.0, 0.01) == 1:
             angle_degs = Util.get_angle_between_degs(rotation_axis, reference_axis)
             raise Exception(
                 "The reference axis must be in the plane of the hinge rotation axis - angle between them is currently: " + str(
@@ -52,8 +52,8 @@ class Joint3D:
         self.hinge_clockwise_constraint_degs = clockwise_constraint_degs
         self.hinge_anticlockwise_constraint_degs = anticlockwise_constraint_degs
         self.joint_type = joint_type
-        self.rotation_axis_uv = rotation_axis
-        self.reference_axis_uv = reference_axis
+        self.rotation_axis_uv = Util.normalization(rotation_axis)
+        self.reference_axis_uv = Util.normalization(reference_axis)
 
     def set_as_global_hinge(self, global_rotation_axis, cw_constraint_degs, acw_constraint_degs, global_reference_axis):
         self.set_hinge("GLOBAL_HINGE", global_rotation_axis, cw_constraint_degs, acw_constraint_degs,
