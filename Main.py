@@ -152,8 +152,8 @@ def main():
                                         acw_deg_5, hinge_constraint_reference_axis_5, is_bone_5_fixed)
     m_chain.add_consecutive_hinged_bone(bone_direction_6, bone_length_6, joint_type_6, hinge_rotation_axis_6, cw_deg_6,
                                         acw_deg_6, hinge_constraint_reference_axis_6, is_bone_6_fixed)
-    # m_chain.add_consecutive_hinged_bone(bone_direction_7, bone_length_7, joint_type_7, hinge_rotation_axis_7, cw_deg_7,
-    #                                     acw_deg_7, hinge_constraint_reference_axis_7, is_bone_7_fixed)
+    m_chain.add_consecutive_hinged_bone(bone_direction_7, bone_length_7, joint_type_7, hinge_rotation_axis_7, cw_deg_7,
+                                        acw_deg_7, hinge_constraint_reference_axis_7, is_bone_7_fixed)
 
     m_chain.set_target(default_target_position)
     m_chain.solve_fabrik_ik()
