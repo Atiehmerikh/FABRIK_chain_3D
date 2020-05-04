@@ -91,10 +91,10 @@ def main():
     number_bone_5 = 5
     bone_direction_5 = [0, 0, 1]
     bone_length_5 = 0.384
-    is_bone_5_fixed = 1
+    is_bone_5_fixed = 0
     joint_type_5 = "LOCAL_HINGE"
-    hinge_rotation_axis_5 = [0, 0, 1]
-    hinge_constraint_reference_axis_5 = [0, 0, 1]  # TODO
+    hinge_rotation_axis_5 = [0, 1, 0]
+    hinge_constraint_reference_axis_5 = [0, 1, 0]  # TODO
     cw_rad_5 = 2.8973
     cw_deg_5 = cw_rad_5 * 180 / math.pi
     acw_rad_5 = 2.8973
@@ -106,8 +106,8 @@ def main():
     bone_length_6 = 0.088
     is_bone_6_fixed = 0
     joint_type_6 = "LOCAL_HINGE"
-    hinge_rotation_axis_6 = [0, 0, 1]
-    hinge_constraint_reference_axis_6 = [0, 0, 1]  # TODO
+    hinge_rotation_axis_6 = [0, 1, 0]
+    hinge_constraint_reference_axis_6 = [0, 1, 0]  # TODO
     cw_rad_6 = 3.7525
     cw_deg_6 = cw_rad_6 * 180 / math.pi
     acw_rad_6 = 0.0175
