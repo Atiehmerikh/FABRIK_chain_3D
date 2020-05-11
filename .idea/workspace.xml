@@ -74,26 +74,26 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="376" y="105" key="EnvironmentVariablesDialog/0.0.1280.680@0.0.1280.680" timestamp="1588243127703" />
-    <state x="421" y="98" key="FileChooserDialogImpl" timestamp="1588302800691">
+    <state x="421" y="98" key="FileChooserDialogImpl" timestamp="1588626600932">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="98" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1588302800691" />
-    <state width="1259" height="85" key="GridCell.Tab.0.bottom" timestamp="1588592655422">
+    <state x="421" y="98" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1588626600932" />
+    <state width="1244" height="118" key="GridCell.Tab.0.bottom" timestamp="1589236261467">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="85" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588592655422" />
-    <state width="1259" height="85" key="GridCell.Tab.0.center" timestamp="1588592655422">
+    <state width="1244" height="118" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1589236261467" />
+    <state width="1244" height="118" key="GridCell.Tab.0.center" timestamp="1589236261466">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="85" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1588592655422" />
-    <state width="1259" height="85" key="GridCell.Tab.0.left" timestamp="1588592655422">
+    <state width="1244" height="118" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1589236261466" />
+    <state width="1244" height="118" key="GridCell.Tab.0.left" timestamp="1589236261466">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="85" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1588592655422" />
-    <state width="1259" height="85" key="GridCell.Tab.0.right" timestamp="1588592655422">
+    <state width="1244" height="118" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1589236261466" />
+    <state width="1244" height="118" key="GridCell.Tab.0.right" timestamp="1589236261466">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="85" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1588592655422" />
+    <state width="1244" height="118" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1589236261466" />
     <state width="1259" height="208" key="GridCell.Tab.1.bottom" timestamp="1588441906332">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -114,24 +114,13 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="144" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1588243336872" />
-    <state x="349" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1588597154423">
+    <state x="349" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1588859612945">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="349" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1588597154423" />
+    <state x="349" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1588859612945" />
     <state x="-16" y="1" key="search.everywhere.popup" timestamp="1588366966196">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="-16" y="1" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1588366966196" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Chain.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

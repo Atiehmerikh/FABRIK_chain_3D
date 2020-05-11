@@ -504,6 +504,17 @@ class Chain3d:
         y_prime = coordinate[1]
         z_prime = coordinate[2]
 
+        f = open("joints-position.txt", "w")
+        for i in range(0, len(x_prime)):
+            f.write(str(x_prime[i]))
+            f.write(' ')
+            f.write(str(y_prime[i]))
+            f.write(' ')
+            f.write(str(z_prime[i]))
+
+            f.write("\n")
+        f.close()
+
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         ax.plot3D(x_prime, y_prime, z_prime, color='red')
