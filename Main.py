@@ -7,8 +7,8 @@ def main():
     # 4 step of information entry for your chain
 
     # Step1 : Specify the target position which this IK solve the chain for that
-    default_target_position = [0.4, 0.3, 0.1]
-
+    # default_target_position = [0.5, 0.5, 0.5]
+    default_target_position = [0.21700440072005056, 0.21700440072005023, 0.5902820523028393]
     # Step2: Specify base bone of the chain
     base_bone_start_location = [0, 0, 0]
     base_bone_direction = [0, 0, 1]
@@ -30,7 +30,7 @@ def main():
     acw_base_bone_constraint_rads = 2.8973
     acw_base_bone_constraint_degs = acw_base_bone_constraint_rads * 180 / math.pi
     base_bone_hinge_rotation_axis = [0, 0, 1]
-    base_bone_hinge_reference_axis = [1, 0, 1]  # TODO
+    base_bone_hinge_reference_axis = [0, 0, 1]  # TODO
     # here you can specify that the base bone is fixed or can rotate(yes = 1/ No =0)
     is_base_bone_fixed = 1
 
@@ -53,8 +53,8 @@ def main():
     bone_length_2 = 0.316
     is_bone_2_fixed = 0
     joint_type_2 = "LOCAL_HINGE"
-    hinge_rotation_axis_2 = [0, 0, 1]
-    hinge_constraint_reference_axis_2 = [0, 0, 1]  # TODO
+    hinge_rotation_axis_2 = [0, -1, 0]
+    hinge_constraint_reference_axis_2 = [0, 1, 0]  # TODO
     cw_rad_2 = 1.7628
     cw_deg_2 = cw_rad_2 * 180 / math.pi
     acw_rad_2 = 1.7628
@@ -62,12 +62,12 @@ def main():
 
     # P3
     number_bone_3 = 3
-    bone_direction_3 = [1, 0, 0]
-    bone_length_3 = 0.088
-    is_bone_3_fixed = 0
+    bone_direction_3 = [0, 0, 1]
+    bone_length_3 = 0.044
+    is_bone_3_fixed = 1
     joint_type_3 = "LOCAL_HINGE"
-    hinge_rotation_axis_3 = [0, 0, 1]
-    hinge_constraint_reference_axis_3 = [0, 0, 1]  # TODO
+    hinge_rotation_axis_3 = [1, 0, 0]
+    hinge_constraint_reference_axis_3 = [1, 0, 0]  # TODO
     cw_rad_3 = 2.8972
     cw_deg_3 = cw_rad_3 * 180 / math.pi
     acw_rad_3 = 2.8973
@@ -75,11 +75,11 @@ def main():
 
     # # P4
     number_bone_4 = 4
-    bone_direction_4 = [-1, 0, 0]
-    bone_length_4 = 0.088
-    is_bone_4_fixed = 0
+    bone_direction_4 = [1, 0, 0]
+    bone_length_4 = 0.044
+    is_bone_4_fixed = 1
     joint_type_4 = "LOCAL_HINGE"
-    hinge_rotation_axis_4 = [0, 1, 0]
+    hinge_rotation_axis_4 = [0, -1, 0]
     hinge_constraint_reference_axis_4 = [0, 1, 0]  # TODO
     cw_rad_4 = -0.0698
     cw_deg_4 = cw_rad_4 * 180 / math.pi
@@ -89,12 +89,12 @@ def main():
 
     # P5
     number_bone_5 = 5
-    bone_direction_5 = [0, 0, 1]
+    bone_direction_5 = [1, 0, 0]
     bone_length_5 = 0.384
     is_bone_5_fixed = 0
     joint_type_5 = "LOCAL_HINGE"
-    hinge_rotation_axis_5 = [0, 1, 0]
-    hinge_constraint_reference_axis_5 = [0, 1, 0]  # TODO
+    hinge_rotation_axis_5 = [-1, 0, 0]
+    hinge_constraint_reference_axis_5 = [1, 0, 0]  # TODO
     cw_rad_5 = 2.8973
     cw_deg_5 = cw_rad_5 * 180 / math.pi
     acw_rad_5 = 2.8973
@@ -104,9 +104,9 @@ def main():
     number_bone_6 = 6
     bone_direction_6 = [1, 0, 0]
     bone_length_6 = 0.088
-    is_bone_6_fixed = 0
+    is_bone_6_fixed = 1
     joint_type_6 = "LOCAL_HINGE"
-    hinge_rotation_axis_6 = [0, 1, 0]
+    hinge_rotation_axis_6 = [0, -1, 0]
     hinge_constraint_reference_axis_6 = [0, 1, 0]  # TODO
     cw_rad_6 = 3.7525
     cw_deg_6 = cw_rad_6 * 180 / math.pi
@@ -119,8 +119,8 @@ def main():
     bone_length_7 = 0.107
     is_bone_7_fixed = 0
     joint_type_7 = "LOCAL_HINGE"
-    hinge_rotation_axis_7 = [0, 0, 1]
-    hinge_constraint_reference_axis_7 = [0, 0, 1]  # TODO
+    hinge_rotation_axis_7 = [-1, 0, 0]
+    hinge_constraint_reference_axis_7 = [1, 0, 0]  # TODO
     cw_rad_7 = 2.8973
     cw_deg_7 = cw_rad_7 * 180 / math.pi
     acw_rad_7 = 2.8973
