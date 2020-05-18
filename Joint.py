@@ -13,6 +13,7 @@ class Joint3D:
         self.joint_type = "BALL"
         self.rotation_axis_uv = [0, 0, 0]
         self.reference_axis_uv = [0, 0, 0]
+        self.joint_orientation = [1,0,0,0]
 
     def get_MAX_CONSTRAINT_ANGLE_DEGS(self):
         return self.MAX_CONSTRAINT_ANGLE_DEGS
@@ -104,3 +105,6 @@ class Joint3D:
 
     def get_joint_type(self):
         return self.joint_type
+
+    def get_joint_orientation(self):
+        return self.joint_orientation

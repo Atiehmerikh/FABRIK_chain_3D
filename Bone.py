@@ -7,7 +7,7 @@ Z_AXIS = [0.0, 0.0, 1.0]
 
 
 class Bone3D:
-    def __init__(self, start, end, direction_uv, length, is_fixed_bone):
+    def __init__(self, start, end, direction_uv, length, is_fixed_bone,bone_orientation):
         self.start_point = start
         self.is_fixed_bone = is_fixed_bone
         self.length = length
@@ -15,6 +15,7 @@ class Bone3D:
         m_joint = Joint.Joint3D()
         self.joint = m_joint
         self.direction_uv = direction_uv
+        self.bone_orientation = bone_orientation
 
     # def set_length(self,length):z
     #     self.length = length
@@ -25,17 +26,23 @@ class Bone3D:
     def get_length(self):
         return self.length
 
-    def set_start_point(self, start):
+    def set_start_point_position(self, start):
         self.start_point = start
 
-    def get_start_point(self):
+    def get_start_point_position(self):
         return self.start_point
 
-    def set_end_point(self, end):
+    def set_end_point_position(self, end):
         self.end_point = end
 
-    def get_end_point(self):
+    def get_end_point_position(self):
         return self.end_point
+
+    def get_bone_orientation(self):
+        return self.bone_orientation
+
+    def set_bone_orientation(self,orientation):
+        self.bone_orientation = orientation
 
     def set_joint(self, joint):
         self.joint = joint

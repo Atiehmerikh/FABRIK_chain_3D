@@ -131,3 +131,14 @@ def approximately_equal(a, b, tolerance):
 
 def length_calc(vector):
     return math.sqrt(vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2)
+
+
+# Finding the rotation rotor between outer joint and inner joint of each FABRIK iteration
+def find_rotation_quaternion(outer_quaternion, inner_quaternion):
+        conjucate = [outer_quaternion[0], -outer_quaternion[1], -outer_quaternion[2], -outer_quaternion[3]]
+        length = math.sqrt(outer_quaternion[0] ** 2 + outer_quaternion[1] ** 2 +
+                           outer_quaternion[2] ** 2 + outer_quaternion[3] ** 2)
+        inverse = np.dot(conjucate, (1 / length))
+        rotation = Mat.multiply_two_quaternion(inner_quaternion, inverse)
+        return rotation
+
