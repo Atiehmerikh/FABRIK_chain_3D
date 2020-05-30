@@ -391,9 +391,10 @@ def main():
 
     # Step1 : Specify the target position which this IK solve the chain for that
     # default_target_position = [0.5, 0.5, 0.5]
-    default_target_position = [0.21700440072005056, 0.21700440072005023, 0.5902820523028393]
+    # default_target_position = [0.21700440072005056, 0.21700440072005023, 0.5902820523028393]
     # default_target_position =[0.5,0.5,0]
-    # default_target_position = [-0.040882729136984236, 0.35804755544399547, 0.5076608851454391]
+
+    default_target_position = [-0.040882729136984236, 0.35804755544399547, 0.5076608851454391]
     # default_target_position =[-0.20994258838609295, -0.209942588386092957, 0.0867820523028393]
     # default_target_position =[0.5330044007200504, 0.5330044007200505, 0.4736094334070591]
     # default_target_position = [0.07566042558696057, 0.20756604255869606, 1.121]
@@ -447,14 +448,14 @@ def main():
     joint_type_2 = "LOCAL_HINGE"
     hinge_rotation_axis_2 = [0, 1, 0]
     hinge_constraint_reference_axis_2 = Util.gen_perpendicular_vector_quick(hinge_rotation_axis_2)   # TODO
-    cw_rad_2 =2.8972 #1.7628
+    cw_rad_2 =1.7628
     cw_deg_2 = cw_rad_2 * 180 / math.pi
-    acw_rad_2 =2.8972# 1.7628
+    acw_rad_2 =1.7628
     acw_deg_2 = acw_rad_2 * 180 / math.pi
 
     # P3
     number_bone_3 = 3
-    bone_direction_3 = [0, 0, 1]
+    bone_direction_3 = [1, 0, 0]
     bone_length_3 = 0.088
     is_bone_3_fixed = 0
     joint_type_3 = "LOCAL_HINGE"
@@ -467,15 +468,15 @@ def main():
 
     # # P4
     number_bone_4 = 4
-    bone_direction_4 = [0, 0, 1]
+    bone_direction_4 = [-1, 0, 0]
     bone_length_4 = 0.088
     is_bone_4_fixed = 0
     joint_type_4 = "LOCAL_HINGE"
     hinge_rotation_axis_4 = [0, 1, 0]
     hinge_constraint_reference_axis_4 =Util.gen_perpendicular_vector_quick(hinge_rotation_axis_4)   # TODO
-    cw_rad_4 = 2.8973#3.0718
+    cw_rad_4 =-0.0698
     cw_deg_4 = cw_rad_4 * 180 / math.pi
-    acw_rad_4 =2.8973# 0.0698
+    acw_rad_4 =-3.0718
 
     acw_deg_4 = acw_rad_4 * 180 / math.pi
 
@@ -494,7 +495,7 @@ def main():
 
     # P6
     number_bone_6 = 6
-    bone_direction_6 = [0, 0,1]
+    bone_direction_6 = [1, 0,0]
     bone_length_6 = 0.088
     is_bone_6_fixed = 0
     joint_type_6 = "LOCAL_HINGE"
@@ -507,7 +508,7 @@ def main():
 
     # P7
     number_bone_7 = 7
-    bone_direction_7 = [0, 0, 1]
+    bone_direction_7 = [0, 0, -1]
     bone_length_7 = 0.107
     is_bone_7_fixed = 0
     joint_type_7 = "LOCAL_HINGE"
