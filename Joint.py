@@ -10,7 +10,7 @@ class Joint3D:
         self.rotor_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
         self.hinge_clockwise_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
         self.hinge_anticlockwise_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
-        self.joint_type = "BALL"
+        self.joint_type = "None"
         self.rotation_axis_uv = [0, 0, 0]
         self.reference_axis_uv = [0, 0, 0]
         self.joint_orientation = [1,0,0,0]
@@ -39,11 +39,11 @@ class Joint3D:
     def set_hinge(self, joint_type, rotation_axis, clockwise_constraint_degs, anticlockwise_constraint_degs,
                   reference_axis):
         dot = Util.dot_product(rotation_axis, reference_axis)
-        if Util.approximately_equal(dot, 0.0, 0.01) == 1:
-            angle_degs = Util.get_angle_between_degs(rotation_axis, reference_axis)
-            raise Exception(
-                "The reference axis must be in the plane of the hinge rotation axis - angle between them is currently: " + str(
-                    angle_degs))
+        # if Util.approximately_equal(dot, 0.0, 0.01) == 1:
+        #     angle_degs = Util.get_angle_between_degs(rotation_axis, reference_axis)
+        #     raise Exception(
+        #         "The reference axis must be in the plane of the hinge rotation axis - angle between them is currently: " + str(
+        #             angle_degs))
 
         self.validate_constraint_angle_degs(clockwise_constraint_degs)
         self.validate_constraint_angle_degs(anticlockwise_constraint_degs)

@@ -18,7 +18,7 @@ def get_angle_between_degs(v1, v2):
     len_v1 = math.sqrt(v1[0] ** 2 + v1[1] ** 2 + v1[2] ** 2)
     len_v2 = math.sqrt(v2[0] ** 2 + v2[1] ** 2 + v2[2] ** 2)
 
-    result = math.acos(np.dot(v1, v2) / (len_v1 * len_v2)) * 180 / math.pi
+    result = math.acos(round(np.dot(v1, v2) / (len_v1 * len_v2),3)) * 180 / math.pi
     return result
 
 
@@ -93,7 +93,6 @@ def create_rotation_matrix(reference_direction):
     m10 = y_dir[0]
     m11 = y_dir[1]
     m12 = y_dir[2]
-
     rotation_matrix = [[m00, m01, m02],
                        [m10, m11, m12],
                        [m20, m21, m22]]

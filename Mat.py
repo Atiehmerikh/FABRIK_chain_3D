@@ -47,7 +47,8 @@ def normalization(vector):
 def angle_between_degrees(v1,v2):
     v1 = Util.normalization(v1)
     v2 = Util.normalization(v2)
-    return math.acos(Util.dot_product(v1,v2))*180/np.pi
+    # print(Util.dot_product(v1,v2))
+    return math.acos(round(Util.dot_product(v1,v2),5))*180/np.pi
 
 
 def dot_product(v1,v2):
