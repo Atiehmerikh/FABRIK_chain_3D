@@ -5,7 +5,7 @@ import numpy as np
 class Joint3D:
     def __init__(self):
         self.MAX_CONSTRAINT_ANGLE_DEGS = 360
-        self.MIN_CONSTRAINT_ANGLE_DEGS = -360
+        self.MIN_CONSTRAINT_ANGLE_DEGS = -180
         # the default values
         self.rotor_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS
         self.hinge_clockwise_constraint_degs = self.MAX_CONSTRAINT_ANGLE_DEGS

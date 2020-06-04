@@ -68,8 +68,8 @@ def multiply_two_quaternion(q1, q2):
         g = q2[2]
         h = q2[3]
 
-        m0 = round(a * e - b * f - c * g - d * h, 2)
-        m1 = round(b * e + a * f + c * h - d * g, 2)
-        m2 = round(a * g - b * h + c * e + d * f, 2)
-        m3 = round(a * h + b * g - c * f + d * e, 2)
+        m0 = round(a * e - b * f - c * g - d * h, 1)
+        m1 = round(b * e + a * f + c * h - d * g, 1)
+        m2 = round(a * g - b * h + c * e + d * f, 1)
+        m3 = round(a * h + b * g - c * f + d * e, 1)
         return [m0, m1, m2, m3]
