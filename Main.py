@@ -130,8 +130,7 @@ def main():
     # rotate around itself and responsible for twists.
     m_chain.add_consecutive_hinged_bone(bone_direction_6, bone_length_6+bone_length_7, joint_type_6, hinge_rotation_axis_6, cw_deg_6,
                                         acw_deg_6, hinge_constraint_reference_axis_6,is_bone_6_fixed,bone_6_orientation)
-    # m_chain.add_consecutive_hinged_bone(bone_direction_7, bone_length_7, joint_type_7, hinge_rotation_axis_7, cw_deg_7,
-    #                                     acw_deg_7, hinge_constraint_reference_axis_7, is_bone_7_fixed, bone_7_orientation)
+    
 
     # In this part the target is set for the chain and whole chain is going to be solved
     m_chain.set_target(default_target_position,default_target_orientation)
