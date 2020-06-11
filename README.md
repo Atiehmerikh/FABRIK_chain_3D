@@ -14,14 +14,12 @@ NOTE: This library is under developement so there is some update in future.
 		NOTE: it's joint type can be "GLOBAL_HINGE" or "GLOBAL ROTOR" 
 			or in case of FRANKA robot it is "twist_only" the last means it only rotate around itself.
 	Third: Add consecutive bones to the chain with specification:
+		 bone-length: length of the bone
+		 bone-orientation: the orientation of the bone in quaternion
 		 joint type: can be BALL(rotor-constraints) or local-hinge or twist-only
 		 constraints and axises of rotation
 	 
 	Then Solve the chain
-	
-	
-	
-	
 	
 	
 # OutPut:
