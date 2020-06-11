@@ -621,12 +621,12 @@ class Chain3d:
         ax.scatter3D(self.target_position[0], self.target_position[1], self.target_position[2])
         ax.scatter3D(x_prime, y_prime, z_prime)
 
-        for i in range(len(x_prime) - 1):
-            print('length bone ' + str(i + 1))
-            x = x_prime[i] - x_prime[i + 1]
-            y = y_prime[i] - y_prime[i + 1]
-            z = z_prime[i] - z_prime[i + 1]
-            print("%.2f" % round(math.sqrt(x * x + y * y + z * z), 2))
+        # for i in range(len(x_prime) - 1):
+        #     print('length bone ' + str(i + 1))
+        #     x = x_prime[i] - x_prime[i + 1]
+        #     y = y_prime[i] - y_prime[i + 1]
+        #     z = z_prime[i] - z_prime[i + 1]
+        #     print("%.2f" % round(math.sqrt(x * x + y * y + z * z), 2))
         plt.show()
 
     def set_axes_radius(self, ax, origin, radius):

@@ -91,7 +91,7 @@ def main():
     bone_direction_7 = [0, 0, -1]
     bone_length_7 = 0.107
     is_bone_7_fixed = 0
-    joint_type_7 = "LOCAL_HINGE"
+    joint_type_7 = "twist_only"
     hinge_rotation_axis_7 = [0, 0, 1]
     hinge_constraint_reference_axis_7 =[0,0,1]
     cw_rad_7 = 2.8973
