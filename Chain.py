@@ -621,12 +621,12 @@ class Chain3d:
         ax.scatter3D(self.target_position[0], self.target_position[1], self.target_position[2])
         ax.scatter3D(x_prime, y_prime, z_prime)
 
-        # for i in range(len(x_prime) - 1):
-        #     print('length bone ' + str(i + 1))
-        #     x = x_prime[i] - x_prime[i + 1]
-        #     y = y_prime[i] - y_prime[i + 1]
-        #     z = z_prime[i] - z_prime[i + 1]
-        #     print("%.2f" % round(math.sqrt(x * x + y * y + z * z), 2))
+        for i in range(len(x_prime) - 1):
+            print('length bone ' + str(i + 1))
+            x = x_prime[i] - x_prime[i + 1]
+            y = y_prime[i] - y_prime[i + 1]
+            z = z_prime[i] - z_prime[i + 1]
+            print("%.2f" % round(math.sqrt(x * x + y * y + z * z), 2))
         plt.show()
 
     def set_axes_radius(self, ax, origin, radius):
@@ -651,10 +651,23 @@ class Chain3d:
         x = [0]
         y = [0]
         z = [0]
+        length = [0.316, 0.088,0.088]
         for i in range(len(start_locations)):
+            if i>=1:
+                uv = [(start_locations[i][0]-start_locations[i-1][0]),
+                      (start_locations[i][1]-start_locations[i-1][1]),
+                      (start_locations[i][2]-start_locations[i-1][2])]
+                uv = Mat.normalization(uv)
+                scale = np.dot(uv, length[i-1])
+                middle_points = [x + y for x, y in zip(start_locations[i-1], scale)]
+                x.append(middle_points[0])
+                y.append(middle_points[1])
+                z.append(middle_points[2])
+
             x.append(start_locations[i][0])
             y.append(start_locations[i][1])
             z.append(start_locations[i][2])
+
         coordinate[0][:] = x
         coordinate[1][:] = y
         coordinate[2][:] = z
