@@ -9,9 +9,15 @@ def main():
     # This is an example of using this code for solving inverse kinematic of FRANKA robot
 
     # Step 1 : specify the target position and orientation(in quaternion)
-    default_target_position = [0.21700440072005056, 0.21700440072005023, 0.55902820523028393]
+    # default_target_position = [0.21700440072005056, 0.31700440072005023, 0.55902820523028393]
     # default_target_position =[0.0994258838609295, -0.09942588386092957, 1.0867820523028393]
-    default_target_orientation = [0.707,0.707,-0.707,0]
+    default_target_position = [0.2, 0.2, 0.5]
+    # default_target_orientation = [0.707,0.707,-0.707,0]
+    default_target_orientation = [0,1,0,0,0]
+    # default_target_position = [0.0, 0.2, 0.5]
+    # default_target_orientation = [0.707, 0.707, -0.707, 0]
+
+
 
     # Define the specification of Base-bone in this case it only twist and rotate around itself.
     # Bone number 1 (Base bone)

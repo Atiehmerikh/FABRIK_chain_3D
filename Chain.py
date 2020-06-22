@@ -271,6 +271,8 @@ class Chain3d:
             theta = (self.bone_twist_limit) * (np.pi / 180)
             self.rotations[loop] = theta
             # the rotation axis
+            if abs(rotor[0]) ==1:
+                return rotor
             v1 = np.dot(rotor[1:], (1 / math.sqrt(1 - rotor[0] ** 2)))
             w = math.cos(theta / 2)
             x = v1[0] * math.sin(theta / 2)
