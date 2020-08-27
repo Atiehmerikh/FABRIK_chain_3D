@@ -1,10 +1,9 @@
-import Joint as Joint
-import Bone as Bone
-import Utils as Util
-import Mat as Mat
+from fabrik_chain_3d import Bone as Bone, Joint as Joint, Mat as Mat, Utils as Util
+from fabrik_chain_3d.output_writer import *
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+
 
 
 class Chain3d:
@@ -98,7 +97,7 @@ class Chain3d:
         scale_direction = [i * bone_length for i in bone_direction_uv]
         bone_end_location = [x + y for x, y in zip(prev_bone_end, scale_direction)]
 
-        m_bone = Bone.Bone3D(prev_bone_end,bone_end_location, bone_direction_uv,bone_length, is_fixed,bone_orientation)
+        m_bone = Bone.Bone3D(prev_bone_end, bone_end_location, bone_direction_uv, bone_length, is_fixed, bone_orientation)
         rotor_joint = Joint.Joint3D()
         rotor_joint.set_as_ball_joint(constraint_angle_degs)
         rotor_joint.set_as_ball_joint(constraint_angle_degs)
@@ -607,7 +606,7 @@ class Chain3d:
         y_prime = coordinate[1]
         z_prime = coordinate[2]
 
-        f = open("joints-position.txt", "w")
+        f = OutputWriter().joint_writer()
         for i in range(0, len(x_prime)):
             f.write(str(x_prime[i]))
             f.write(' ')

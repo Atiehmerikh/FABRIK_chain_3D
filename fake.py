@@ -1,5 +1,4 @@
-import Bone as Bone
-import Chain as Chain
+from FABRIK_chain_3d import Chain as Chain, Bone as Bone
 import math
 
 
@@ -128,7 +127,7 @@ def main():
     scale_direction = [i * base_bone_length for i in base_bone_direction]
     base_bone_end_location = [x + y for x, y in zip(base_bone_start_location, scale_direction)]
     m_bone = Bone.Bone3D(base_bone_start_location, base_bone_end_location, base_bone_direction, base_bone_length,
-                         is_base_bone_fixed,orient1)
+                         is_base_bone_fixed, orient1)
 
     # create a new chain
     m_chain = Chain.Chain3d(is_base_bone_fixed)

@@ -98,8 +98,7 @@
 #     def get_fixed_bone_direction_uv(self):
 #         return self.direction_uv
 
-import Joint as Joint
-import Utils as Util
+from fabrik_chain_3d import Joint as Joint, Utils as Util
 
 X_AXIS = [1.0, 0.0, 0.0]
 Y_AXIS = [0.0, 1.0, 0.0]
