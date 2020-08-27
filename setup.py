@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="fabrik_chain_3d",
-    version="1.2.0",
+    version="1.3.0",
     author="Atieh Merikh Nejadasl",
     author_email="atieh.merikh.nejadasl@vub.be",
     description="It is an implementation of the FABRIK‌ method for any 3D chain",

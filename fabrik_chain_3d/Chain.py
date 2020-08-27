@@ -7,7 +7,7 @@ import math
 
 
 class Chain3d:
-    def __init__(self, is_base_bone_fixed):
+    def __init__(self, is_base_bone_fixed, base_address="./test/output/", joints_file_address="joints-position.txt"):
         self.is_base_bone_fixed = is_base_bone_fixed
         self.target_position = [1, 0, 0]
         self.target_orientation = [1, 0, 0, 0]
@@ -25,7 +25,8 @@ class Chain3d:
         self.deg =[0]*4
         self. rotations = [0]*4 # the last one belongs to the base bone which is fixed!
         self.fixed_base_orientation = [1,0,0,0]
-
+        self.base_address = base_address
+        self.joints_file_address = joints_file_address
     def update_chain_length(self):
         self.chain_length = 0
         for i in self.chain:
@@ -606,7 +607,7 @@ class Chain3d:
         y_prime = coordinate[1]
         z_prime = coordinate[2]
 
-        f = OutputWriter().joint_writer()
+        f = OutputWriter(self.base_address, self.joints_file_address).joint_writer()
         for i in range(0, len(x_prime)):
             f.write(str(x_prime[i]))
             f.write(' ')
