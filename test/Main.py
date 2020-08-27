@@ -1,5 +1,7 @@
 from fabrik_chain_3d import Chain as Chain, Bone as Bone, Utils as Util
 import math
+import sys
+sys.path.append('..')
 
 
 def main():

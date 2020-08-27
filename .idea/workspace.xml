@@ -2,20 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c367009-db5d-434c-bbcb-22f15e896f4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/fabrik_chain_3d/output_writer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fabrik_chain_3d/singleton.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/FABRIK-chain-3d.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FABRIK-chain-3d.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Bone.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Bone.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chain.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Joint.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Joint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mat.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Mat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fake.py" beforeDir="false" afterPath="$PROJECT_DIR$/fake.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/joints-position.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/output/joints-position.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/output_writer.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/output_writer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputjoints-position.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,26 +90,26 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="771" y="310" width="416" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1598533381131" />
-    <state width="1830" height="417" key="GridCell.Tab.0.bottom" timestamp="1598536036084">
+    <state width="1830" height="147" key="GridCell.Tab.0.bottom" timestamp="1598537966186">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="1259" height="86" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1592811390142" />
-    <state width="1830" height="417" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1598536036084" />
-    <state width="1830" height="417" key="GridCell.Tab.0.center" timestamp="1598536036083">
+    <state width="1830" height="147" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1598537966186" />
+    <state width="1830" height="147" key="GridCell.Tab.0.center" timestamp="1598537966185">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="1259" height="86" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1592811390142" />
-    <state width="1830" height="417" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1598536036083" />
-    <state width="1830" height="417" key="GridCell.Tab.0.left" timestamp="1598536036083">
+    <state width="1830" height="147" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1598537966185" />
+    <state width="1830" height="147" key="GridCell.Tab.0.left" timestamp="1598537966185">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="1259" height="86" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1592811390142" />
-    <state width="1830" height="417" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1598536036083" />
-    <state width="1830" height="417" key="GridCell.Tab.0.right" timestamp="1598536036083">
+    <state width="1830" height="147" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1598537966185" />
+    <state width="1830" height="147" key="GridCell.Tab.0.right" timestamp="1598537966186">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="1259" height="86" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1592811390142" />
-    <state width="1830" height="417" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1598536036083" />
+    <state width="1830" height="147" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1598537966186" />
     <state width="1259" height="176" key="GridCell.Tab.1.bottom" timestamp="1592811337569">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
