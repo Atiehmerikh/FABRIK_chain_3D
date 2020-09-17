@@ -122,7 +122,7 @@ def main():
 
     # the First part: create a chain by defining one bone that is fixed in its place and only able to twist
     is_base_bone_fixed = 0
-    m_chain = Chain.Chain3d(is_base_bone_fixed)
+    m_chain = Chain.Chain3d(is_base_bone_fixed, base_address="./output")
 
     # Defining second part that consist of bone 2(able to work as a local hinge) and bone 3 that only
     # rotate around itself and responsible for twists.
