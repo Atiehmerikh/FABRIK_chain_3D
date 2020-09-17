@@ -172,12 +172,12 @@ class Bone3D:
 
     def get_direction_uv(self):
         start_point = [i * -1 for i in self.start_point]
-        return Util.normalization([x + y for x, y in zip(self.end_point, start_point)])
+        return Util.Utils().normalization([x + y for x, y in zip(self.end_point, start_point)])
 
     def get_global_pitch_degs(self):
         bone_uv = self.get_direction_uv()
-        x_projected = Util.project_on_to_plane(bone_uv, X_AXIS)
-        pitch = Util.get_angle_between_degs(Z_AXIS, x_projected)
+        x_projected = Util.Utils().project_on_to_plane(bone_uv, X_AXIS)
+        pitch = Util.Utils().get_angle_between_degs(Z_AXIS, x_projected)
         if x_projected[1] < 0.0:
             return -pitch
         else:
@@ -185,8 +185,8 @@ class Bone3D:
 
     def get_global_yaw_degs(self):
         bone_uv = self.get_direction_uv()
-        y_projected = Util.project_on_to_plane(bone_uv, Y_AXIS)
-        yaw = Util.get_angle_between_degs(Z_AXIS, y_projected)
+        y_projected = Util.Utils().project_on_to_plane(bone_uv, Y_AXIS)
+        yaw = Util.Utils().get_angle_between_degs(Z_AXIS, y_projected)
         if y_projected[0] < 0.0:
             return -yaw
         else:

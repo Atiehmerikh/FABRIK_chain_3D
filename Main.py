@@ -41,7 +41,7 @@ def main():
     bone_length_2 = 0.316
     joint_type_2 = "LOCAL_HINGE"
     hinge_rotation_axis_2 = [0, 1, 0]
-    hinge_constraint_reference_axis_2 = Util.gen_perpendicular_vector_quick(hinge_rotation_axis_2)
+    hinge_constraint_reference_axis_2 =Util.Utils().gen_perpendicular_vector_quick(hinge_rotation_axis_2)
     cw_rad_2 = 1.7628
     cw_deg_2 = cw_rad_2 * 180 / math.pi
     acw_rad_2 = 1.7628

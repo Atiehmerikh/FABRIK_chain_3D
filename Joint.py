@@ -28,7 +28,7 @@ class Joint3D:
                     self.MAX_CONSTRAINT_ANGLE_DEGS) + " inclusive.")
 
     def validate_axis(self, axis):
-        if Util.length_calc(axis) <= 0:
+        if Util.Utils().length_calc(axis) <= 0:
             raise Exception("Provided axis is illegal - it has a magnitude of zero.")
 
     def set_as_ball_joint(self, constraint_angle_degs):
@@ -38,7 +38,7 @@ class Joint3D:
 
     def set_hinge(self, joint_type, rotation_axis, clockwise_constraint_degs, anticlockwise_constraint_degs,
                   reference_axis):
-        dot = Util.dot_product(rotation_axis, reference_axis)
+        dot = Util.Utils().dot_product(rotation_axis, reference_axis)
         # if Util.approximately_equal(dot, 0.0, 0.01) == 1:
         #     angle_degs = Util.get_angle_between_degs(rotation_axis, reference_axis)
         #     raise Exception(
@@ -53,8 +53,8 @@ class Joint3D:
         self.hinge_clockwise_constraint_degs = clockwise_constraint_degs
         self.hinge_anticlockwise_constraint_degs = anticlockwise_constraint_degs
         self.joint_type = joint_type
-        self.rotation_axis_uv = Util.normalization(rotation_axis)
-        self.reference_axis_uv = Util.normalization(reference_axis)
+        self.rotation_axis_uv = Util.Utils().normalization(rotation_axis)
+        self.reference_axis_uv = Util.Utils().normalization(reference_axis)
 
     def set_as_global_hinge(self, global_rotation_axis, cw_constraint_degs, acw_constraint_degs, global_reference_axis):
         self.set_hinge("GLOBAL_HINGE", global_rotation_axis, cw_constraint_degs, acw_constraint_degs,
