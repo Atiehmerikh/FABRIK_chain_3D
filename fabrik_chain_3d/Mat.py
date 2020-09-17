@@ -1,6 +1,6 @@
 import math
 import numpy as np
-import Utils as Util
+from fabrik_chain_3d import Utils as Util
 
 class Mat:
     def rotate_about_axis(self,source, angle_degs, rotation_axis):

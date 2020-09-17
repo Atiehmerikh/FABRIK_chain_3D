@@ -1,5 +1,5 @@
 import math
-import Mat
+from fabrik_chain_3d import Mat
 import numpy as np
 
 

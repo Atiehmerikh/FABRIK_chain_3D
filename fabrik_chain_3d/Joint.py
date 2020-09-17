@@ -1,5 +1,4 @@
-import Utils as Util
-import numpy as np
+from fabrik_chain_3d import Utils as Util
 
 
 class Joint3D:

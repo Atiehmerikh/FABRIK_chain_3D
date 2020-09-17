@@ -1,7 +1,7 @@
-import Bone as Bone
-import Chain as Chain
+from fabrik_chain_3d import Chain as Chain, Bone as Bone, Utils as Util
 import math
-import Utils as Util
+import sys
+sys.path.append('..')
 
 
 def main():
@@ -130,8 +130,8 @@ def main():
     bone_2_start_location = [x + y for x, y in zip(base_bone_start_location, scale_direction)]
     scale_direction = [i * (bone_length_2+bone_length_3) for i in bone_direction_2]
     bone_2_end_location = [x + y for x, y in zip(bone_2_start_location, scale_direction)]
-    m_bone = Bone.Bone3D(bone_2_start_location, bone_2_end_location, bone_direction_2, bone_length_2+bone_length_3,
-                         is_bone_2_fixed,bone_2_orientation)
+    m_bone = Bone.Bone3D(bone_2_start_location, bone_2_end_location, bone_direction_2, bone_length_2 + bone_length_3,
+                         is_bone_2_fixed, bone_2_orientation)
     m_chain.add_bone(m_bone)
     m_chain.set_rotor_base_bone_constraint("BALL",base_bone_rotation_axis,cw_deg_2)
     # Third part belongs to bone 4(able to work as a local hinge) and bone 5 that only
