@@ -1,6 +1,5 @@
 import math
 import numpy as np
-from fabrik_chain_3d import Utils as Util
 
 class Mat:
     def rotate_about_axis(self,source, angle_degs, rotation_axis):
@@ -45,15 +44,30 @@ class Mat:
 
 
     def angle_between_degrees(self,v1,v2):
-        v1 = Util.Utils().normalization(v1)
-        v2 = Util.Utils().normalization(v2)
+        l = math.sqrt(v1[0] ** 2 + v1[1] ** 2 + v1[2] ** 2)
+        if l == 0:
+            l += 0.01
+        v1 = [v1[0] / l, v1[1] / l, v1[2] / l]
+
+        l = math.sqrt(v2[0] ** 2 + v2[1] ** 2 + v2[2] ** 2)
+        if l == 0:
+            l += 0.01
+        v2 = [v2[0] / l, v2[1] / l, v2[2] / l]
+
         # print(Util.dot_product(v1,v2))
-        return math.acos(round(Util.Utils().dot_product(v1,v2),5))*180/np.pi
+        return math.acos(round(np.inner(v1,v2),5))*180/np.pi
 
 
     def dot_product(self,v1,v2):
-        v1 = Util.Utils().normalization(v1)
-        v2 = Util.Utils().normalization(v2)
+        l = math.sqrt(v1[0] ** 2 + v1[1] ** 2 + v1[2] ** 2)
+        if l == 0:
+            l += 0.01
+        v1 = [v1[0] / l, v1[1] / l, v1[2] / l]
+
+        l = math.sqrt(v2[0] ** 2 + v2[1] ** 2 + v2[2] ** 2)
+        if l == 0:
+            l += 0.01
+        v2 = [v2[0] / l, v2[1] / l, v2[2] / l]
         return np.inner(v1,v2)
 
 
