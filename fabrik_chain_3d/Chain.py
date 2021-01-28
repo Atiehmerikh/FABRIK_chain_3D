@@ -550,8 +550,8 @@ class Chain3d:
         total_chain_length = 0
         for i in range(0, self.chain_length):
             total_chain_length += self.get_bone(i).get_length()
-        print("The initial joint angles and diagram. close the figure to see the final configuration\n")
-        self.draw_chain()
+        # print("The initial joint angles and diagram. close the figure to see the final configuration\n")
+        # self.draw_chain()
         if dist_base_to_target <= total_chain_length:
             if self.get_chain_length == 0:
                 raise Exception("It makes no sense to solve an IK chain with zero bones.")
@@ -572,7 +572,7 @@ class Chain3d:
 
             # after finding these joint position we can do anything with them.
             # Here I calculate the joints_angle:
-            print("Final joint angles:\n")
+            # print("Final joint angles:\n")
             self.draw_chain()
 
             # self.output_joint_angles()
@@ -629,7 +629,7 @@ class Chain3d:
         #     y = y_prime[i] - y_prime[i + 1]
         #     z = z_prime[i] - z_prime[i + 1]
         #     print("%.2f" % round(math.sqrt(x * x + y * y + z * z), 2))
-        plt.show()
+        # plt.show()
 
     def set_axes_radius(self, ax, origin, radius):
         ax.set_xlim3d([origin[0] - radius, origin[0] + radius])
