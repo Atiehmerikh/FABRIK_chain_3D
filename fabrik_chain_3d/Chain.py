@@ -1,3 +1,5 @@
+from mpl_toolkits.mplot3d import Axes3D
+
 from fabrik_chain_3d import Bone as Bone, Joint as Joint, Mat as Mat, Utils as Util
 from fabrik_chain_3d.output_writer import *
 import numpy as np
@@ -27,6 +29,7 @@ class Chain3d:
         self.fixed_base_orientation = [1,0,0,0]
         self.base_address = base_address
         self.joints_file_address = joints_file_address
+
     def update_chain_length(self):
         self.chain_length = 0
         for i in self.chain:
@@ -199,11 +202,11 @@ class Chain3d:
 
     def set_freely_rotating_global_hinged_base_bone(self, hinge_rotation_axis):
         self.set_hinge_base_bone_constraint("GLOBAL_HINGE", hinge_rotation_axis, 180, 180,
-                                            Util.gen_perpendicular_vector_quick(hinge_rotation_axis))
+                                            Util.Utils().gen_perpendicular_vector_quick(hinge_rotation_axis))
 
     def set_freely_rotating_local_hinged_base_bone(self, hinge_rotation_axis):
         self.set_hinge_base_bone_constraint("LOCAL_HINGE", hinge_rotation_axis, 180, 180,
-                                            Util.gen_perpendicular_vector_quick(hinge_rotation_axis))
+                                            Util.Utils().gen_perpendicular_vector_quick(hinge_rotation_axis))
 
     def set_local_hinged_base_bone(self, hinge_rotation_axis, cw_constraint_degs, acw_constraint_degs,
                                    hinge_reference_axis):
@@ -219,7 +222,7 @@ class Chain3d:
     def set_base_bone_constraint_uv(self, constraint_uv):
         if len(constraint_uv) == 0:
             raise Exception("direction unit vector cannot be zero")
-        self.base_bone_constraint_uv = Util.normalization(constraint_uv)
+        self.base_bone_constraint_uv = Util.Utils().normalization(constraint_uv)
 
     def set_base_location(self, base_location):
         self.fixed_base_location = base_location
@@ -262,7 +265,7 @@ class Chain3d:
         if rotor[0] < -1:
             rotor[0] = -0.99
         needed_rotation = math.acos(rotor[0]) * 2 * (180 / np.pi)
-        self.rotations[loop] = needed_rotation
+        self.rotations[loop] = needed_rotation*(np.pi/180)
         if needed_rotation <= self.bone_twist_limit:
             # if the rotation is inside the limited
             return Mat.Mat().multiply_two_quaternion(rotor, outer_joint_orientation)
@@ -598,7 +601,9 @@ class Chain3d:
         # for bone 4(in schematic)
         angles.append(self.deg[2])
         angles.append(self.rotations[2])
-        print(angles)
+
+        s = ','.join([str(n) for n in angles])
+        print(s)
 
     def draw_chain(self):
         self.angles()
@@ -618,18 +623,19 @@ class Chain3d:
             f.write("\n")
         f.close()
         fig = plt.figure()
-        ax = fig.gca(projection='3d')
+        # ax = fig.gca(projection='3d')
+        ax = Axes3D(fig)
         ax.plot3D(x_prime, y_prime, z_prime, color='red')
         ax.scatter3D(self.target_position[0], self.target_position[1], self.target_position[2])
         ax.scatter3D(x_prime, y_prime, z_prime)
 
-        # for i in range(len(x_prime) - 1):
-        #     print('length bone ' + str(i + 1))
-        #     x = x_prime[i] - x_prime[i + 1]
-        #     y = y_prime[i] - y_prime[i + 1]
-        #     z = z_prime[i] - z_prime[i + 1]
-        #     print("%.2f" % round(math.sqrt(x * x + y * y + z * z), 2))
-        # plt.show()
+        for i in range(len(x_prime) - 1):
+            print('length bone ' + str(i + 1))
+            x = x_prime[i] - x_prime[i + 1]
+            y = y_prime[i] - y_prime[i + 1]
+            z = z_prime[i] - z_prime[i + 1]
+            print("%.2f" % round(math.sqrt(x * x + y * y + z * z), 2))
+        plt.show()
 
     def set_axes_radius(self, ax, origin, radius):
         ax.set_xlim3d([origin[0] - radius, origin[0] + radius])
@@ -661,7 +667,7 @@ class Chain3d:
                       (start_locations[i][2]-start_locations[i-1][2])]
                 uv = Mat.Mat().normalization(uv)
                 scale = np.dot(uv, length[i-1])
-                middle_points = [x + y for x, y in zip(start_locations[i-1], scale)]
+                middle_points = [a + b for a, b in zip(start_locations[i-1], scale)]
                 x.append(middle_points[0])
                 y.append(middle_points[1])
                 z.append(middle_points[2])

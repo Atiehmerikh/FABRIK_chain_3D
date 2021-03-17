@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c367009-db5d-434c-bbcb-22f15e896f4d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/FABRIK-chain-3d.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FABRIK-chain-3d.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/output_writer.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/output_writer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/outputjoints-position.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/outputjoints-position.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +26,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="ProjectId" id="1bG0DvqBH7kbWS850CM280jdx51" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,8 +41,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/Main.py" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -38,7 +52,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\atmer\AppData\Local\Programs\Python\Python38-32\python.exe" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -67,54 +81,25 @@
     </task>
     <servers />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600347295904">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1600347295904" />
-    <state x="421" y="98" key="FileChooserDialogImpl" timestamp="1600347293381">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="421" y="98" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1600347293381" />
-    <state width="1259" height="155" key="GridCell.Tab.0.bottom" timestamp="1600348206282">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1259" height="155" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1600348206282" />
-    <state width="1259" height="155" key="GridCell.Tab.0.center" timestamp="1600348206281">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1259" height="155" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1600348206281" />
-    <state width="1259" height="155" key="GridCell.Tab.0.left" timestamp="1600348206281">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1259" height="155" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1600348206281" />
-    <state width="1259" height="155" key="GridCell.Tab.0.right" timestamp="1600348206282">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1259" height="155" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1600348206282" />
-    <state width="1259" height="176" key="GridCell.Tab.1.bottom" timestamp="1592814382458">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1259" height="176" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1592814382458" />
-    <state width="1259" height="176" key="GridCell.Tab.1.center" timestamp="1592814382457">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1259" height="176" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1592814382457" />
-    <state width="1259" height="176" key="GridCell.Tab.1.left" timestamp="1592814382457">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1259" height="176" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1592814382457" />
-    <state width="1259" height="176" key="GridCell.Tab.1.right" timestamp="1592814382457">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1259" height="176" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1592814382457" />
-    <state x="144" y="0" key="SettingsEditor" timestamp="1600347260039">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="144" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1600347260039" />
-    <state x="349" y="169" width="583" height="337" key="com.intellij.ide.util.TipDialog" timestamp="1600509652148">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="349" y="169" width="583" height="337" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1600509652148" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Chain.py</url>
+          <line>352</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Chain.py</url>
+          <line>578</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Chain.py</url>
+          <line>268</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

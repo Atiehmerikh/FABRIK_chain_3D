@@ -121,9 +121,28 @@ class Utils:
 # Finding the rotation rotor between outer joint and inner joint of each FABRIK iteration
     def find_rotation_quaternion(self,outer_quaternion, inner_quaternion):
             conjucate = [outer_quaternion[0], -outer_quaternion[1], -outer_quaternion[2], -outer_quaternion[3]]
+            # print(outer_quaternion)
             length = math.sqrt(outer_quaternion[0] ** 2 + outer_quaternion[1] ** 2 +
                                outer_quaternion[2] ** 2 + outer_quaternion[3] ** 2)
             inverse = np.dot(conjucate, (1 / length))
             rotation = Mat.Mat().multiply_two_quaternion(inner_quaternion, inverse)
             return rotation
 
+    def quaternion_from_rotation_matrix(self,matrix):
+        if (matrix[2][2] < 0):
+            if (matrix[0][0] > matrix[1][1]):
+                t = 1 + matrix[0][0] - matrix[1][1] - matrix[2][2]
+                q = [t, matrix[0][1] + matrix[1][0], matrix[2][0] + matrix[0][2], matrix[1][2] - matrix[2][1]]
+            else:
+                t = 1 - matrix[0][0] + matrix[1][1] - matrix[2][2]
+                q = [matrix[0][1] + matrix[1][0], t, matrix[1][2] + matrix[2][1], matrix[2][0] - matrix[0][2]]
+        else:
+            if (matrix[0][0] < -matrix[1][1]):
+                t = 1 - matrix[0][0] - matrix[1][1] + matrix[2][2]
+                q = [matrix[2][0] + matrix[0][2], matrix[1][2] + matrix[2][1], t, matrix[0][1] - matrix[1][0]]
+            else:
+                t = 1 + matrix[0][0] + matrix[1][1] + matrix[2][2]
+                q = [matrix[1][2] - matrix[2][1], matrix[2][0] - matrix[0][2], matrix[0][1] - matrix[1][0], t]
+
+        q = [element * (0.5 / math.sqrt(t)) for element in q]
+        return q
