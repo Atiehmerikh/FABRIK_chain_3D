@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c367009-db5d-434c-bbcb-22f15e896f4d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/FABRIK-chain-3d.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FABRIK-chain-3d.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Joint.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Joint.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/output_writer.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/output_writer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/outputjoints-position.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/outputjoints-position.txt" afterDir="false" />
     </list>
@@ -41,7 +39,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/Main.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../FabrikPy/FabrikPy" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunManager">
@@ -86,18 +84,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fabrik_chain_3d/Chain.py</url>
-          <line>352</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Chain.py</url>
-          <line>578</line>
+          <line>317</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fabrik_chain_3d/Chain.py</url>
-          <line>268</line>
-          <option name="timeStamp" value="9" />
+          <line>306</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Chain.py</url>
+          <line>305</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/Main.py</url>
+          <line>118</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

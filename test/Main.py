@@ -114,9 +114,16 @@ def main(default_target_position, default_target_orientation):
     # a consecutive bone responsible for twisting In below these four part being made
     # by the above information about joints and bones
 
-    # the First part: create a chain by defining one bone that is fixed in its place and only able to twist(base bone)
+    # the First part:review create a chain by defining one bone that is fixed in its place and only able to twist(base bone)
     is_base_bone_fixed = 0
     m_chain = Chain.Chain3d(is_base_bone_fixed, base_address="./output")
+    # scale_direction_base = [i * (base_bone_length) for i in base_bone_direction]
+    # base_bone_end_location = [x + y for x, y in zip(base_bone_start_location, scale_direction_base)]
+    # m_bone = Bone.Bone3D(base_bone_start_location,base_bone_end_location,base_bone_direction,
+    #                      base_bone_length,is_base_bone_fixed,base_bone_orientation)
+    #
+    # m_chain.add_bone(m_bone)
+
 
     # Defining second part that consist of bone 2(able to work as a local hinge) and bone 3 that only
     # rotate around itself and responsible for twists.
@@ -153,17 +160,17 @@ if __name__ == "__main__":
     # y = float(sys.argv[2])
     # z = float(sys.argv[3])
     # default_target_position = [x, y, z]
-    # default_target_position = [0.3,0.2,0.5]
-    default_target_position = [0.28, -0.199904, 0.5]
+    default_target_position = [0.3,0.2,0.5]
+    # default_target_position = [0.28, -0.199904, 0.5]
     # default_target_position = [0.41, 0.09, 0.82]
 
     # default_target_orientation = [0, 1, 0, 0, 0]
-    rotation_matrix = [[1,-0.000308427, 0.000562747],
-                       [0.000308962,1,-0.000950381],
-                       [-0.000562454, 0.000950554,0.999999]]
-    # rotation_matrix = [[0.998752, 0.0479043, -0.0141034],
-    #                    [-0.0126917, -0.029647, -0.99948],
-    #                    [-0.0482975, 0.998412, -0.029002]]
+    # rotation_matrix = [[1,-0.000308427, 0.000562747],
+    #                    [0.000308962,1,-0.000950381],
+    #                    [-0.000562454, 0.000950554,0.999999]]
+    rotation_matrix = [[0.998752, 0.0479043, -0.0141034],
+                       [-0.0126917, -0.029647, -0.99948],
+                       [-0.0482975, 0.998412, -0.029002]]
 
     default_target_orientation = Util.Utils().quaternion_from_rotation_matrix(rotation_matrix)
 
