@@ -320,3 +320,9 @@ class FABRIK():
         return self.chain
 
         # self.draw_chain()
+
+    def get_rotations(self):
+        return self.rotations
+
+    def get_deg(self):
+        return self.deg

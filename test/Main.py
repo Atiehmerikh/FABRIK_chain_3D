@@ -160,8 +160,8 @@ if __name__ == "__main__":
     # y = float(sys.argv[2])
     # z = float(sys.argv[3])
     # default_target_position = [x, y, z]
-    default_target_position = [0.3,0.2,0.5]
-    # default_target_position = [0.28, -0.199904, 0.5]
+    # default_target_position = [0.3,0.2,0.5]
+    default_target_position = [0.28, -0.199904, 0.5]
     # default_target_position = [0.41, 0.09, 0.82]
 
     # default_target_orientation = [0, 1, 0, 0, 0]
