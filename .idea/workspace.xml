@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="3c367009-db5d-434c-bbcb-22f15e896f4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Bone.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Bone.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/FABRIK.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/FABRIK.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Visualization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Robot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,11 +38,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/Robot.py" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunManager">
-    <configuration name="Main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+    <configuration name="Robot" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="FABRIK-chain-3d" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -54,7 +54,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/Main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/Robot.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />

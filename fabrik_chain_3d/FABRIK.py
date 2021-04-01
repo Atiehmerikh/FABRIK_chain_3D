@@ -4,8 +4,7 @@ import numpy as np
 
 
 class FABRIK():
-    def __init__(self, chain, chain_length, target_position, target_orientation,is_base_bone_fixed,base_bone_constraint_uv,fixed_base_location):
-        self.chain = chain
+    def __init__(self, chain_length, target_position, target_orientation,is_base_bone_fixed,base_bone_constraint_uv,fixed_base_location):
         self.target_position = target_position
         self.target_orientation = target_orientation
         self.chain_length = chain_length
@@ -45,10 +44,10 @@ class FABRIK():
             z = v1[2] * math.sin(theta / 2)
             return [w, x, y, z]
 
-    def forward(self):
+    def forward(self,chain):
         for loop in range(self.chain_length - 1, -1, -1):
             #  Get the length of the bone we're working on
-            this_bone = self.chain[loop]
+            this_bone = chain.get_bone(loop)
             this_bone_length = this_bone.get_length()
             this_bone_joint = this_bone.get_joint()
             this_bone_joint_type = this_bone_joint.get_joint_type()
@@ -60,12 +59,12 @@ class FABRIK():
                 else:
                     # Get the outer-to-inner unit vector of the bone further out
                     outer_bone_outer_to_inner_uv = Util.Utils().negated(
-                        self.chain[loop + 1].get_direction_uv())
+                        chain.get_bone(loop+1).get_direction_uv())
                     # Get the outer-to-inner unit vector of this bone
                     this_bone_outer_to_inner_uv = Util.Utils().negated(
-                        self.chain[loop].get_direction_uv())
-                    next_bone_orientation = self.chain[loop+1].get_bone_orientation()
-                    this_bone_orientation = self.chain[loop+1].get_bone_orientation()
+                        chain.get_bone(loop).get_direction_uv())
+                    next_bone_orientation = chain.get_bone(loop+1).get_bone_orientation()
+                    this_bone_orientation = chain.get_bone(loop+1).get_bone_orientation()
                     this_bone.set_bone_orientation(
                         self.solve_for_orientation(next_bone_orientation, this_bone_orientation, loop))
                     # Get the joint type for this bone and handle constraints on thisBoneOuterToInnerUV
@@ -86,7 +85,7 @@ class FABRIK():
                         # Not a base bone? Then construct a rotation matrix based on the previous bones
                         # inner-to-outer direction...
                         if loop > 0:
-                            m = Util.Utils().create_rotation_matrix(self.chain[loop - 1].get_direction_uv())
+                            m = Util.Utils().create_rotation_matrix(chain.get_bone(loop-1).get_direction_uv())
                             relative_hinge_rotation_axis = Util.Utils().normalization(
                                 Util.Utils().times(m, this_bone_joint.get_hinge_rotation_axis()))
 
@@ -106,7 +105,7 @@ class FABRIK():
                 # If we are not working on the basebone, then we also set the end joint location of
                 # the previous bone in the chain
                 if loop > 0:
-                    self.chain[loop - 1].set_end_point_position(new_start_location)
+                    chain.get_bone(loop-1).set_end_point_position(new_start_location)
             # If we ARE working on the end effector bone..
             else:
                 # put end effector end location to the target
@@ -124,7 +123,7 @@ class FABRIK():
                         this_bone_outer_to_inner_uv = Util.Utils().project_on_to_plane(this_bone_outer_to_inner_uv,
                                                                                        this_bone_joint.get_hinge_rotation_axis())
                     elif this_bone_joint_type == "LOCAL_HINGE":
-                        m = Util.Utils().create_rotation_matrix(self.chain[loop - 1].get_direction_uv())
+                        m = Util.Utils().create_rotation_matrix(chain.get_bone(loop-1).get_direction_uv())
                         relative_hinge_rotation_axis = Util.Utils().normalization(
                             Util.Utils().times(m, this_bone_joint.get_hinge_rotation_axis()))
                         # Project this bone's outer-to-inner direction onto the plane described by the relative hinge
@@ -140,20 +139,20 @@ class FABRIK():
                 # If we are not working on the base bone, then we also set the end joint location of
                 # the previous bone in the chain
                 if loop > 0:
-                    self.chain[loop - 1].set_end_point_position(new_start_location)
-        return self.chain
+                    chain.get_bone(loop-1).set_end_point_position(new_start_location)
+        return chain
 
-    def backward(self):
+    def backward(self,chain):
         for loop in range(self.chain_length):
-            this_bone = self.chain[loop]
-            this_bone_length = self.chain[loop].get_length()
+            this_bone = chain.get_bone(loop)
+            this_bone_length = chain.get_bone(loop).get_length()
             # If we are not working on the base bone
             if loop != 0:
                 if this_bone.is_fix_bone() == 1:
                     this_bone_inner_to_outer_uv = this_bone.get_fixed_bone_direction_uv()
                 else:
                     this_bone_inner_to_outer_uv = this_bone.get_direction_uv()
-                    prev_bone_inner_to_outer_uv = self.chain[loop - 1].get_direction_uv()
+                    prev_bone_inner_to_outer_uv = chain.get_bone(loop-1).get_direction_uv()
                     this_bone_joint = this_bone.get_joint()
                     this_bone_joint_type = this_bone_joint.get_joint_type()
                     if this_bone_joint_type == "BALL":
@@ -241,15 +240,15 @@ class FABRIK():
                 new_end_location = [x + y for x, y in zip(start_location, scale)]
                 this_bone.set_end_point_position(new_end_location)
                 if loop < self.chain_length - 1:
-                    self.chain[loop + 1].set_start_point_position(new_end_location)
+                    chain.get_bone(loop+1).set_start_point_position(new_end_location)
 
             #  If we ARE working on the basebone...
             else:
-                self.chain[0].set_start_point_position(self.fixed_base_location)
+                chain.get_bone(0).set_start_point_position(self.fixed_base_location)
                 if self.is_base_bone_fixed == 1:
-                    self.chain[0].set_end_point_position(self.fixed_base_location_2)
+                    chain.get_bone(0).set_end_point_position(self.fixed_base_location_2)
                     if self.chain_length > 1:
-                        self.chain[1].set_start_point_position(self.fixed_base_location_2)
+                        chain.get_bone(1).set_start_point_position(self.fixed_base_location_2)
                 else:
                     this_bone_joint = this_bone.get_joint()
                     this_bone_joint_type = this_bone_joint.get_joint_type()
@@ -290,7 +289,7 @@ class FABRIK():
                         new_end_location = [x + y for x, y in zip(start_location, scale)]
                         this_bone.set_end_point_position(new_end_location)
                         if self.chain_length > 1:
-                            self.chain[1].set_start_point_position(new_end_location)
+                            chain.get_bone(1).set_start_point_position(new_end_location)
                     if this_bone_joint_type == "BALL":
                         this_bone_inner_to_outer_uv = this_bone.get_direction_uv()
                         angle_between_degs = Util.Utils().get_angle_between_degs(self.base_bone_constraint_uv,
@@ -308,7 +307,7 @@ class FABRIK():
                         new_end_location = [x + y for x, y in zip(start_location, scale)]
                         this_bone.set_end_point_position(new_end_location)
                         if self.chain_length > 1:
-                            self.chain[1].set_start_point_position(new_end_location)
+                            chain.get_bone(1).set_start_point_position(new_end_location)
                     else:
                         this_bone_inner_to_outer_uv = this_bone.get_direction_uv()
                         scale = [i * this_bone_length for i in this_bone_inner_to_outer_uv]
@@ -316,8 +315,8 @@ class FABRIK():
                         new_end_location = [x + y for x, y in zip(start_location, scale)]
                         this_bone.set_end_point_position(new_end_location)
                         if self.chain_length > 1:
-                            self.chain[1].set_start_point_position(new_end_location)
-        return self.chain
+                            chain.get_bone(1).set_start_point_position(new_end_location)
+        return chain
 
         # self.draw_chain()
 

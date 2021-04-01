@@ -48,7 +48,7 @@ class Visualization():
     def angles(self):
             angles = []
             # for base bone twist
-            base_bone = self.chain[0]
+            base_bone = self.chain.get_bone(0)
             base_bone_orientation = base_bone.get_bone_orientation()
             # number 3 belongs to the rotation matrix which is 0 for bone 3 rotation, 1 for bone 5 rotation,
             # 2 for bone 7 rotation, 3 for bone 0 rotation
@@ -146,11 +146,11 @@ class Visualization():
     def points_retrieval(self):
             start_locations = []
             end_locations = []
-            for i in range(0, len(self.chain)):
-                start_loc = self.chain[i].get_start_point_position()
+            for i in range(0, self.chain.get_chain_length()):
+                start_loc = self.chain.get_bone(i).get_start_point_position()
                 # end_loc = self.chain.get_bone(i).set_end_point()
                 start_locations.append(start_loc)
                 # end_locations.append(end_loc)
-            end_effector_bone = self.chain[len(self.chain) - 1].end_point
+            end_effector_bone = self.chain.get_bone(self.chain.get_chain_length() - 1).end_point
             start_locations.append(end_effector_bone)
             return start_locations

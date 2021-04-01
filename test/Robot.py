@@ -1,11 +1,11 @@
-from fabrik_chain_3d import Chain as Chain, Bone as Bone, Utils as Util
+from fabrik_chain_3d import Chain as Chain, Bone as Bone, Utils as Util, FABRIK as fabrik
 import math
 import sys
-
+import fabrik_chain_3d.Visualization as draw_chain
 sys.path.append('..')
 
 
-def main(default_target_position, default_target_orientation):
+def Franka_robot_definition(default_target_position, default_target_orientation):
     # This is an example of using this code for solving inverse kinematic of FRANKA robot
 
     # Step 1 : specify the target(end effector) position and orientation(in quaternion)
@@ -27,7 +27,7 @@ def main(default_target_position, default_target_orientation):
     # rotate around themselves(bone 3, 5 7)
     # and the one working as a hinge (bone 2,4,6)
 
-# Shoulder:
+    # Shoulder:
     # Bone number 2
     bone_direction_2 = [0, 0, 1]
     bone_length_2 = 0.316
@@ -54,7 +54,7 @@ def main(default_target_position, default_target_orientation):
     acw_deg_3 = acw_rad_3 * 180 / math.pi
     bone_3_orientation = [1, 0, 0, 0]
 
-# elbow
+    # elbow
     # Bone number 4
     bone_direction_4 = [0, 0, 1]
     bone_length_4 = 0.088
@@ -81,7 +81,7 @@ def main(default_target_position, default_target_orientation):
     acw_deg_5 = acw_rad_5 * 180 / math.pi
     bone_5_orientation = [1, 0, 0, 0]
 
-# wrist
+    # wrist
     # Bone number 6
     bone_direction_6 = [1, 0, 0]
     bone_length_6 = 0.088
@@ -108,13 +108,13 @@ def main(default_target_position, default_target_orientation):
     acw_deg_7 = acw_rad_7 * 180 / math.pi
     bone_7_orientation = [0.707, 0, -0.707, 0]
 
-    ###### Solving!
+    ###### Make the Robot Chain
 
     # The FRANKA consist of four main part that in each part there is a joint responsible for hinge duties and
     # a consecutive bone responsible for twisting In below these four part being made
     # by the above information about joints and bones
-
     # the First part:review create a chain by defining one bone that is fixed in its place and only able to twist(base bone)
+
     is_base_bone_fixed = 0
     m_chain = Chain.Chain3d(is_base_bone_fixed, base_address="./output")
     # scale_direction_base = [i * (base_bone_length) for i in base_bone_direction]
@@ -123,7 +123,6 @@ def main(default_target_position, default_target_orientation):
     #                      base_bone_length,is_base_bone_fixed,base_bone_orientation)
     #
     # m_chain.add_bone(m_bone)
-
 
     # Defining second part that consist of bone 2(able to work as a local hinge) and bone 3 that only
     # rotate around itself and responsible for twists.
@@ -152,7 +151,49 @@ def main(default_target_position, default_target_orientation):
 
     # In this part the target is set for the chain and whole chain is going to be solved
     m_chain.set_target(default_target_position, default_target_orientation)
-    m_chain.solve_fabrik_ik()
+    # m_chain.solve_fabrik_ik()
+    # FRANKA = m_chain.get_chain()
+    return m_chain
+
+
+def solve_fabrik_ik(chain, target_position, target_orientation):
+    dist_base_to_target = Util.Utils().get_distance_between(chain.get_bone(0).get_start_point_position(),
+                                                            target_position)
+    total_chain_length = 0
+    for i in range(0, chain.get_chain_length()):
+        total_chain_length += chain.get_bone(i).get_length()
+    if dist_base_to_target <= total_chain_length:
+        if chain.get_chain_length() == 0:
+            raise Exception("It makes no sense to solve an IK chain with zero bones.")
+
+        dist_to_target = Util.Utils().get_distance_between(
+            chain.get_bone(chain.get_chain_length() - 1).get_end_point_position(),target_position)
+
+        counter = 0
+        m_FABRIK = fabrik.FABRIK(chain.get_chain_length(), target_position,
+                                 target_orientation
+                                 , chain.get_bone(0).is_fix_bone(), chain.get_base_bone_constraint_uv(),
+                                 chain.get_base_location())
+        while dist_to_target > chain.get_solve_distance_threshold() and counter < 10000:
+            chain = m_FABRIK.forward(chain)
+            chain = m_FABRIK.backward(chain)
+
+            dist_to_target = Util.Utils().get_distance_between(
+                chain.get_bone(chain.get_chain_length() - 1).get_end_point_position(),
+                target_position)
+            counter += 1
+
+        # after finding these joint position we can do anything with them.
+        # Here I calculate the joints_angle:
+        # print("Final joint angles:\n")
+        m_draw = draw_chain.Visualization(target_position, chain, m_FABRIK.get_deg(),
+                                          m_FABRIK.get_rotations())
+        m_draw.draw_chain()
+
+        # self.output_joint_angles()
+    else:
+        print("Target is so far! can't be reached")
+        return
 
 
 if __name__ == "__main__":
@@ -161,7 +202,7 @@ if __name__ == "__main__":
     # z = float(sys.argv[3])
     # default_target_position = [x, y, z]
     # default_target_position = [0.3,0.2,0.5]
-    default_target_position = [0.28, -0.199904, 0.5]
+    default_target_position = [0.28, -0.199904, 0.6]
     # default_target_position = [0.41, 0.09, 0.82]
 
     # default_target_orientation = [0, 1, 0, 0, 0]
@@ -174,4 +215,5 @@ if __name__ == "__main__":
 
     default_target_orientation = Util.Utils().quaternion_from_rotation_matrix(rotation_matrix)
 
-    main(default_target_position, default_target_orientation)
+    chain = Franka_robot_definition(default_target_position, default_target_orientation)
+    solve_fabrik_ik(chain, default_target_position, default_target_orientation)
