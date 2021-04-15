@@ -18,7 +18,7 @@ class FABRIK():
         self.is_base_bone_fixed = is_base_bone_fixed
         self.base_bone_constraint_uv = base_bone_constraint_uv
 
-    def solve_for_orientation(self, outer_joint_orientation, inner_joint_orientation, loop):
+    def solve_for_rotations(self, outer_joint_orientation, inner_joint_orientation, bone_number):
         q1 = outer_joint_orientation
         q2 = inner_joint_orientation
         # finding the rotor that express rotation between two orientational frame(between outer and inner joint)
@@ -28,14 +28,14 @@ class FABRIK():
         if rotor[0] < -1:
             rotor[0] = -0.99
         needed_rotation = math.acos(rotor[0]) * 2 * (180 / np.pi)
-        self.rotations[loop] = needed_rotation * (np.pi / 180)
+        self.rotations[bone_number] = needed_rotation * (np.pi / 180)
         if needed_rotation <= self.bone_twist_limit:
             # if the rotation is inside the limited
             return Mat.Mat().multiply_two_quaternion(rotor, outer_joint_orientation)
         else:
             # the maximum allowed rotation angle
             theta = (self.bone_twist_limit) * (np.pi / 180)
-            self.rotations[loop] = theta
+            self.rotations[bone_number] = theta
             # the rotation axis
             if abs(rotor[0]) == 1:
                 return rotor
@@ -68,7 +68,7 @@ class FABRIK():
                     next_bone_orientation = chain.get_bone(loop+1).get_bone_orientation()
                     this_bone_orientation = chain.get_bone(loop+1).get_bone_orientation()
                     this_bone.set_bone_orientation(
-                        self.solve_for_orientation(next_bone_orientation, this_bone_orientation, loop))
+                        self.solve_for_rotations(next_bone_orientation, this_bone_orientation, loop))
                     # Get the joint type for this bone and handle constraints on thisBoneOuterToInnerUV
                     if this_bone_joint_type == "BALL":
                         # Constrain to relative angle between this bone and the outer bone if required
@@ -113,7 +113,7 @@ class FABRIK():
                 # put end effector end location to the target
                 this_bone.set_end_point_position(self.target_position)
                 this_bone.set_bone_orientation(
-                    self.solve_for_orientation(self.target_orientation, this_bone.get_bone_orientation(), loop))
+                    self.solve_for_rotations(self.target_orientation, this_bone.get_bone_orientation(), loop))
                 if this_bone.is_fix_bone() == 1:
                     this_bone_outer_to_inner_uv = Util.Utils().negated(this_bone.get_fixed_bone_direction_uv())
                 else:

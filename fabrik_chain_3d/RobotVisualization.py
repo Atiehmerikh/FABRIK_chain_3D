@@ -6,7 +6,7 @@ from fabrik_chain_3d import Mat as Mat, Utils as Util
 from mpl_toolkits.mplot3d import Axes3D
 
 
-class Visualization():
+class RobotVisualization():
     def __init__(self,target_position,target_orientatio,chain,deg,rotations,base_address="./test/output/", joints_file_address="joints-position.txt"):
         self.target_position = target_position
         self.target_orientation = target_orientatio
@@ -20,14 +20,16 @@ class Visualization():
 
     def angles(self):
         angles = []
-        # for base bone twist
+        # for base bone rotation
         base_bone = self.chain[0]
         base_bone_orientation = base_bone.get_bone_orientation()
+        rotations_base_bone = Util.Utils().find_rotation_quaternion(self.chain[1].bone_orientation, base_bone_orientation)
+
         # number 3 belongs to the rotation matrix which is 0 for bone 3 rotation, 1 for bone 5 rotation,
         # 2 for bone 7 rotation, 3 for bone 0 rotation
 
         # self.solve_for_orientation(base_bone_orientation, self.fixed_base_orientation, 3)
-        angles.append(self.rotations[3])
+        angles.append(math.acos(rotations_base_bone[0]) * 2)
         for i in range(0,len(self.deg)):
             angles.append(self.deg[i])
             angles.append(self.rotations[i])

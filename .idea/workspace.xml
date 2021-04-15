@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3c367009-db5d-434c-bbcb-22f15e896f4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/FABRIK.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/FABRIK.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Visualization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Human.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/RobotVisualization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Huumann.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Huumann.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Robot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/output/joints-position.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/output/joints-position.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,26 +96,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test/Robot.py</url>
-          <line>276</line>
+          <line>233</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test/Robot.py</url>
-          <line>247</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Visualization.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Visualization.py</url>
+          <url>file://$PROJECT_DIR$/fabrik_chain_3d/RobotVisualization.py</url>
           <line>39</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Visualization.py</url>
+          <url>file://$PROJECT_DIR$/fabrik_chain_3d/RobotVisualization.py</url>
           <line>83</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>

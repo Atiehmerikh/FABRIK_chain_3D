@@ -1,7 +1,7 @@
 from fabrik_chain_3d import Chain as Chain, Bone as Bone, Utils as Util, FABRIK as fabrik
 import math
 import sys
-import fabrik_chain_3d.Visualization as draw_chain
+import fabrik_chain_3d.RobotVisualization as draw_chain
 
 sys.path.append('..')
 
@@ -9,9 +9,7 @@ sys.path.append('..')
 def Franka_robot_definition(default_target_position, default_target_orientation):
     # This is an example of using this code for solving inverse kinematic of FRANKA robot
 
-    # Step 1 : specify the target(end effector) position and orientation(in quaternion)
-
-    # Step 2: Define the specification of Base-bone: In this case it only twist and rotate around itself.
+    # Step 1: Define the specification of Base-bone: In this case it only twist and rotate around itself.
     # Bone number 1 (Base bone)
     base_bone_start_location = [0, 0, 0]
     base_bone_direction = [0, 0, 1]
@@ -152,53 +150,10 @@ def Franka_robot_definition(default_target_position, default_target_orientation)
 
     # In this part the target is set for the chain and whole chain is going to be solved
     m_chain.set_target(default_target_position, default_target_orientation)
-    # m_chain.solve_fabrik_ik()
-    # FRANKA = m_chain.get_chain()
     return m_chain
 
 
-def right_hand_chain(joints,orientation,constraints_angle, core_index, shoulder_index, elbow_index):
-    # core to shoulder bone
-    base_bone_start_location = joints[core_index]
-    base_bone_direction = joints[shoulder_index] - joints[core_index]
-    base_bone_length = math.sqrt((joints[shoulder_index][0] - joints[core_index][0]) ** 2 +
-                                 (joints[shoulder_index][1] - joints[core_index][1]) ** 2 +
-                                 (joints[shoulder_index][2] - joints[core_index][2]) ** 2)
-    base_bone_rotation_axis = [0, 0, 1]
-    base_bone_constraint_rads = constraints_angle[core_index][0]* math.pi/180
-    base_bone_constraint_degs = base_bone_constraint_rads * 180 / math.pi
-    base_bone_orientation = orientation[core_index]  # this means no orientational frame rotation happened from global coordinate.
-
-    is_base_bone_fixed = 0
-    m_chain = Chain.Chain3d(is_base_bone_fixed, base_address="./output")
-    scale_direction_base = [i * (base_bone_length) for i in base_bone_direction]
-    base_bone_end_location = [x + y for x, y in zip(base_bone_start_location, scale_direction_base)]
-
-    m_bone = Bone.Bone3D(base_bone_start_location, base_bone_end_location, base_bone_direction,
-                         base_bone_length, is_base_bone_fixed, base_bone_orientation)
-    m_chain.add_bone(m_bone)
-    m_chain.set_rotor_base_bone_constraint("BALL",base_bone_rotation_axis,base_bone_constraint_degs)
-
-    # Shoulder bone:
-    shoulder_bone_direction = joints[elbow_index] - joints[shoulder_index]
-    shoulder_bone_length = math.sqrt((joints[elbow_index][0] - joints[shoulder_index][0]) ** 2 +
-                                 (joints[elbow_index][1] - joints[shoulder_index][1]) ** 2 +
-                                 (joints[elbow_index][2] - joints[shoulder_index][2]) ** 2)
-
-    shoulder_constraint_deg= constraints_angle[shoulder_index][0]* math.pi/180
-    shoulder_bone_orientation =orientation[shoulder_index]
-    is_bone_shoulder_fixed = 0
-
-    m_chain.add_consecutive_rotor_constrained_bone(shoulder_bone_direction,shoulder_bone_length,shoulder_constraint_deg,
-                                                   is_bone_shoulder_fixed,shoulder_bone_orientation)
-
-    # In this part the target is set for the chain and whole chain is going to be solved
-    m_chain.set_target(default_target_position, default_target_orientation)
-    # m_chain.solve_fabrik_ik()
-    # FRANKA = m_chain.get_chain()
-    return m_chain
-
-def base_bone():
+def FRANKA_base_bone():
     base_bone_start_location = [0, 0, 0]
     base_bone_direction = [0, 0, 1]
     base_bone_length = 0.333
@@ -216,7 +171,8 @@ def base_bone():
 
     return m_bone
 
-def solve_fabrik_ik(base_bone,chain, target_position, target_orientation):
+
+def solve_fabrik_for_Robot(base_bone, chain, target_position, target_orientation):
     dist_base_to_target = Util.Utils().get_distance_between(chain.get_bone(0).get_start_point_position(),
                                                             target_position)
     total_chain_length = 0
@@ -245,12 +201,12 @@ def solve_fabrik_ik(base_bone,chain, target_position, target_orientation):
 
         # To add the fixed base bone here!! from left of list of bones
         chain.add_bone(base_bone)
+        # The new bone is added from Left to the chains of bones so needs reordering
         new_chain = [chain.get_chain()[i] for i in [3,0,1,2]]
-        m_draw = draw_chain.Visualization(target_position,target_orientation, new_chain, m_FABRIK.get_deg(),
-                                          m_FABRIK.get_rotations())
+        m_draw = draw_chain.RobotVisualization(target_position, target_orientation, new_chain, m_FABRIK.get_deg(),
+                                               m_FABRIK.get_rotations())
         m_draw.draw_chain()
 
-        # self.output_joint_angles()
     else:
         print("Target is so far! can't be reached")
         return
@@ -283,6 +239,6 @@ if __name__ == "__main__":
     #                          0,1,2)
 
     base_bone = base_bone()
-    solve_fabrik_ik(base_bone,chain, default_target_position, default_target_orientation)
+    solve_fabrik_for_Robot(base_bone, chain, default_target_position, default_target_orientation)
 
 

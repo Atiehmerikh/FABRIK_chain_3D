@@ -146,3 +146,4 @@ class Utils:
 
         q = [element * (0.5 / math.sqrt(t)) for element in q]
         return q
+
