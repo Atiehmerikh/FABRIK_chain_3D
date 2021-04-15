@@ -6,7 +6,9 @@
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Chain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/FABRIK.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/FABRIK.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Visualization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Human.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/output/joints-position.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/output/joints-position.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,14 +34,26 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="1bG0DvqBH7kbWS850CM280jdx51" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/Robot.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/input" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test/input" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Robot" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -82,9 +96,29 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/Robot.py</url>
+          <line>276</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/Robot.py</url>
+          <line>247</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fabrik_chain_3d/Visualization.py</url>
-          <line>54</line>
-          <option name="timeStamp" value="1" />
+          <line>29</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Visualization.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fabrik_chain_3d/Visualization.py</url>
+          <line>83</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

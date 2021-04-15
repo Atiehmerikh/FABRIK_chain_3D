@@ -7,8 +7,9 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 class Visualization():
-    def __init__(self,target_position,chain,deg,rotations,base_address="./test/output/", joints_file_address="joints-position.txt"):
+    def __init__(self,target_position,target_orientatio,chain,deg,rotations,base_address="./test/output/", joints_file_address="joints-position.txt"):
         self.target_position = target_position
+        self.target_orientation = target_orientatio
         self.chain = chain
         self.deg = deg
         self.rotations = rotations
@@ -17,55 +18,22 @@ class Visualization():
         self.bone_twist_limit = 2.8973 * 180 / math.pi
         self.fixed_base_orientation = [1, 0, 0, 0]
 
-    def solve_for_orientation(self, outer_joint_orientation, inner_joint_orientation, loop):
-        q1 = outer_joint_orientation
-        q2 = inner_joint_orientation
-        # finding the rotor that express rotation between two orientational frame(between outer and inner joint)
-        rotor = Util.Utils().find_rotation_quaternion(q1, q2)
-        if rotor[0] > 1:
-            rotor[0] = 0.99
-        if rotor[0] < -1:
-            rotor[0] = -0.99
-        needed_rotation = math.acos(rotor[0]) * 2 * (180 / np.pi)
-        self.rotations[loop] = needed_rotation * (np.pi / 180)
-        if needed_rotation <= self.bone_twist_limit:
-            # if the rotation is inside the limited
-            return Mat.Mat().multiply_two_quaternion(rotor, outer_joint_orientation)
-        else:
-            # the maximum allowed rotation angle
-            theta = (self.bone_twist_limit) * (np.pi / 180)
-            self.rotations[loop] = theta
-            # the rotation axis
-            if abs(rotor[0]) == 1:
-                return rotor
-            v1 = np.dot(rotor[1:], (1 / math.sqrt(1 - rotor[0] ** 2)))
-            w = math.cos(theta / 2)
-            x = v1[0] * math.sin(theta / 2)
-            y = v1[1] * math.sin(theta / 2)
-            z = v1[2] * math.sin(theta / 2)
-            return [w, x, y, z]
-
     def angles(self):
-            angles = []
-            # for base bone twist
-            base_bone = self.chain.get_bone(0)
-            base_bone_orientation = base_bone.get_bone_orientation()
-            # number 3 belongs to the rotation matrix which is 0 for bone 3 rotation, 1 for bone 5 rotation,
-            # 2 for bone 7 rotation, 3 for bone 0 rotation
-            self.solve_for_orientation(base_bone_orientation, self.fixed_base_orientation, 3)
-            angles.append(self.rotations[3])
-            # for bone 2(in schematic)
-            angles.append(self.deg[0])
-            angles.append(self.rotations[0])
-            # for bone 3(in schematic)
-            angles.append(self.deg[1])
-            angles.append(self.rotations[1])
-            # for bone 4(in schematic)
-            angles.append(self.deg[2])
-            angles.append(self.rotations[2])
+        angles = []
+        # for base bone twist
+        base_bone = self.chain[0]
+        base_bone_orientation = base_bone.get_bone_orientation()
+        # number 3 belongs to the rotation matrix which is 0 for bone 3 rotation, 1 for bone 5 rotation,
+        # 2 for bone 7 rotation, 3 for bone 0 rotation
 
-            s = ','.join([str(n) for n in angles])
-            print(s)
+        # self.solve_for_orientation(base_bone_orientation, self.fixed_base_orientation, 3)
+        angles.append(self.rotations[3])
+        for i in range(0,len(self.deg)):
+            angles.append(self.deg[i])
+            angles.append(self.rotations[i])
+
+        s = ','.join([str(n) for n in angles])
+        print(s)
 
     def draw_chain(self):
             self.angles()
@@ -74,16 +42,6 @@ class Visualization():
             y_prime = coordinate[1]
             z_prime = coordinate[2]
 
-            # f = OutputWriter(self.base_address, self.joints_file_address).joint_writer()
-            # for i in range(0, len(x_prime)):
-            #     f.write(str(x_prime[i]))
-            #     f.write(' ')
-            #     f.write(str(y_prime[i]))
-            #     f.write(' ')
-            #     f.write(str(z_prime[i]))
-            #
-            #     f.write("\n")
-            # f.close()
             fig = plt.figure()
             # ax = fig.gca(projection='3d')
             ax = Axes3D(fig)
@@ -118,17 +76,17 @@ class Visualization():
             w, h = 3, len(start_locations)
             coordinate = [[0 for x in range(w)] for y in range(h)]
             # coordinate =[][len(body_part_index)]
-            x = [0]
-            y = [0]
-            z = [0]
+            x = []
+            y = []
+            z = []
             length = [0.316, 0.088, 0.088]
             for i in range(len(start_locations)):
-                if i >= 1:
+                if i >= 2:
                     uv = [(start_locations[i][0] - start_locations[i - 1][0]),
                           (start_locations[i][1] - start_locations[i - 1][1]),
                           (start_locations[i][2] - start_locations[i - 1][2])]
                     uv = Mat.Mat().normalization(uv)
-                    scale = np.dot(uv, length[i - 1])
+                    scale = np.dot(uv, length[i - 2])
                     middle_points = [a + b for a, b in zip(start_locations[i - 1], scale)]
                     x.append(middle_points[0])
                     y.append(middle_points[1])
@@ -146,11 +104,11 @@ class Visualization():
     def points_retrieval(self):
             start_locations = []
             end_locations = []
-            for i in range(0, self.chain.get_chain_length()):
-                start_loc = self.chain.get_bone(i).get_start_point_position()
+            for i in range(0, len(self.chain)):
+                start_loc = self.chain[i].get_start_point_position()
                 # end_loc = self.chain.get_bone(i).set_end_point()
                 start_locations.append(start_loc)
                 # end_locations.append(end_loc)
-            end_effector_bone = self.chain.get_bone(self.chain.get_chain_length() - 1).end_point
+            end_effector_bone = self.chain[len(self.chain) - 1].end_point
             start_locations.append(end_effector_bone)
             return start_locations

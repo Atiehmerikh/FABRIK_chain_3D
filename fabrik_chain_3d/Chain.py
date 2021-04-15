@@ -1,8 +1,6 @@
 from fabrik_chain_3d import Bone as Bone, Joint as Joint, Mat as Mat, Utils as Util
-import FABRIK as fabrik
 import numpy as np
 import math
-import Visualization as draw_chain
 
 
 class Chain3d:

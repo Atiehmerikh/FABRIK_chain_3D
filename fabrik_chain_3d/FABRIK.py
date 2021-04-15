@@ -9,8 +9,10 @@ class FABRIK():
         self.target_orientation = target_orientation
         self.chain_length = chain_length
         self.bone_twist_limit = 2.8973 * 180 / math.pi
-        self.deg = [0] * 4
-        self.rotations = [0] * 4  # the last one belongs to the base bone which is fixed!
+        # This array store the rotations of ball or hinge joints
+        self.deg = [0] * chain_length
+        # This array store the rotations of a bone around its own; the last one belongs to the base bone which is fixed!
+        self.rotations = [0] * (chain_length+1)
         self.fixed_base_location = fixed_base_location
         self.fixed_base_location_2 = [0, 0, 0]
         self.is_base_bone_fixed = is_base_bone_fixed
