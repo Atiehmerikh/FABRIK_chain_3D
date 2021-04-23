@@ -233,12 +233,7 @@ if __name__ == "__main__":
 
     chain = Franka_robot_definition(default_target_position, default_target_orientation)
 
-    # chain = right_hand_chain(np.loadtxt("joints_position.txt"),
-    #                          np.loadtxt("orientation.txt"),
-    #                          np.loadtxt("joints_constraint.txt"),
-    #                          0,1,2)
-
-    base_bone = base_bone()
+    base_bone = FRANKA_base_bone()
     solve_fabrik_for_Robot(base_bone, chain, default_target_position, default_target_orientation)
 
 

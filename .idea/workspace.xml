@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3c367009-db5d-434c-bbcb-22f15e896f4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/FABRIK.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/FABRIK.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/Utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabrik_chain_3d/Visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/fabrik_chain_3d/RobotVisualization.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/Huumann.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Huumann.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Robot.py" afterDir="false" />
     </list>
